@@ -1,0 +1,5 @@
+=======
+audplot
+=======
+
+Common plotting routines.
