@@ -1,5 +1,11 @@
+import typing
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import seaborn as sns
+
+import audmetric
 
 
 def confusion_matrix(
@@ -20,13 +26,13 @@ def confusion_matrix(
     """
     sns.set()  # get prettier plots
 
-    # TODO: extract default labels
-    labels = labels
+    labels = audmetric.core.utils.infer_labels(labels)
 
-    cm = confusion_matrix(
+    cm = audmetric.confusion_matrix(
         truth.values,
         prediction.values,
-        labels=labels
+        labels=labels,
+        normalize=percentage,
     )
     if percentage:
         for idx, row in enumerate(cm):
@@ -57,7 +63,7 @@ def distribution(
         prediction: pd.Series,
 ) -> None:  # pragma: no cover
     r"""Distribution of truth and predicted labels.
-    
+
     Args:
         truth: truth values
         prediction: predicted values
@@ -78,7 +84,7 @@ def scatter(
     plt.plot(
         [minimum, maximum],
         [minimum, maximum],
-        color='r'm
+        color='r',
     )
     plt.xlim(minimum, maximum)
     plt.ylim(minimum, maximum)
