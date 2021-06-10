@@ -1,3 +1,23 @@
+# Prepare availability of plotting functions for
+# matplotlib.sphinxext.plot_directive
+#
+# As in doctest we normally do not include the package
+# in the example,
+# we import it here first.
+r"""
+..plot::
+    :context: True
+    :include-source: false
+
+    import audplot
+    from audplot import (
+        confusion_matrix,
+        distribution,
+        scatter,
+        series,
+    )
+
+"""
 import typing
 
 import matplotlib.pyplot as plt
@@ -14,7 +34,7 @@ def confusion_matrix(
         *,
         labels: typing.Sequence[typing.Any] = None,
         percentage: bool = True,
-) -> None:  # pragma: no cover
+):
     r"""Confusion matrix between ground truth vs. predicted labels.
 
     Args:
@@ -23,14 +43,24 @@ def confusion_matrix(
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
 
+    Example:
+
+        .. plot::
+            :context: close-figs
+
+            >>> import audplot
+            >>> truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
+            >>> prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
+            >>> audplot.confusion_matrix(truth, prediction)
+
     """
     sns.set()  # get prettier plots
 
-    labels = audmetric.core.utils.infer_labels(labels)
+    labels = audmetric.core.utils.infer_labels(truth, prediction, labels)
 
     cm = audmetric.confusion_matrix(
-        truth.values,
-        prediction.values,
+        truth,
+        prediction,
         labels=labels,
         normalize=percentage,
     )
@@ -61,12 +91,20 @@ def confusion_matrix(
 def distribution(
         truth: pd.Series,
         prediction: pd.Series,
-) -> None:  # pragma: no cover
+):
     r"""Distribution of truth and predicted labels.
 
     Args:
         truth: truth values
         prediction: predicted values
+
+    Example:
+        .. plot::
+            :context: close-figs
+
+            >>> truth = [0, 1, 1, 2]
+            >>> prediction = [0, 1, 2, 2]
+            >>> audplot.distribution(truth, prediction)
 
     """
     sns.distplot(truth, axlabel='')
