@@ -56,7 +56,7 @@ linkcheck_ignore = [
 plot_include_source = True
 plot_html_show_source_link = False
 plot_html_show_formats = False
-plot_pre_code = ''
+plot_pre_code = 'import audplot'
 # plot_rcparams = {'savefig.bbox': 'tight'}
 plot_formats = ['svg']
 

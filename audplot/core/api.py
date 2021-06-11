@@ -1,23 +1,3 @@
-# Prepare availability of plotting functions for
-# matplotlib.sphinxext.plot_directive
-#
-# As in doctest we normally do not include the package
-# in the example,
-# we import it here first.
-r"""
-..plot::
-    :context: True
-    :include-source: false
-
-    import audplot
-    from audplot import (
-        confusion_matrix,
-        distribution,
-        scatter,
-        series,
-    )
-
-"""
 import typing
 
 import matplotlib.pyplot as plt
@@ -48,7 +28,6 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> import audplot
             >>> truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
             >>> prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
             >>> audplot.confusion_matrix(truth, prediction)
