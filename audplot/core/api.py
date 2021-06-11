@@ -9,28 +9,36 @@ import audmetric
 
 
 def confusion_matrix(
-        truth: pd.Series,
-        prediction: pd.Series,
+        truth: typing.Union[typing.Sequence, pd.Series],
+        prediction: typing.Union[typing.Sequence, pd.Series],
         *,
-        labels: typing.Sequence[typing.Any] = None,
+        labels: typing.Sequence = None,
         percentage: bool = True,
 ):
     r"""Confusion matrix between ground truth vs. predicted labels.
 
+    The confusion matrx is calculated by :mod:`audmetric.confusion_matrix`.
+
     Args:
         truth: truth values
         prediction: predicted values
+        labels: labels to be included in confusion matrix
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
 
     Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            from audplot import confusion_matrix
 
         .. plot::
             :context: close-figs
 
             >>> truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
             >>> prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
-            >>> audplot.confusion_matrix(truth, prediction)
+            >>> confusion_matrix(truth, prediction)
 
     """
     sns.set()  # get prettier plots
@@ -68,10 +76,10 @@ def confusion_matrix(
 
 
 def distribution(
-        truth: pd.Series,
-        prediction: pd.Series,
+        truth: typing.Union[typing.Sequence, pd.Series],
+        prediction: typing.Union[typing.Sequence, pd.Series],
 ):
-    r"""Distribution of truth and predicted labels.
+    r"""Distribution of truth and predicted values.
 
     Args:
         truth: truth values
@@ -79,11 +87,18 @@ def distribution(
 
     Example:
         .. plot::
+            :context: reset
+            :include-source: false
+
+            import pandas as pd
+            from audplot import distribution
+
+        .. plot::
             :context: close-figs
 
-            >>> truth = [0, 1, 1, 2]
-            >>> prediction = [0, 1, 2, 2]
-            >>> audplot.distribution(truth, prediction)
+            >>> truth = pd.Series([0, 1, 1, 2])
+            >>> prediction = pd.Series([0, 1, 2, 2])
+            >>> distribution(truth, prediction)
 
     """
     sns.distplot(truth, axlabel='')
@@ -92,12 +107,33 @@ def distribution(
 
 
 def scatter(
-        truth: pd.Series,
-        prediction: pd.Series,
-) -> None:
+        truth: typing.Union[typing.Sequence, pd.Series],
+        prediction: typing.Union[typing.Sequence, pd.Series],
+):
+    r"""Scatter plot of truth and predicted values.
+
+    Args:
+        truth: truth values
+        prediction: predicted values
+
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            from audplot import scatter
+
+        .. plot::
+            :context: close-figs
+
+            >>> truth = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            >>> prediction = [0.1, 0.8, 2.3, 2.4, 3.9, 5, 6.2, 7.1, 7.8, 9, 9]
+            >>> scatter(truth, prediction)
+
+    """
     minimum = min(truth + prediction)
     maximum = max(truth + prediction)
-    plt.scatter(truth.values, prediction.values)
+    plt.scatter(truth, prediction)
     plt.plot(
         [minimum, maximum],
         [minimum, maximum],
@@ -110,12 +146,33 @@ def scatter(
 
 
 def series(
-        truth: pd.Series,
-        prediction: pd.Series,
-) -> None:
+        truth: typing.Union[typing.Sequence, pd.Series],
+        prediction: typing.Union[typing.Sequence, pd.Series],
+):
+    r"""Time series plot of truth and predicted values.
+
+    Args:
+        truth: truth values
+        prediction: predicted values
+
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            from audplot import series
+
+        .. plot::
+            :context: close-figs
+
+            >>> truth = [-1, 0, 1, 0, -1, 0, 1]
+            >>> prediction = [0, 1, 0, -1, 0, 1, 0]
+            >>> series(truth, prediction)
+
+    """
     minimum = min(truth + prediction)
     maximum = max(truth + prediction)
-    plt.plot(truth.values)
-    plt.plot(prediction.values)
+    plt.plot(truth)
+    plt.plot(prediction)
     plt.ylim(minimum, maximum)
     plt.legend(['truth', 'prediction'])

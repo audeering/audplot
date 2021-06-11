@@ -44,6 +44,7 @@ copybutton_prompt_is_regexp = True
 
 # Mapping to external documentation
 intersphinx_mapping = {
+    'audmetric': ('https://audeering.github.io/audmetric/', None),
     'python': ('https://docs.python.org/3/', None),
 }
 
@@ -56,8 +57,10 @@ linkcheck_ignore = [
 plot_include_source = True
 plot_html_show_source_link = False
 plot_html_show_formats = False
-plot_pre_code = 'import audplot'
-# plot_rcparams = {'savefig.bbox': 'tight'}
+plot_pre_code = ''
+plot_rcparams = {
+    # 'figure.figsize': '8, 4.5',  # inch
+}
 plot_formats = ['svg']
 
 
@@ -66,5 +69,9 @@ html_theme = 'sphinx_audeering_theme'
 html_theme_options = {
     'display_version': True,
     'logo_only': False,
+    'footer_links': False,
+}
+html_context = {
+    'display_github': True,
 }
 html_title = title
