@@ -40,7 +40,8 @@ you can specify the axes you want to draw on.
 
     import audplot
     import numpy as np
-    import matplotlib.pyplot as plt#
+    import matplotlib.pyplot as plt
+
 
     truth = np.random.randn(100)
     prediction = np.random.randn(100)
