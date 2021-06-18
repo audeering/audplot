@@ -58,9 +58,6 @@ def confusion_matrix(
         normalize=percentage,
     )
     if percentage:
-        for idx, row in enumerate(cm):
-            if np.sum(row) != 0:
-                cm[idx] /= np.sum(row)
         fmt = '.0%'
     else:
         fmt = 'd'
