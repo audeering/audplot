@@ -33,7 +33,7 @@ you can change the labels after plotting.
     plt.tight_layout()
 
 To show multiple graphs in one figure
-you can specify the axes you want to draw on.
+you can specify the axes to draw on.
 
 .. plot::
     :context: reset
