@@ -108,9 +108,10 @@ def distribution(
             >>> distribution(truth, prediction)
 
     """
+    ax = ax or plt.gca()
     sns.distplot(truth, axlabel='', ax=ax)
     sns.distplot(prediction, axlabel='', ax=ax)
-    plt.legend(['truth', 'prediction'])
+    ax.legend(['truth', 'prediction'])
 
 
 def scatter(
@@ -141,8 +142,7 @@ def scatter(
             >>> scatter(truth, prediction)
 
     """
-    if ax is None:
-        ax = plt.gca()
+    ax = ax or plt.gca()
     minimum = min(truth + prediction)
     maximum = max(truth + prediction)
     ax.scatter(truth, prediction)
@@ -155,7 +155,6 @@ def scatter(
     ax.set_ylim(minimum, maximum)
     ax.set_xlabel('truth')
     ax.set_ylabel('prediction')
-    ax.legend(['truth', 'prediction'])
 
 
 def series(
@@ -186,8 +185,7 @@ def series(
             >>> series(truth, prediction)
 
     """
-    if ax is None:
-        ax = plt.gca()
+    ax = ax or plt.gca()
     minimum = min(truth + prediction)
     maximum = max(truth + prediction)
     ax.plot(truth)
