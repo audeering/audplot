@@ -31,6 +31,7 @@ def confusion_matrix(
             :context: reset
             :include-source: false
 
+            import matplotlib.pyplot as plt
             from audplot import confusion_matrix
 
         .. plot::
@@ -38,9 +39,14 @@ def confusion_matrix(
 
             >>> truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
             >>> prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
-            >>> confusion_matrix(truth, prediction)
+            >>> confusion_matrix(truth, prediction, percentage=False)
 
-    """
+        .. plot::
+            :context: close-figs
+
+            >>> confusion_matrix(truth, prediction, labels=['A', 'B', 'C', 'D'])
+
+    """  # noqa: 501
     sns.set()  # get prettier plots
 
     labels = audmetric.core.utils.infer_labels(truth, prediction, labels)
@@ -53,9 +59,7 @@ def confusion_matrix(
     )
     if percentage:
         for idx, row in enumerate(cm):
-            if np.sum(row) == 0:
-                cm[idx] = np.NaN
-            else:
+            if np.sum(row) != 0:
                 cm[idx] /= np.sum(row)
         fmt = '.0%'
     else:
