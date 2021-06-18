@@ -32,7 +32,7 @@ you can change the labels after plotting.
 
     plt.tight_layout()
 
-If you want to show multiple graphs in one figure
+To show multiple graphs in one figure
 you can specify the axes you want to draw on.
 
 .. plot::
