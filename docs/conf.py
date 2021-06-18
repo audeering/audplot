@@ -59,9 +59,6 @@ plot_include_source = True
 plot_html_show_source_link = False
 plot_html_show_formats = False
 plot_pre_code = ''
-plot_rcparams = {
-    # 'figure.figsize': '8, 4.5',  # inch
-}
 plot_formats = ['svg']
 
 
