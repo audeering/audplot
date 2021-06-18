@@ -14,6 +14,7 @@ def confusion_matrix(
         *,
         labels: typing.Sequence = None,
         percentage: bool = True,
+        ax: plt.Axes = None,
 ):
     r"""Confusion matrix between ground truth vs. predicted labels.
 
@@ -25,6 +26,7 @@ def confusion_matrix(
         labels: labels to be included in confusion matrix
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
+        ax: axes in which to draw the plot
 
     Example:
         .. plot::
@@ -69,6 +71,7 @@ def confusion_matrix(
         cbar=False,
         fmt=fmt,
         cmap="Blues",
+        ax=ax,
     )
     plt.yticks(rotation=0)
     plt.xlabel('prediction')
@@ -79,12 +82,15 @@ def confusion_matrix(
 def distribution(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
+        *,
+        ax: plt.Axes = None,
 ):
     r"""Distribution of truth and predicted values.
 
     Args:
         truth: truth values
         prediction: predicted values
+        ax: axes in which to draw the plot
 
     Example:
         .. plot::
@@ -102,20 +108,24 @@ def distribution(
             >>> distribution(truth, prediction)
 
     """
-    sns.distplot(truth, axlabel='')
-    sns.distplot(prediction, axlabel='')
-    plt.legend(['truth', 'prediction'])
+    ax = ax or plt.gca()
+    sns.distplot(truth, axlabel='', ax=ax)
+    sns.distplot(prediction, axlabel='', ax=ax)
+    ax.legend(['truth', 'prediction'])
 
 
 def scatter(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
+        *,
+        ax: plt.Axes = None,
 ):
     r"""Scatter plot of truth and predicted values.
 
     Args:
         truth: truth values
         prediction: predicted values
+        ax: axes in which to draw the plot
 
     Example:
         .. plot::
@@ -132,29 +142,33 @@ def scatter(
             >>> scatter(truth, prediction)
 
     """
+    ax = ax or plt.gca()
     minimum = min(truth + prediction)
     maximum = max(truth + prediction)
-    plt.scatter(truth, prediction)
-    plt.plot(
+    ax.scatter(truth, prediction)
+    ax.plot(
         [minimum, maximum],
         [minimum, maximum],
         color='r',
     )
-    plt.xlim(minimum, maximum)
-    plt.ylim(minimum, maximum)
-    plt.xlabel('truth')
-    plt.ylabel('prediction')
+    ax.set_xlim(minimum, maximum)
+    ax.set_ylim(minimum, maximum)
+    ax.set_xlabel('truth')
+    ax.set_ylabel('prediction')
 
 
 def series(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
+        *,
+        ax: plt.Axes = None,
 ):
     r"""Time series plot of truth and predicted values.
 
     Args:
         truth: truth values
         prediction: predicted values
+        ax: axes in which to draw the plot
 
     Example:
         .. plot::
@@ -171,9 +185,10 @@ def series(
             >>> series(truth, prediction)
 
     """
+    ax = ax or plt.gca()
     minimum = min(truth + prediction)
     maximum = max(truth + prediction)
-    plt.plot(truth)
-    plt.plot(prediction)
-    plt.ylim(minimum, maximum)
-    plt.legend(['truth', 'prediction'])
+    ax.plot(truth)
+    ax.plot(prediction)
+    ax.set_ylim(minimum, maximum)
+    ax.legend(['truth', 'prediction'])
