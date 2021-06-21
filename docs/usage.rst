@@ -15,7 +15,10 @@ you can change the labels after plotting.
 
     import audplot
     import matplotlib.pyplot as plt
+    import seaborn as sns
 
+
+    sns.set()  # get prettier plots
 
     truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
     prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
