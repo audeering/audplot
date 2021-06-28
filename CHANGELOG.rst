@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.0.0 (2020-06-28)
+--------------------------
+
+* Added: initial release
+
+
 .. _Keep a Changelog:
     https://keepachangelog.com/en/1.0.0/
 .. _Semantic Versioning:
