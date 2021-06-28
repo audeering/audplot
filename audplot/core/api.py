@@ -49,8 +49,7 @@ def confusion_matrix(
             >>> confusion_matrix(truth, prediction, labels=['A', 'B', 'C', 'D'])
 
     """  # noqa: 501
-    sns.set()  # get prettier plots
-
+    ax = ax or plt.gca()
     labels = audmetric.core.utils.infer_labels(truth, prediction, labels)
 
     cm = audmetric.confusion_matrix(
@@ -73,10 +72,9 @@ def confusion_matrix(
         cmap="Blues",
         ax=ax,
     )
-    plt.yticks(rotation=0)
-    plt.xlabel('prediction')
-    plt.ylabel('truth')
-    plt.tight_layout()
+    ax.tick_params(axis='y', rotation=0)
+    ax.set_xlabel('prediction')
+    ax.set_ylabel('truth')
 
 
 def distribution(
