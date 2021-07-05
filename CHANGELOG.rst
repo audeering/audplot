@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.0.1 (2021-07-05)
+--------------------------
+
+* Fixed: URLs to documentation and source code inside Python package
+
+
 Version 1.0.0 (2021-06-28)
 --------------------------
 
