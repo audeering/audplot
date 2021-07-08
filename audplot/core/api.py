@@ -32,20 +32,21 @@ def cepstrum(
             :context: reset
             :include-source: false
 
-            import numpy as np
+            import librosa
             from audplot import cepstrum
 
         .. plot::
             :context: close-figs
 
-            >>> x = np.random.random((3, 12, 100))
-            >>> cepstrum(x, 1.0, channel=1)
+            >>> x, sr = librosa.load(librosa.ex('trumpet'))
+            >>> dur = len(x) / sr
+            >>> y = librosa.feature.mfcc(x, sr)
+            >>> cepstrum(y, dur)
 
     """
 
     ax = ax or plt.gca()
-    if cc_matrix.ndim == 3:
-        cc_matrix = cc_matrix[channel]
+    cc_matrix = cc_matrix[channel] if cc_matrix.ndim == 3 else cc_matrix
 
     n_cc, n_cepstra = cc_matrix.shape
     ax.set_yticks(np.arange(n_cc) + 0.5)
@@ -273,14 +274,15 @@ def signal(
             :context: reset
             :include-source: false
 
-            import numpy as np
+            import librosa
             from audplot import signal
 
         .. plot::
             :context: close-figs
 
-            >>> x = np.random.random((3, 16000))
-            >>> signal(x, 1.0, channel=1)
+            >>> x, sr = librosa.load(librosa.ex('trumpet'))
+            >>> dur = len(x) / sr
+            >>> signal(x, dur, channel=1)
 
     """
     ax = ax or plt.gca()
@@ -323,20 +325,21 @@ def spectrum(
             :context: reset
             :include-source: false
 
-            import numpy as np
+            import librosa
             from audplot import spectrum
 
         .. plot::
             :context: close-figs
 
-            >>> x = np.random.random((3, 50, 100))
-            >>> centers = np.linspace(0, 50)
-            >>> spectrum(x, 1.0, centers, channel=1)
+            >>> x, sr = librosa.load(librosa.ex('trumpet'))
+            >>> dur = len(x) / sr
+            >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
+            >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
+            >>> spectrum(y, dur, centers)
 
     """
     ax = ax or plt.gca()
-    if mag.ndim == 3:
-        mag = mag[channel]
+    mag = mag[channel] if mag.ndim == 3 else mag
 
     centers = np.round(centers, 2)
     idx = np.round(np.linspace(0, len(centers) - 1, num_ticks)).astype(int)
