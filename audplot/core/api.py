@@ -32,12 +32,12 @@ def cepstrum(
             :context: reset
             :include-source: false
 
-            import librosa
             from audplot import cepstrum
 
         .. plot::
             :context: close-figs
 
+            >>> import librosa
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
             >>> y = librosa.feature.mfcc(x, sr)
@@ -274,12 +274,12 @@ def signal(
             :context: reset
             :include-source: false
 
-            import librosa
             from audplot import signal
 
         .. plot::
             :context: close-figs
 
+            >>> import librosa
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
             >>> signal(x, dur)
@@ -324,12 +324,12 @@ def spectrum(
             :context: reset
             :include-source: false
 
-            import librosa
             from audplot import spectrum
 
         .. plot::
             :context: close-figs
 
+            >>> import librosa
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
             >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
