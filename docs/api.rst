@@ -3,6 +3,11 @@ audplot
 
 .. automodule:: audplot
 
+cepstrum
+--------
+
+.. autofunction:: cepstrum
+
 confusion_matrix
 ----------------
 
@@ -22,3 +27,13 @@ series
 ------
 
 .. autoclass:: series
+
+signal
+------
+
+.. autoclass:: signal
+
+spectrum
+--------
+
+.. autoclass:: spectrum

@@ -8,6 +8,66 @@ import seaborn as sns
 import audmetric
 
 
+def cepstrum(
+        cc_matrix: np.ndarray,
+        dur: float,
+        *,
+        channel: int = 0,
+        num_ticks: int = 10,
+        ax: plt.Axes = None,
+        cmap: str = 'jet',
+):
+    r"""Cepstrum.
+
+    Args:
+        cc_matrix: matrix with magnitude values
+        dur: duration in seconds
+        channel: channel index
+        num_ticks: number of ticks on x axis
+        ax: axes in which to draw the plot
+        cmap: color map
+
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            import numpy as np
+            from audplot import cepstrum
+
+        .. plot::
+            :context: close-figs
+
+            >>> x = np.random.random((3, 12, 100))
+            >>> cepstrum(x, 1.0, channel=1)
+
+    """
+
+    ax = ax or plt.gca()
+    if cc_matrix.ndim == 3:
+        cc_matrix = cc_matrix[channel]
+
+    n_cc, n_cepstra = cc_matrix.shape
+    ax.set_yticks(np.arange(n_cc) + 0.5)
+    ax.set_yticklabels(np.arange(n_cc))
+    ax.set_ylabel("Cepstral Coefficients")
+
+    ts = np.linspace(0, cc_matrix.shape[1], num_ticks)
+    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, dur, num_ticks)]
+    ax.set_xticks(ts)
+    ax.set_xticklabels(ts_sec)
+    ax.set_xlabel("Time (sec)")
+
+    ax.margins(x=0)
+    ax.imshow(
+        cc_matrix,
+        aspect='auto',
+        origin='lower',
+        cmap=cmap,
+        interpolation='none',
+    )
+
+
 def confusion_matrix(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
@@ -18,7 +78,7 @@ def confusion_matrix(
 ):
     r"""Confusion matrix between ground truth vs. predicted labels.
 
-    The confusion matrx is calculated by :mod:`audmetric.confusion_matrix`.
+    The confusion matrix is calculated by :mod:`audmetric.confusion_matrix`.
 
     Args:
         truth: truth values
@@ -33,7 +93,6 @@ def confusion_matrix(
             :context: reset
             :include-source: false
 
-            import matplotlib.pyplot as plt
             from audplot import confusion_matrix
 
         .. plot::
@@ -190,3 +249,112 @@ def series(
     ax.plot(prediction)
     ax.set_ylim(minimum, maximum)
     ax.legend(['Truth', 'Prediction'])
+
+
+def signal(
+        x: np.ndarray,
+        dur: float,
+        *,
+        channel: int = 0,
+        num_ticks: int = 10,
+        ax: plt.Axes = None,
+):
+    r"""Time signal.
+
+    Args:
+        x: array with signal values
+        dur: duration in seconds
+        channel: channel index
+        num_ticks: number of ticks on x and y axis
+        ax: axes to plot on
+
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            import numpy as np
+            from audplot import signal
+
+        .. plot::
+            :context: close-figs
+
+            >>> x = np.random.random((3, 16000))
+            >>> signal(x, 1.0, channel=1)
+
+    """
+    ax = ax or plt.gca()
+    if x.ndim == 2:
+        x = x[channel]
+
+    ts = np.linspace(0, x.size, num_ticks)
+    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, dur, num_ticks)]
+    ax.set_xticks(ts)
+    ax.set_xticklabels(ts_sec)
+    ax.set_xlabel("Time (sec)")
+
+    ax.margins(x=0)
+    ax.plot(x)
+
+
+def spectrum(
+        mag: np.ndarray,
+        dur: float,
+        centers: np.ndarray,
+        *,
+        channel: int = 0,
+        num_ticks: int = 10,
+        ax: plt.Axes = None,
+        cmap: str = 'jet',
+):
+    r"""Plot spectrum.
+
+    Args:
+        mag: matrix with magnitude values
+        dur: duration in seconds
+        centers: array with center frequencies
+        channel: channel index
+        num_ticks: number of ticks on x and y axis
+        ax: axes to plot on
+        cmap: color map
+
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            import numpy as np
+            from audplot import spectrum
+
+        .. plot::
+            :context: close-figs
+
+            >>> x = np.random.random((3, 50, 100))
+            >>> centers = np.linspace(0, 50)
+            >>> spectrum(x, 1.0, centers, channel=1)
+
+    """
+    ax = ax or plt.gca()
+    if mag.ndim == 3:
+        mag = mag[channel]
+
+    centers = np.round(centers, 2)
+    idx = np.round(np.linspace(0, len(centers) - 1, num_ticks)).astype(int)
+    ax.set_yticks(idx)
+    ax.set_yticklabels(centers[idx])
+    ax.set_ylabel("Frequency (Hz)")
+
+    ts = np.linspace(0, mag.shape[1], num_ticks)
+    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, dur, num_ticks)]
+    ax.set_xticks(ts)
+    ax.set_xticklabels(ts_sec)
+    ax.set_xlabel("Time (sec)")
+
+    ax.margins(x=0)
+    ax.imshow(
+        mag,
+        aspect='auto',
+        origin='lower',
+        cmap=cmap,
+        interpolation='none',
+    )
