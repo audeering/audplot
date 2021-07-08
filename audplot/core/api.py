@@ -325,6 +325,7 @@ def spectrum(
             :include-source: false
 
             from audplot import spectrum
+            import numpy as np
 
         .. plot::
             :context: close-figs
@@ -333,8 +334,9 @@ def spectrum(
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
             >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
+            >>> y_db = librosa.power_to_db(y, ref=np.max)
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
-            >>> spectrum(y, dur, centers)
+            >>> spectrum(y_db, dur, centers)
 
     """
     ax = ax or plt.gca()
