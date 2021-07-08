@@ -282,12 +282,11 @@ def signal(
 
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
-            >>> signal(x, dur, channel=1)
+            >>> signal(x, dur)
 
     """
     ax = ax or plt.gca()
-    if x.ndim == 2:
-        x = x[channel]
+    x = x[channel] if x.ndim == 2 else x
 
     ts = np.linspace(0, x.size, num_ticks)
     ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, dur, num_ticks)]
