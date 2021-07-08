@@ -38,6 +38,7 @@ jobs:
 
     - name: Test with pytest
       run: |
+        sudo apt-get install libsndfile1-dev
         python -m pytest
 
     - name: Upload coverage to Codecov
