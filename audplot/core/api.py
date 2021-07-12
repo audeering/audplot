@@ -350,7 +350,7 @@ def spectrum(
             >>> y_db = librosa.power_to_db(y, ref=np.max)
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
             >>> image = spectrum(y_db, dur, centers)
-            >>> _ = plt.colorbar(image)
+            >>> _ = plt.colorbar(image, format='%+2.0f dB')
             >>> plt.tight_layout()
 
     """
