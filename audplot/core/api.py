@@ -21,7 +21,7 @@ def cepstrum(
     r"""Cepstrum.
 
     Args:
-        cc_matrix: matrix with magnitude values
+        cc_matrix: cepstral coefficients matrix with magnitude values
         duration: duration in seconds
         channel: channel index
         num_ticks: number of ticks on x axis
