@@ -73,8 +73,8 @@ def confusion_matrix(
         ax=ax,
     )
     ax.tick_params(axis='y', rotation=0)
-    ax.set_xlabel('prediction')
-    ax.set_ylabel('truth')
+    ax.set_xlabel('Prediction')
+    ax.set_ylabel('Truth')
 
 
 def distribution(
@@ -109,7 +109,7 @@ def distribution(
     ax = ax or plt.gca()
     sns.distplot(truth, axlabel='', ax=ax)
     sns.distplot(prediction, axlabel='', ax=ax)
-    ax.legend(['truth', 'prediction'])
+    ax.legend(['Truth', 'Prediction'])
 
 
 def scatter(
@@ -151,8 +151,8 @@ def scatter(
     )
     ax.set_xlim(minimum, maximum)
     ax.set_ylim(minimum, maximum)
-    ax.set_xlabel('truth')
-    ax.set_ylabel('prediction')
+    ax.set_xlabel('Truth')
+    ax.set_ylabel('Prediction')
 
 
 def series(
@@ -189,4 +189,4 @@ def series(
     ax.plot(truth)
     ax.plot(prediction)
     ax.set_ylim(minimum, maximum)
-    ax.legend(['truth', 'prediction'])
+    ax.legend(['Truth', 'Prediction'])
