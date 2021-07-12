@@ -1,5 +1,6 @@
 import typing
 
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -16,7 +17,7 @@ def cepstrum(
         num_ticks: int = 10,
         ax: plt.Axes = None,
         cmap: str = 'magma',
-):
+) -> matplotlib.image.AxesImage:
     r"""Cepstrum.
 
     Args:
@@ -26,6 +27,9 @@ def cepstrum(
         num_ticks: number of ticks on x axis
         ax: axes in which to draw the plot
         cmap: color map
+
+    Returns:
+        Image object
 
     Example:
         .. plot::
@@ -42,7 +46,8 @@ def cepstrum(
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
             >>> y = librosa.feature.mfcc(x, sr)
-            >>> cepstrum(y, dur)
+            >>> image = cepstrum(y, dur)
+            >>> _ = plt.colorbar(image)
             >>> plt.tight_layout()
 
     """
@@ -62,13 +67,15 @@ def cepstrum(
     ax.set_xlabel("Time / s")
 
     ax.margins(x=0)
-    ax.imshow(
+    image = ax.imshow(
         cc_matrix,
         aspect='auto',
         origin='lower',
         cmap=cmap,
         interpolation='none',
     )
+
+    return image
 
 
 def confusion_matrix(
@@ -309,7 +316,7 @@ def spectrum(
         num_ticks: int = 10,
         ax: plt.Axes = None,
         cmap: str = 'magma',
-):
+) -> matplotlib.image.AxesImage:
     r"""Plot spectrum.
 
     Args:
@@ -320,6 +327,9 @@ def spectrum(
         num_ticks: number of ticks on x and y axis
         ax: axes to plot on
         cmap: color map
+
+    Returns:
+        Image object
 
     Example:
         .. plot::
@@ -339,7 +349,8 @@ def spectrum(
             >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
             >>> y_db = librosa.power_to_db(y, ref=np.max)
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
-            >>> spectrum(y_db, dur, centers)
+            >>> image = spectrum(y_db, dur, centers)
+            >>> _ = plt.colorbar(image)
             >>> plt.tight_layout()
 
     """
@@ -359,10 +370,12 @@ def spectrum(
     ax.set_xlabel("Time / s")
 
     ax.margins(x=0)
-    ax.imshow(
+    image = ax.imshow(
         magnitude,
         aspect='auto',
         origin='lower',
         cmap=cmap,
         interpolation='none',
     )
+
+    return image
