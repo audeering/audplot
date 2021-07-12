@@ -10,7 +10,7 @@ import audmetric
 
 def cepstrum(
         cc_matrix: np.ndarray,
-        dur: float,
+        duration: float,
         *,
         channel: int = 0,
         num_ticks: int = 10,
@@ -21,7 +21,7 @@ def cepstrum(
 
     Args:
         cc_matrix: matrix with magnitude values
-        dur: duration in seconds
+        duration: duration in seconds
         channel: channel index
         num_ticks: number of ticks on x axis
         ax: axes in which to draw the plot
@@ -41,7 +41,7 @@ def cepstrum(
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
             >>> y = librosa.feature.mfcc(x, sr)
-            >>> cepstrum(y, dur)
+            >>> cepstrum(y, duration)
 
     """
 
@@ -54,7 +54,7 @@ def cepstrum(
     ax.set_ylabel("Cepstral Coefficients")
 
     ts = np.linspace(0, cc_matrix.shape[1], num_ticks)
-    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, dur, num_ticks)]
+    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
     ax.set_xticks(ts)
     ax.set_xticklabels(ts_sec)
     ax.set_xlabel("Time (sec)")
@@ -299,8 +299,8 @@ def signal(
 
 
 def spectrum(
-        mag: np.ndarray,
-        dur: float,
+        magnitude: np.ndarray,
+        duration: float,
         centers: np.ndarray,
         *,
         channel: int = 0,
@@ -311,8 +311,8 @@ def spectrum(
     r"""Plot spectrum.
 
     Args:
-        mag: matrix with magnitude values
-        dur: duration in seconds
+        magnitude: matrix with magnitude values
+        duration: duration in seconds
         centers: array with center frequencies
         channel: channel index
         num_ticks: number of ticks on x and y axis
@@ -336,11 +336,11 @@ def spectrum(
             >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
             >>> y_db = librosa.power_to_db(y, ref=np.max)
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
-            >>> spectrum(y_db, dur, centers)
+            >>> spectrum(y_db, duration, centers)
 
     """
     ax = ax or plt.gca()
-    mag = mag[channel] if mag.ndim == 3 else mag
+    magnitude = magnitude[channel] if magnitude.ndim == 3 else magnitude
 
     centers = np.round(centers, 2)
     idx = np.round(np.linspace(0, len(centers) - 1, num_ticks)).astype(int)
@@ -348,15 +348,15 @@ def spectrum(
     ax.set_yticklabels(centers[idx])
     ax.set_ylabel("Frequency (Hz)")
 
-    ts = np.linspace(0, mag.shape[1], num_ticks)
-    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, dur, num_ticks)]
+    ts = np.linspace(0, magnitude.shape[1], num_ticks)
+    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
     ax.set_xticks(ts)
     ax.set_xticklabels(ts_sec)
     ax.set_xlabel("Time (sec)")
 
     ax.margins(x=0)
     ax.imshow(
-        mag,
+        magnitude,
         aspect='auto',
         origin='lower',
         cmap=cmap,
