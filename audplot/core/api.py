@@ -59,7 +59,7 @@ def cepstrum(
     ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
     ax.set_xticks(ts)
     ax.set_xticklabels(ts_sec)
-    ax.set_xlabel("Time (sec)")
+    ax.set_xlabel("Time / s")
 
     ax.margins(x=0)
     ax.imshow(
@@ -294,7 +294,7 @@ def signal(
     ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
     ax.set_xticks(ts)
     ax.set_xticklabels(ts_sec)
-    ax.set_xlabel("Time (sec)")
+    ax.set_xlabel("Time / s")
 
     ax.margins(x=0)
     ax.plot(x)
@@ -350,13 +350,13 @@ def spectrum(
     idx = np.round(np.linspace(0, len(centers) - 1, num_ticks)).astype(int)
     ax.set_yticks(idx)
     ax.set_yticklabels(centers[idx])
-    ax.set_ylabel("Frequency (Hz)")
+    ax.set_ylabel("Frequency / Hz")
 
     ts = np.linspace(0, magnitude.shape[1], num_ticks)
     ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
     ax.set_xticks(ts)
     ax.set_xticklabels(ts_sec)
-    ax.set_xlabel("Time (sec)")
+    ax.set_xlabel("Time / s")
 
     ax.margins(x=0)
     ax.imshow(
