@@ -38,10 +38,12 @@ def cepstrum(
             :context: close-figs
 
             >>> import librosa
+            >>> import matplotlib.pyplot as plt
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
             >>> y = librosa.feature.mfcc(x, sr)
-            >>> cepstrum(y, duration)
+            >>> cepstrum(y, dur)
+            >>> plt.tight_layout()
 
     """
 
@@ -331,12 +333,14 @@ def spectrum(
             :context: close-figs
 
             >>> import librosa
+            >>> import matplotlib.pyplot as plt
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> dur = len(x) / sr
             >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
             >>> y_db = librosa.power_to_db(y, ref=np.max)
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
-            >>> spectrum(y_db, duration, centers)
+            >>> spectrum(y_db, dur, centers)
+            >>> plt.tight_layout()
 
     """
     ax = ax or plt.gca()
