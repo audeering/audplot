@@ -256,7 +256,7 @@ def series(
 
 def signal(
         x: np.ndarray,
-        dur: float,
+        duration: float,
         *,
         channel: int = 0,
         num_ticks: int = 10,
@@ -266,7 +266,7 @@ def signal(
 
     Args:
         x: array with signal values
-        dur: duration in seconds
+        duration: duration in seconds
         channel: channel index
         num_ticks: number of ticks on x and y axis
         ax: axes to plot on
@@ -291,7 +291,7 @@ def signal(
     x = x[channel] if x.ndim == 2 else x
 
     ts = np.linspace(0, x.size, num_ticks)
-    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, dur, num_ticks)]
+    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
     ax.set_xticks(ts)
     ax.set_xticklabels(ts_sec)
     ax.set_xlabel("Time (sec)")
