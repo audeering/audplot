@@ -26,14 +26,14 @@ scatter
 series
 ------
 
-.. autoclass:: series
+.. autofunction:: series
 
 signal
 ------
 
-.. autoclass:: signal
+.. autofunction:: signal
 
 spectrum
 --------
 
-.. autoclass:: spectrum
+.. autofunction:: spectrum
