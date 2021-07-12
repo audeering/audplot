@@ -15,7 +15,7 @@ def cepstrum(
         channel: int = 0,
         num_ticks: int = 10,
         ax: plt.Axes = None,
-        cmap: str = 'jet',
+        cmap: str = 'magma',
 ):
     r"""Cepstrum.
 
@@ -306,7 +306,7 @@ def spectrum(
         channel: int = 0,
         num_ticks: int = 10,
         ax: plt.Axes = None,
-        cmap: str = 'jet',
+        cmap: str = 'magma',
 ):
     r"""Plot spectrum.
 
