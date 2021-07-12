@@ -11,10 +11,9 @@ import audmetric
 
 def cepstrum(
         cc_matrix: np.ndarray,
-        duration: float,
+        sampling_rate: float,
         *,
         channel: int = 0,
-        num_ticks: int = 10,
         ax: plt.Axes = None,
         cmap: str = 'magma',
 ) -> matplotlib.image.AxesImage:
@@ -22,9 +21,8 @@ def cepstrum(
 
     Args:
         cc_matrix: cepstral coefficients matrix with magnitude values
-        duration: duration in seconds
+        sampling_rate: sampling rate in Hz
         channel: channel index
-        num_ticks: number of ticks on x axis
         ax: axes in which to draw the plot
         cmap: color map
 
@@ -44,9 +42,9 @@ def cepstrum(
             >>> import librosa
             >>> import matplotlib.pyplot as plt
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
-            >>> dur = len(x) / sr
             >>> y = librosa.feature.mfcc(x, sr)
-            >>> image = cepstrum(y, dur)
+            >>> y_sr = sr / 512  # default hop length is 512
+            >>> image = cepstrum(y, y_sr)
             >>> _ = plt.colorbar(image)
             >>> plt.tight_layout()
 
@@ -58,13 +56,13 @@ def cepstrum(
     n_cc, n_cepstra = cc_matrix.shape
     ax.set_yticks(np.arange(n_cc) + 0.5)
     ax.set_yticklabels(np.arange(n_cc))
-    ax.set_ylabel("Cepstral Coefficients")
+    ax.set_ylabel('Cepstral Coefficients')
 
-    ts = np.linspace(0, cc_matrix.shape[1], num_ticks)
-    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
-    ax.set_xticks(ts)
-    ax.set_xticklabels(ts_sec)
-    ax.set_xlabel("Time / s")
+    formatter = matplotlib.ticker.FuncFormatter(
+        lambda val, pos: round(val / sampling_rate, 1),
+    )
+    ax.xaxis.set_major_formatter(formatter)
+    ax.set_xlabel('Time / s')
 
     ax.margins(x=0)
     image = ax.imshow(
@@ -138,7 +136,7 @@ def confusion_matrix(
         yticklabels=labels,
         cbar=False,
         fmt=fmt,
-        cmap="Blues",
+        cmap='Blues',
         ax=ax,
     )
     ax.tick_params(axis='y', rotation=0)
@@ -263,19 +261,17 @@ def series(
 
 def signal(
         x: np.ndarray,
-        duration: float,
+        sampling_rate: float,
         *,
         channel: int = 0,
-        num_ticks: int = 10,
         ax: plt.Axes = None,
 ):
     r"""Time signal.
 
     Args:
         x: array with signal values
-        duration: duration in seconds
+        sampling_rate: sampling rate in Hz
         channel: channel index
-        num_ticks: number of ticks on x and y axis
         ax: axes to plot on
 
     Example:
@@ -290,18 +286,17 @@ def signal(
 
             >>> import librosa
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
-            >>> dur = len(x) / sr
-            >>> signal(x, dur)
+            >>> signal(x, sr)
 
     """
     ax = ax or plt.gca()
     x = x[channel] if x.ndim == 2 else x
 
-    ts = np.linspace(0, x.size, num_ticks)
-    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
-    ax.set_xticks(ts)
-    ax.set_xticklabels(ts_sec)
-    ax.set_xlabel("Time / s")
+    formatter = matplotlib.ticker.FuncFormatter(
+        lambda val, pos: round(val / sampling_rate, 1),
+    )
+    ax.xaxis.set_major_formatter(formatter)
+    ax.set_xlabel('Time / s')
 
     ax.margins(x=0)
     ax.plot(x)
@@ -309,11 +304,10 @@ def signal(
 
 def spectrum(
         magnitude: np.ndarray,
-        duration: float,
+        sampling_rate: float,
         centers: np.ndarray,
         *,
         channel: int = 0,
-        num_ticks: int = 10,
         ax: plt.Axes = None,
         cmap: str = 'magma',
 ) -> matplotlib.image.AxesImage:
@@ -321,10 +315,9 @@ def spectrum(
 
     Args:
         magnitude: matrix with magnitude values
-        duration: duration in seconds
+        sampling_rate: sampling rate in Hz
         centers: array with center frequencies
         channel: channel index
-        num_ticks: number of ticks on x and y axis
         ax: axes to plot on
         cmap: color map
 
@@ -345,11 +338,11 @@ def spectrum(
             >>> import librosa
             >>> import matplotlib.pyplot as plt
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
-            >>> dur = len(x) / sr
             >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
             >>> y_db = librosa.power_to_db(y, ref=np.max)
+            >>> y_sr = sr / 512  # default hop length is 512
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
-            >>> image = spectrum(y_db, dur, centers)
+            >>> image = spectrum(y_db, y_sr, centers)
             >>> _ = plt.colorbar(image, format='%+2.0f dB')
             >>> plt.tight_layout()
 
@@ -357,17 +350,17 @@ def spectrum(
     ax = ax or plt.gca()
     magnitude = magnitude[channel] if magnitude.ndim == 3 else magnitude
 
-    centers = np.round(centers, 2)
-    idx = np.round(np.linspace(0, len(centers) - 1, num_ticks)).astype(int)
-    ax.set_yticks(idx)
-    ax.set_yticklabels(centers[idx])
-    ax.set_ylabel("Frequency / Hz")
+    formatter = matplotlib.ticker.FuncFormatter(
+        lambda val, pos: round(centers[min(int(val), len(centers) - 1)], 1)
+    )
+    ax.yaxis.set_major_formatter(formatter)
+    ax.set_ylabel('Frequency / Hz')
 
-    ts = np.linspace(0, magnitude.shape[1], num_ticks)
-    ts_sec = ["{:4.2f}".format(i) for i in np.linspace(0, duration, num_ticks)]
-    ax.set_xticks(ts)
-    ax.set_xticklabels(ts_sec)
-    ax.set_xlabel("Time / s")
+    formatter = matplotlib.ticker.FuncFormatter(
+        lambda val, pos: round(val / sampling_rate, 1),
+    )
+    ax.xaxis.set_major_formatter(formatter)
+    ax.set_xlabel('Time / s')
 
     ax.margins(x=0)
     image = ax.imshow(
