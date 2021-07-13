@@ -54,6 +54,8 @@ linkcheck_ignore = [
     'https://gitlab.audeering.com',
 ]
 
+autodoc_mock_imports = ['soundfile']
+
 # Plotting
 plot_include_source = True
 plot_html_show_source_link = False
