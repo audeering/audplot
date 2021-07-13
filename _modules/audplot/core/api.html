@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                v1.0.1
+                v1.0.2
               </div>
             
           
@@ -92,17 +92,17 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting started</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation</span></p>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">audplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../genindex.html">Index</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Development</span></p>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
@@ -171,12 +171,80 @@
   <h1>Source code for audplot.core.api</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">typing</span>
 
+<span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
 <span class="kn">import</span> <span class="nn">audmetric</span>
+
+
+<div class="viewcode-block" id="cepstrum"><a class="viewcode-back" href="../../../api.html#audplot.cepstrum">[docs]</a><span class="k">def</span> <span class="nf">cepstrum</span><span class="p">(</span>
+        <span class="n">cc_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">hop_duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;magma&#39;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Cepstrum.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cc_matrix: cepstral coefficients matrix with magnitude values</span>
+<span class="sd">        hop_duration: hop duration in seconds</span>
+<span class="sd">        channel: channel index</span>
+<span class="sd">        ax: axes in which to draw the plot</span>
+<span class="sd">        cmap: color map</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Image object</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: reset</span>
+<span class="sd">            :include-source: false</span>
+
+<span class="sd">            from audplot import cepstrum</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; import librosa</span>
+<span class="sd">            &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">            &gt;&gt;&gt; x, sr = librosa.load(librosa.ex(&#39;trumpet&#39;))</span>
+<span class="sd">            &gt;&gt;&gt; y = librosa.feature.mfcc(x, sr)</span>
+<span class="sd">            &gt;&gt;&gt; hop_dur = 512 / sr  # default hop length is 512</span>
+<span class="sd">            &gt;&gt;&gt; image = cepstrum(y, hop_dur)</span>
+<span class="sd">            &gt;&gt;&gt; _ = plt.colorbar(image)</span>
+<span class="sd">            &gt;&gt;&gt; plt.tight_layout()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">cc_matrix</span> <span class="o">=</span> <span class="n">cc_matrix</span><span class="p">[</span><span class="n">channel</span><span class="p">]</span> <span class="k">if</span> <span class="n">cc_matrix</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="n">cc_matrix</span>
+
+    <span class="n">n_cc</span><span class="p">,</span> <span class="n">n_cepstra</span> <span class="o">=</span> <span class="n">cc_matrix</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_cc</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_cc</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Cepstral Coefficients&#39;</span><span class="p">)</span>
+
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">val</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">val</span> <span class="o">*</span> <span class="n">hop_duration</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time / s&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">cc_matrix</span><span class="p">,</span>
+        <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+        <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+        <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">image</span></div>
 
 
 <div class="viewcode-block" id="confusion_matrix"><a class="viewcode-back" href="../../../api.html#audplot.confusion_matrix">[docs]</a><span class="k">def</span> <span class="nf">confusion_matrix</span><span class="p">(</span>
@@ -189,7 +257,7 @@
 <span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Confusion matrix between ground truth vs. predicted labels.</span>
 
-<span class="sd">    The confusion matrx is calculated by :mod:`audmetric.confusion_matrix`.</span>
+<span class="sd">    The confusion matrix is calculated by :mod:`audmetric.confusion_matrix`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        truth: truth values</span>
@@ -204,7 +272,6 @@
 <span class="sd">            :context: reset</span>
 <span class="sd">            :include-source: false</span>
 
-<span class="sd">            import matplotlib.pyplot as plt</span>
 <span class="sd">            from audplot import confusion_matrix</span>
 
 <span class="sd">        .. plot::</span>
@@ -240,12 +307,12 @@
         <span class="n">yticklabels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
         <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span>
-        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span>
         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;prediction&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;truth&#39;</span><span class="p">)</span></div>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Prediction&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Truth&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="distribution"><a class="viewcode-back" href="../../../api.html#audplot.distribution">[docs]</a><span class="k">def</span> <span class="nf">distribution</span><span class="p">(</span>
@@ -280,7 +347,7 @@
     <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">axlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">axlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;truth&#39;</span><span class="p">,</span> <span class="s1">&#39;prediction&#39;</span><span class="p">])</span></div>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Truth&#39;</span><span class="p">,</span> <span class="s1">&#39;Prediction&#39;</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="scatter"><a class="viewcode-back" href="../../../api.html#audplot.scatter">[docs]</a><span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span>
@@ -322,8 +389,8 @@
     <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;truth&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;prediction&#39;</span><span class="p">)</span></div>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Truth&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Prediction&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="series"><a class="viewcode-back" href="../../../api.html#audplot.series">[docs]</a><span class="k">def</span> <span class="nf">series</span><span class="p">(</span>
@@ -360,7 +427,122 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">truth</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;truth&#39;</span><span class="p">,</span> <span class="s1">&#39;prediction&#39;</span><span class="p">])</span></div>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Truth&#39;</span><span class="p">,</span> <span class="s1">&#39;Prediction&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="signal"><a class="viewcode-back" href="../../../api.html#audplot.signal">[docs]</a><span class="k">def</span> <span class="nf">signal</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Time signal.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array with signal values</span>
+<span class="sd">        sampling_rate: sampling rate in Hz</span>
+<span class="sd">        channel: channel index</span>
+<span class="sd">        ax: axes to plot on</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: reset</span>
+<span class="sd">            :include-source: false</span>
+
+<span class="sd">            from audplot import signal</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; import librosa</span>
+<span class="sd">            &gt;&gt;&gt; x, sr = librosa.load(librosa.ex(&#39;trumpet&#39;))</span>
+<span class="sd">            &gt;&gt;&gt; signal(x, sr)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">channel</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">x</span>
+
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">val</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">val</span> <span class="o">/</span> <span class="n">sampling_rate</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time / s&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="spectrum"><a class="viewcode-back" href="../../../api.html#audplot.spectrum">[docs]</a><span class="k">def</span> <span class="nf">spectrum</span><span class="p">(</span>
+        <span class="n">magnitude</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">hop_duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">centers</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;magma&#39;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Plot spectrum.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        magnitude: matrix with magnitude values</span>
+<span class="sd">        hop_duration: hop duration in seconds</span>
+<span class="sd">        centers: array with center frequencies</span>
+<span class="sd">        channel: channel index</span>
+<span class="sd">        ax: axes to plot on</span>
+<span class="sd">        cmap: color map</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Image object</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: reset</span>
+<span class="sd">            :include-source: false</span>
+
+<span class="sd">            from audplot import spectrum</span>
+<span class="sd">            import numpy as np</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; import librosa</span>
+<span class="sd">            &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">            &gt;&gt;&gt; x, sr = librosa.load(librosa.ex(&#39;trumpet&#39;))</span>
+<span class="sd">            &gt;&gt;&gt; y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)</span>
+<span class="sd">            &gt;&gt;&gt; y_db = librosa.power_to_db(y, ref=np.max)</span>
+<span class="sd">            &gt;&gt;&gt; hop_dur = 512 / sr  # default hop length is 512</span>
+<span class="sd">            &gt;&gt;&gt; centers = librosa.mel_frequencies(n_mels=40, fmax=4000)</span>
+<span class="sd">            &gt;&gt;&gt; image = spectrum(y_db, hop_dur, centers)</span>
+<span class="sd">            &gt;&gt;&gt; _ = plt.colorbar(image, format=&#39;%+2.0f dB&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; plt.tight_layout()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">magnitude</span> <span class="o">=</span> <span class="n">magnitude</span><span class="p">[</span><span class="n">channel</span><span class="p">]</span> <span class="k">if</span> <span class="n">magnitude</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="n">magnitude</span>
+
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">val</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">centers</span><span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">centers</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency / Hz&#39;</span><span class="p">)</span>
+
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">val</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">val</span> <span class="o">*</span> <span class="n">hop_duration</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time / s&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">magnitude</span><span class="p">,</span>
+        <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+        <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+        <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">image</span></div>
 </pre></div>
 
            </div>
@@ -376,7 +558,7 @@
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/05 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/13 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>

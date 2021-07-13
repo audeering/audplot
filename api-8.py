@@ -1,1 +1,1 @@
-from audplot import series
+from audplot import scatter

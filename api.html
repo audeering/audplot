@@ -71,7 +71,7 @@
             
             
               <div class="version">
-                v1.0.1
+                v1.0.2
               </div>
             
           
@@ -95,23 +95,26 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting started</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation</span></p>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">audplot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cepstrum">cepstrum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#confusion-matrix">confusion_matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#distribution">distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scatter">scatter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#series">series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signal">signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spectrum">spectrum</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Development</span></p>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -167,7 +170,7 @@
         
             
             
-              <a href="https://github.com/audeering/audplot/blob/v1.0.1/docs/api.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/audeering/audplot/blob/v1.0.2/docs/api.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -183,13 +186,50 @@
             
   <section id="module-audplot">
 <span id="audplot"></span><h1>audplot<a class="headerlink" href="#module-audplot" title="Permalink to this headline">¶</a></h1>
+<section id="cepstrum">
+<h2>cepstrum<a class="headerlink" href="#cepstrum" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="audplot.cepstrum">
+<span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">cepstrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cc_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hop_duration</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'magma'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#cepstrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.cepstrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cepstrum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cc_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – cepstral coefficients matrix with magnitude values</p></li>
+<li><p><strong>hop_duration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – hop duration in seconds</p></li>
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – channel index</p></li>
+<li><p><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]) – axes in which to draw the plot</p></li>
+<li><p><strong>cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – color map</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AxesImage</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Image object</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">librosa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">ex</span><span class="p">(</span><span class="s1">&#39;trumpet&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hop_dur</span> <span class="o">=</span> <span class="mi">512</span> <span class="o">/</span> <span class="n">sr</span>  <span class="c1"># default hop length is 512</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">cepstrum</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">hop_dur</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
 <section id="confusion-matrix">
 <h2>confusion_matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.confusion_matrix">
 <span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">confusion_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#confusion_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.confusion_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Confusion matrix between ground truth vs. predicted labels.</p>
-<p>The confusion matrx is calculated by <code class="xref py py-mod docutils literal notranslate"><span class="pre">audmetric.confusion_matrix</span></code>.</p>
+<p>The confusion matrix is calculated by <code class="xref py py-mod docutils literal notranslate"><span class="pre">audmetric.confusion_matrix</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -209,12 +249,12 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <figure class="align-default">
-<img alt="_images/api-2.svg" class="plot-directive" src="_images/api-2.svg" /></figure>
+<img alt="_images/api-4.svg" class="plot-directive" src="_images/api-4.svg" /></figure>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <figure class="align-default">
-<img alt="_images/api-3.svg" class="plot-directive" src="_images/api-3.svg" /></figure>
+<img alt="_images/api-5.svg" class="plot-directive" src="_images/api-5.svg" /></figure>
 </dd></dl>
 
 </section>
@@ -240,7 +280,7 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <figure class="align-default">
-<img alt="_images/api-5.svg" class="plot-directive" src="_images/api-5.svg" /></figure>
+<img alt="_images/api-7.svg" class="plot-directive" src="_images/api-7.svg" /></figure>
 </dd></dl>
 
 </section>
@@ -266,15 +306,15 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <figure class="align-default">
-<img alt="_images/api-7.svg" class="plot-directive" src="_images/api-7.svg" /></figure>
+<img alt="_images/api-9.svg" class="plot-directive" src="_images/api-9.svg" /></figure>
 </dd></dl>
 
 </section>
 <section id="series">
 <h2>series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
+<dl class="py function">
 <dt class="sig sig-object py" id="audplot.series">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.series" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.series" title="Permalink to this definition">¶</a></dt>
 <dd><p>Time series plot of truth and predicted values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -292,7 +332,72 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <figure class="align-default">
-<img alt="_images/api-9.svg" class="plot-directive" src="_images/api-9.svg" /></figure>
+<img alt="_images/api-11.svg" class="plot-directive" src="_images/api-11.svg" /></figure>
+</dd></dl>
+
+</section>
+<section id="signal">
+<h2>signal<a class="headerlink" href="#signal" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="audplot.signal">
+<span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_rate</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.signal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with signal values</p></li>
+<li><p><strong>sampling_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – sampling rate in Hz</p></li>
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – channel index</p></li>
+<li><p><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]) – axes to plot on</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">librosa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">ex</span><span class="p">(</span><span class="s1">&#39;trumpet&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="spectrum">
+<h2>spectrum<a class="headerlink" href="#spectrum" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="audplot.spectrum">
+<span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">magnitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hop_duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centers</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'magma'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot spectrum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>magnitude</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – matrix with magnitude values</p></li>
+<li><p><strong>hop_duration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – hop duration in seconds</p></li>
+<li><p><strong>centers</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with center frequencies</p></li>
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – channel index</p></li>
+<li><p><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]) – axes to plot on</p></li>
+<li><p><strong>cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – color map</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AxesImage</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Image object</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">librosa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">ex</span><span class="p">(</span><span class="s1">&#39;trumpet&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_db</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hop_dur</span> <span class="o">=</span> <span class="mi">512</span> <span class="o">/</span> <span class="n">sr</span>  <span class="c1"># default hop length is 512</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">centers</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">mel_frequencies</span><span class="p">(</span><span class="n">n_mels</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">spectrum</span><span class="p">(</span><span class="n">y_db</span><span class="p">,</span> <span class="n">hop_dur</span><span class="p">,</span> <span class="n">centers</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%+2.0f</span><span class="s1"> dB&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -321,7 +426,7 @@ with percentage values instead of absolute numbers</p></li>
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/05 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/13 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>

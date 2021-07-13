@@ -1,3 +1,8 @@
-truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
-prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
-confusion_matrix(truth, prediction, percentage=False)
+import librosa
+import matplotlib.pyplot as plt
+x, sr = librosa.load(librosa.ex('trumpet'))
+y = librosa.feature.mfcc(x, sr)
+hop_dur = 512 / sr  # default hop length is 512
+image = cepstrum(y, hop_dur)
+_ = plt.colorbar(image)
+plt.tight_layout()
