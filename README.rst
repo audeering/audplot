@@ -4,8 +4,9 @@ audplot
 
 |tests| |coverage| |docs| |python-versions| |license|
 
-**audplot** includes plotting functions targeted at machine learning problems
-like a confusion matrix.
+**audplot** includes plotting functions targeted at
+signal processing (e.g. spectral images)
+and machine learning problems (e.g. confusion matrix).
 
 
 .. badges images and links:

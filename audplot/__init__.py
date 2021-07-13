@@ -1,8 +1,11 @@
 from audplot.core.api import (
+    cepstrum,
     confusion_matrix,
     distribution,
     scatter,
     series,
+    signal,
+    spectrum,
 )
 
 
