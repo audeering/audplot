@@ -11,7 +11,7 @@ import audmetric
 
 def cepstrum(
         cc_matrix: np.ndarray,
-        sampling_rate: float,
+        hop_duration: float,
         *,
         channel: int = 0,
         ax: plt.Axes = None,
@@ -21,7 +21,7 @@ def cepstrum(
 
     Args:
         cc_matrix: cepstral coefficients matrix with magnitude values
-        sampling_rate: sampling rate in Hz
+        hop_duration: hop duration in seconds
         channel: channel index
         ax: axes in which to draw the plot
         cmap: color map
@@ -43,8 +43,8 @@ def cepstrum(
             >>> import matplotlib.pyplot as plt
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> y = librosa.feature.mfcc(x, sr)
-            >>> y_sr = sr / 512  # default hop length is 512
-            >>> image = cepstrum(y, y_sr)
+            >>> hop_dur = 512 / sr  # default hop length is 512
+            >>> image = cepstrum(y, hop_dur)
             >>> _ = plt.colorbar(image)
             >>> plt.tight_layout()
 
@@ -59,7 +59,7 @@ def cepstrum(
     ax.set_ylabel('Cepstral Coefficients')
 
     formatter = matplotlib.ticker.FuncFormatter(
-        lambda val, pos: round(val / sampling_rate, 1),
+        lambda val, pos: round(val * hop_duration, 1),
     )
     ax.xaxis.set_major_formatter(formatter)
     ax.set_xlabel('Time / s')
@@ -304,7 +304,7 @@ def signal(
 
 def spectrum(
         magnitude: np.ndarray,
-        sampling_rate: float,
+        hop_duration: float,
         centers: np.ndarray,
         *,
         channel: int = 0,
@@ -315,7 +315,7 @@ def spectrum(
 
     Args:
         magnitude: matrix with magnitude values
-        sampling_rate: sampling rate in Hz
+        hop_duration: hop duration in seconds
         centers: array with center frequencies
         channel: channel index
         ax: axes to plot on
@@ -340,9 +340,9 @@ def spectrum(
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
             >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
             >>> y_db = librosa.power_to_db(y, ref=np.max)
-            >>> y_sr = sr / 512  # default hop length is 512
+            >>> hop_dur = 512 / sr  # default hop length is 512
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
-            >>> image = spectrum(y_db, y_sr, centers)
+            >>> image = spectrum(y_db, hop_dur, centers)
             >>> _ = plt.colorbar(image, format='%+2.0f dB')
             >>> plt.tight_layout()
 
@@ -357,7 +357,7 @@ def spectrum(
     ax.set_ylabel('Frequency / Hz')
 
     formatter = matplotlib.ticker.FuncFormatter(
-        lambda val, pos: round(val / sampling_rate, 1),
+        lambda val, pos: round(val * hop_duration, 1),
     )
     ax.xaxis.set_major_formatter(formatter)
     ax.set_xlabel('Time / s')
