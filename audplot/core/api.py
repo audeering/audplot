@@ -123,15 +123,45 @@ def confusion_matrix(
         truth,
         prediction,
         labels=labels,
-        normalize=percentage,
+        normalize=False,
     )
     if percentage:
-        fmt = '.0%'
+        cm_perc = audmetric.confusion_matrix(
+            truth,
+            prediction,
+            labels=labels,
+            normalize=True,
+        )
+        results = pd.concat(
+            (
+                pd.DataFrame(
+                    data=cm,
+                    index=labels,
+                    columns=labels
+                ),
+                pd.DataFrame(
+                    data=cm_perc,
+                    index=labels,
+                    columns=[f'{x}.perc' for x in labels]
+                )
+            ), axis=1
+        )
+        for key in labels:
+            perc = f'{key}.perc'
+            results[f'{key}.print'] = results.apply(
+                lambda x: f"{int(x[key]):d}\n({x[perc]:.0%})", axis=1
+            )
+        data = results[[f'{key}' for key in labels]].values
+        annot = results[[f'{key}.print' for key in labels]].values
+        fmt = ''
     else:
         fmt = 'd'
+        data = cm
+        annot = True
+        
     sns.heatmap(
-        cm,
-        annot=True,
+        data,
+        annot=annot,
         xticklabels=labels,
         yticklabels=labels,
         cbar=False,
