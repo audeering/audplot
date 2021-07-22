@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                v1.0.2
+                v1.0.3
               </div>
             
           
@@ -379,8 +379,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">minimum</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">truth</span> <span class="o">+</span> <span class="n">prediction</span><span class="p">)</span>
-    <span class="n">maximum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">truth</span> <span class="o">+</span> <span class="n">prediction</span><span class="p">)</span>
+    <span class="n">minimum</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">truth</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">prediction</span><span class="p">)])</span>
+    <span class="n">maximum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">max</span><span class="p">(</span><span class="n">truth</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">prediction</span><span class="p">)])</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="p">[</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">],</span>
@@ -422,8 +422,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">minimum</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">truth</span> <span class="o">+</span> <span class="n">prediction</span><span class="p">)</span>
-    <span class="n">maximum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">truth</span> <span class="o">+</span> <span class="n">prediction</span><span class="p">)</span>
+    <span class="n">minimum</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">truth</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">prediction</span><span class="p">)])</span>
+    <span class="n">maximum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">max</span><span class="p">(</span><span class="n">truth</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">prediction</span><span class="p">)])</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">truth</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">)</span>
@@ -558,7 +558,7 @@
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/13 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/22 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>

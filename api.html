@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>audplot &mdash; audplot Documentation</title>
@@ -71,7 +70,7 @@
             
             
               <div class="version">
-                v1.0.2
+                v1.0.3
               </div>
             
           
@@ -170,7 +169,7 @@
         
             
             
-              <a href="https://github.com/audeering/audplot/blob/v1.0.2/docs/api.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/audeering/audplot/blob/v1.0.3/docs/api.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -184,9 +183,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="module-audplot">
+  <div class="section" id="module-audplot">
 <span id="audplot"></span><h1>audplot<a class="headerlink" href="#module-audplot" title="Permalink to this headline">¶</a></h1>
-<section id="cepstrum">
+<div class="section" id="cepstrum">
 <h2>cepstrum<a class="headerlink" href="#cepstrum" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.cepstrum">
@@ -220,10 +219,12 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
+<div class="figure align-default">
+<img alt="_images/api-2.svg" class="plot-directive" src="_images/api-2.svg" /></div>
 </dd></dl>
 
-</section>
-<section id="confusion-matrix">
+</div>
+<div class="section" id="confusion-matrix">
 <h2>confusion_matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.confusion_matrix">
@@ -248,17 +249,17 @@ with percentage values instead of absolute numbers</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">percentage</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<figure class="align-default">
-<img alt="_images/api-4.svg" class="plot-directive" src="_images/api-4.svg" /></figure>
+<div class="figure align-default">
+<img alt="_images/api-4.svg" class="plot-directive" src="_images/api-4.svg" /></div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-<figure class="align-default">
-<img alt="_images/api-5.svg" class="plot-directive" src="_images/api-5.svg" /></figure>
+<div class="figure align-default">
+<img alt="_images/api-5.svg" class="plot-directive" src="_images/api-5.svg" /></div>
 </dd></dl>
 
-</section>
-<section id="distribution">
+</div>
+<div class="section" id="distribution">
 <h2>distribution<a class="headerlink" href="#distribution" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.distribution">
@@ -279,12 +280,12 @@ with percentage values instead of absolute numbers</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">distribution</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 </pre></div>
 </div>
-<figure class="align-default">
-<img alt="_images/api-7.svg" class="plot-directive" src="_images/api-7.svg" /></figure>
+<div class="figure align-default">
+<img alt="_images/api-7.svg" class="plot-directive" src="_images/api-7.svg" /></div>
 </dd></dl>
 
-</section>
-<section id="scatter">
+</div>
+<div class="section" id="scatter">
 <h2>scatter<a class="headerlink" href="#scatter" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.scatter">
@@ -305,12 +306,12 @@ with percentage values instead of absolute numbers</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 </pre></div>
 </div>
-<figure class="align-default">
-<img alt="_images/api-9.svg" class="plot-directive" src="_images/api-9.svg" /></figure>
+<div class="figure align-default">
+<img alt="_images/api-9.svg" class="plot-directive" src="_images/api-9.svg" /></div>
 </dd></dl>
 
-</section>
-<section id="series">
+</div>
+<div class="section" id="series">
 <h2>series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.series">
@@ -331,12 +332,12 @@ with percentage values instead of absolute numbers</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">series</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 </pre></div>
 </div>
-<figure class="align-default">
-<img alt="_images/api-11.svg" class="plot-directive" src="_images/api-11.svg" /></figure>
+<div class="figure align-default">
+<img alt="_images/api-11.svg" class="plot-directive" src="_images/api-11.svg" /></div>
 </dd></dl>
 
-</section>
-<section id="signal">
+</div>
+<div class="section" id="signal">
 <h2>signal<a class="headerlink" href="#signal" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.signal">
@@ -358,10 +359,12 @@ with percentage values instead of absolute numbers</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="figure align-default">
+<img alt="_images/api-13.svg" class="plot-directive" src="_images/api-13.svg" /></div>
 </dd></dl>
 
-</section>
-<section id="spectrum">
+</div>
+<div class="section" id="spectrum">
 <h2>spectrum<a class="headerlink" href="#spectrum" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.spectrum">
@@ -398,10 +401,12 @@ with percentage values instead of absolute numbers</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
+<div class="figure align-default">
+<img alt="_images/api-15.svg" class="plot-directive" src="_images/api-15.svg" /></div>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -426,7 +431,7 @@ with percentage values instead of absolute numbers</p></li>
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/13 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/22 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>
