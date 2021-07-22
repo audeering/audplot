@@ -208,6 +208,8 @@ def scatter(
 
     """
     ax = ax or plt.gca()
+    truth = list(truth)
+    prediction = list(prediction)
     minimum = min(truth + prediction)
     maximum = max(truth + prediction)
     ax.scatter(truth, prediction)
@@ -251,6 +253,8 @@ def series(
 
     """
     ax = ax or plt.gca()
+    truth = list(truth)
+    prediction = list(prediction)
     minimum = min(truth + prediction)
     maximum = max(truth + prediction)
     ax.plot(truth)
