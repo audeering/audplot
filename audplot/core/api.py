@@ -127,53 +127,49 @@ def confusion_matrix(
     ax = ax or plt.gca()
     labels = audmetric.core.utils.infer_labels(truth, prediction, labels)
 
-    cm_first = audmetric.confusion_matrix(
+    cm = audmetric.confusion_matrix(
         truth,
         prediction,
         labels=labels,
         normalize=percentage,
     )
+    cm = pd.DataFrame(cm, index=labels)
+
+    # Set format of first row labels in confusion matrix
+    if percentage:
+        annot = cm.applymap(lambda x: f'{x:.0f}%')
+        # annot = [[f'{column:.0f}%' for column in row] for row in cm]
+    else:
+        print(cm)
+        annot = cm
+        # annot = cm.applymap(lambda x: human_format(x))
+        # annot = [[human_format(column) for column in row] for row in cm]
+
+    # Add a second row of annotations if requested
     if second_row:
-        cm_second = audmetric.confusion_matrix(
+        cm2 = audmetric.confusion_matrix(
             truth,
             prediction,
             labels=labels,
             normalize=not percentage,
         )
-        results = pd.concat(
-            (
-                pd.DataFrame(
-                    data=cm,
-                    index=labels,
-                    columns=labels
-                ),
-                pd.DataFrame(
-                    data=cm_perc,
-                    index=labels,
-                    columns=[f'{x}.perc' for x in labels]
-                )
-            ), axis=1
-        )
-        for key in labels:
-            perc = f'{key}.perc'
-            results[f'{key}.print'] = results.apply(
-                lambda x: f"{int(x[key]):d}\n({x[perc]:.0%})", axis=1
-            )
-        data = results[[f'{key}' for key in labels]].values
-        annot = results[[f'{key}.print' for key in labels]].values
-        fmt = ''
-    else:
-        fmt = 'd'
-        data = cm
-        annot = True
-        
+        cm2 = pd.DataFrame(cm2, index=labels)
+        if percentage:
+            # x% (y)
+            annot = annot.combine(cm2, lambda x, y: f'{x} ({human_format(y)})')
+            # annot2 = [[human_format(column) for column in row] for row in cm2]
+            # annot = [[f'{c1} ({c2})' for 
+        else:
+            # x (y%)
+            annot = annot.combine(cm2, lambda x, y: f'{x} ({y:.0f}%)')
+
     sns.heatmap(
-        data,
+        cm,
         annot=annot,
         xticklabels=labels,
         yticklabels=labels,
         cbar=False,
-        fmt=fmt,
+        fmt='',
         cmap='Blues',
         ax=ax,
     )
