@@ -1,2 +1,1 @@
-import pandas as pd
-from audplot import distribution
+confusion_matrix(truth, prediction, show_both=True)

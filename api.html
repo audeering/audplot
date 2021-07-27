@@ -34,6 +34,8 @@
   <link rel="stylesheet" href="_static/css/audeering.css" type="text/css" />
   <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Index" href="genindex.html" />
@@ -70,7 +72,7 @@
             
             
               <div class="version">
-                v1.0.3
+                v1.1.0
               </div>
             
           
@@ -105,6 +107,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#cepstrum">cepstrum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#confusion-matrix">confusion_matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#distribution">distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#human-format">human_format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scatter">scatter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#series">series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#signal">signal</a></li>
@@ -169,7 +172,7 @@
         
             
             
-              <a href="https://github.com/audeering/audplot/blob/v1.0.3/docs/api.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/audeering/audplot/blob/v1.1.0/docs/api.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -228,8 +231,8 @@
 <h2>confusion_matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="audplot.confusion_matrix">
-<span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">confusion_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#confusion_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.confusion_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Confusion matrix between ground truth vs. predicted labels.</p>
+<span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">confusion_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_both</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#confusion_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.confusion_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Confusion matrix between ground truth and prediction.</p>
 <p>The confusion matrix is calculated by <code class="xref py py-mod docutils literal notranslate"><span class="pre">audmetric.confusion_matrix</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -239,23 +242,44 @@
 <li><p><strong>labels</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>]) – labels to be included in confusion matrix</p></li>
 <li><p><strong>percentage</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> present the confusion matrix
 with percentage values instead of absolute numbers</p></li>
+<li><p><strong>show_both</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> and percentage is <code class="docutils literal notranslate"><span class="pre">True</span></code>
+it shows absolute numbers in brackets
+below percentage values.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code> and percentage is <code class="docutils literal notranslate"><span class="pre">False</span></code>
+it shows the percentage in brackets
+below absolute numbers</p></li>
 <li><p><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code>]) – axes in which to draw the plot</p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">truth</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">prediction</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">percentage</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">truth</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prediction</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="figure align-default">
 <img alt="_images/api-4.svg" class="plot-directive" src="_images/api-4.svg" /></div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">percentage</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="figure align-default">
 <img alt="_images/api-5.svg" class="plot-directive" src="_images/api-5.svg" /></div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">show_both</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-default">
+<img alt="_images/api-6.svg" class="plot-directive" src="_images/api-6.svg" /></div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">percentage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_both</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-default">
+<img alt="_images/api-7.svg" class="plot-directive" src="_images/api-7.svg" /></div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="figure align-default">
+<img alt="_images/api-8.svg" class="plot-directive" src="_images/api-8.svg" /></div>
 </dd></dl>
 
 </div>
@@ -281,7 +305,117 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <div class="figure align-default">
-<img alt="_images/api-7.svg" class="plot-directive" src="_images/api-7.svg" /></div>
+<img alt="_images/api-10.svg" class="plot-directive" src="_images/api-10.svg" /></div>
+</dd></dl>
+
+</div>
+<div class="section" id="human-format">
+<h2>human_format<a class="headerlink" href="#human-format" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="audplot.human_format">
+<span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">human_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/audplot/core/api.html#human_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.human_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display large or small numbers in a human readable way.</p>
+<p>It replaces large or small numbers
+by no more than 3 significant digits
+and no more than 1 fractional digit.
+Instead it adds a string indicating the base,
+e.g. 12345 becomes 12.3k.</p>
+<p>The naming is according to:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 26%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n</p></td>
+<td><p><span class="math">\(10^{-9}\)</span></p></td>
+<td><p>nano</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>u</p></td>
+<td><p><span class="math">\(10^{-6}\)</span></p></td>
+<td><p>micro</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>m</p></td>
+<td><p><span class="math">\(10^{-3}\)</span></p></td>
+<td><p>milli</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>k</p></td>
+<td><p><span class="math">\(10^{3}\)</span></p></td>
+<td><p>thousand</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>M</p></td>
+<td><p><span class="math">\(10^{6}\)</span></p></td>
+<td><p>Million</p></td>
+<td><p>Mega</p></td>
+</tr>
+<tr class="row-even"><td><p>B</p></td>
+<td><p><span class="math">\(10^{9}\)</span></p></td>
+<td><p>Billion</p></td>
+<td><p>Giga</p></td>
+</tr>
+<tr class="row-odd"><td><p>T</p></td>
+<td><p><span class="math">\(10^{12}\)</span></p></td>
+<td><p>Trillion</p></td>
+<td><p>Tera</p></td>
+</tr>
+<tr class="row-even"><td><p>P</p></td>
+<td><p><span class="math">\(10^{15}\)</span></p></td>
+<td><p>Quadrillion</p></td>
+<td><p>Peta</p></td>
+</tr>
+<tr class="row-odd"><td><p>E</p></td>
+<td><p><span class="math">\(10^{18}\)</span></p></td>
+<td><p>Quintillion</p></td>
+<td><p>Exa</p></td>
+</tr>
+<tr class="row-even"><td><p>Z</p></td>
+<td><p><span class="math">\(10^{21}\)</span></p></td>
+<td><p>Sextillion</p></td>
+<td><p>Zetta</p></td>
+</tr>
+<tr class="row-odd"><td><p>Y</p></td>
+<td><p><span class="math">\(10^{24}\)</span></p></td>
+<td><p>Septillion</p></td>
+<td><p>Yotta</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>number</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – input number</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>formatted number string</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">number</span></code> <span class="math">\(\ge 1000^9\)</span>
+    or <code class="docutils literal notranslate"><span class="pre">number</span></code> <span class="math">\(\le 1000^{-4}\)</span></p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+<span class="go">&#39;12.3k&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
+<span class="go">&#39;1.2M&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mi">123456789000</span><span class="p">)</span>
+<span class="go">&#39;123B&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mf">0.000123</span><span class="p">)</span>
+<span class="go">&#39;123u&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">&#39;0&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="o">-</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">&#39;-1k&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -307,7 +441,7 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <div class="figure align-default">
-<img alt="_images/api-9.svg" class="plot-directive" src="_images/api-9.svg" /></div>
+<img alt="_images/api-12.svg" class="plot-directive" src="_images/api-12.svg" /></div>
 </dd></dl>
 
 </div>
@@ -333,7 +467,7 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <div class="figure align-default">
-<img alt="_images/api-11.svg" class="plot-directive" src="_images/api-11.svg" /></div>
+<img alt="_images/api-14.svg" class="plot-directive" src="_images/api-14.svg" /></div>
 </dd></dl>
 
 </div>
@@ -360,7 +494,7 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <div class="figure align-default">
-<img alt="_images/api-13.svg" class="plot-directive" src="_images/api-13.svg" /></div>
+<img alt="_images/api-16.svg" class="plot-directive" src="_images/api-16.svg" /></div>
 </dd></dl>
 
 </div>
@@ -402,7 +536,7 @@ with percentage values instead of absolute numbers</p></li>
 </pre></div>
 </div>
 <div class="figure align-default">
-<img alt="_images/api-15.svg" class="plot-directive" src="_images/api-15.svg" /></div>
+<img alt="_images/api-18.svg" class="plot-directive" src="_images/api-18.svg" /></div>
 </dd></dl>
 
 </div>
@@ -431,7 +565,7 @@ with percentage values instead of absolute numbers</p></li>
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/22 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/27 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>
@@ -469,6 +603,9 @@ with percentage values instead of absolute numbers</p></li>
         <script src="_static/doctools.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script>
+        <script src="_static/katex_autorenderer.js"></script>
     
 
   

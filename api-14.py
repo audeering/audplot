@@ -1,2 +1,3 @@
-from audplot import spectrum
-import numpy as np
+truth = [-1, 0, 1, 0, -1, 0, 1]
+prediction = [0, 1, 0, -1, 0, 1, 0]
+series(truth, prediction)

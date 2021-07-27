@@ -1,1 +1,1 @@
-confusion_matrix(truth, prediction, labels=['A', 'B', 'C', 'D'])
+confusion_matrix(truth, prediction, percentage=True)

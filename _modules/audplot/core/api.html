@@ -34,6 +34,8 @@
   <link rel="stylesheet" href="../../../_static/css/audeering.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     
@@ -68,7 +70,7 @@
             
             
               <div class="version">
-                v1.0.3
+                v1.1.0
               </div>
             
           
@@ -169,7 +171,8 @@
            <div itemprop="articleBody">
             
   <h1>Source code for audplot.core.api</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">typing</span>
+<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">typing</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -252,10 +255,11 @@
         <span class="n">prediction</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">percentage</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">percentage</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">show_both</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Confusion matrix between ground truth vs. predicted labels.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Confusion matrix between ground truth and prediction.</span>
 
 <span class="sd">    The confusion matrix is calculated by :mod:`audmetric.confusion_matrix`.</span>
 
@@ -265,6 +269,12 @@
 <span class="sd">        labels: labels to be included in confusion matrix</span>
 <span class="sd">        percentage: if ``True`` present the confusion matrix</span>
 <span class="sd">            with percentage values instead of absolute numbers</span>
+<span class="sd">        show_both: if ``True`` and percentage is ``True``</span>
+<span class="sd">            it shows absolute numbers in brackets </span>
+<span class="sd">            below percentage values.</span>
+<span class="sd">            If ``True`` and percentage is ``False``</span>
+<span class="sd">            it shows the percentage in brackets</span>
+<span class="sd">            below absolute numbers</span>
 <span class="sd">        ax: axes in which to draw the plot</span>
 
 <span class="sd">    Example:</span>
@@ -277,9 +287,24 @@
 <span class="sd">        .. plot::</span>
 <span class="sd">            :context: close-figs</span>
 
-<span class="sd">            &gt;&gt;&gt; truth = [&#39;A&#39;, &#39;A&#39;, &#39;A&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;C&#39;, &#39;C&#39;, &#39;C&#39;]</span>
-<span class="sd">            &gt;&gt;&gt; prediction = [&#39;A&#39;, &#39;A&#39;, &#39;B&#39;, &#39;B&#39;, &#39;C&#39;, &#39;C&#39;, &#39;A&#39;, &#39;A&#39;, &#39;C&#39;]</span>
-<span class="sd">            &gt;&gt;&gt; confusion_matrix(truth, prediction, percentage=False)</span>
+<span class="sd">            &gt;&gt;&gt; truth = [&#39;A&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;C&#39;, &#39;C&#39;, &#39;C&#39;] * 1000</span>
+<span class="sd">            &gt;&gt;&gt; prediction = [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;C&#39;, &#39;A&#39;, &#39;A&#39;, &#39;C&#39;] * 1000</span>
+<span class="sd">            &gt;&gt;&gt; confusion_matrix(truth, prediction)</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; confusion_matrix(truth, prediction, percentage=True)</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; confusion_matrix(truth, prediction, show_both=True)</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; confusion_matrix(truth, prediction, percentage=True, show_both=True)</span>
 
 <span class="sd">        .. plot::</span>
 <span class="sd">            :context: close-figs</span>
@@ -296,17 +321,45 @@
         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
         <span class="n">normalize</span><span class="o">=</span><span class="n">percentage</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+
+    <span class="c1"># Set format of first row labels in confusion matrix</span>
     <span class="k">if</span> <span class="n">percentage</span><span class="p">:</span>
-        <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;.0%&#39;</span>
+        <span class="n">annot</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span> <span class="o">*</span> <span class="n">x</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;d&#39;</span>
+        <span class="n">annot</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">human_format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="c1"># Add a second row of annotations if requested</span>
+    <span class="k">if</span> <span class="n">show_both</span><span class="p">:</span>
+        <span class="n">cm2</span> <span class="o">=</span> <span class="n">audmetric</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span>
+            <span class="n">truth</span><span class="p">,</span>
+            <span class="n">prediction</span><span class="p">,</span>
+            <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="ow">not</span> <span class="n">percentage</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">cm2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm2</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">percentage</span><span class="p">:</span>
+            <span class="n">annot2</span> <span class="o">=</span> <span class="n">cm2</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">human_format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">annot2</span> <span class="o">=</span> <span class="n">cm2</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span> <span class="o">*</span> <span class="n">x</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Combine strings from two dataframes</span>
+        <span class="c1"># by vectorizing the underlying function.</span>
+        <span class="c1"># See: https://stackoverflow.com/a/42277839</span>
+
+        <span class="k">def</span> <span class="nf">combine_string</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="se">\n</span><span class="s1">(</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+        <span class="n">combine_string</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">combine_string</span><span class="p">)</span>
+        <span class="n">annot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">combine_string</span><span class="p">(</span><span class="n">annot</span><span class="p">,</span> <span class="n">annot2</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+
     <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
         <span class="n">cm</span><span class="p">,</span>
-        <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">annot</span><span class="o">=</span><span class="n">annot</span><span class="p">,</span>
         <span class="n">xticklabels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
         <span class="n">yticklabels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
         <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
         <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span>
         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
     <span class="p">)</span>
@@ -348,6 +401,96 @@
     <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">axlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">axlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Truth&#39;</span><span class="p">,</span> <span class="s1">&#39;Prediction&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="human_format"><a class="viewcode-back" href="../../../api.html#audplot.human_format">[docs]</a><span class="k">def</span> <span class="nf">human_format</span><span class="p">(</span>
+        <span class="n">number</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Display large or small numbers in a human readable way.</span>
+
+<span class="sd">    It replaces large or small numbers</span>
+<span class="sd">    by no more than 3 significant digits</span>
+<span class="sd">    and no more than 1 fractional digit.</span>
+<span class="sd">    Instead it adds a string indicating the base,</span>
+<span class="sd">    e.g. 12345 becomes 12.3k.</span>
+
+<span class="sd">    The naming is according to:</span>
+
+<span class="sd">    .. table::</span>
+<span class="sd">        :widths: 10 10 15 12</span>
+
+<span class="sd">        = =============== =========== =====</span>
+<span class="sd">        n :math:`10^{-9}` nano</span>
+<span class="sd">        u :math:`10^{-6}` micro</span>
+<span class="sd">        m :math:`10^{-3}` milli</span>
+<span class="sd">        k :math:`10^{3}`  thousand</span>
+<span class="sd">        M :math:`10^{6}`  Million     Mega</span>
+<span class="sd">        B :math:`10^{9}`  Billion     Giga</span>
+<span class="sd">        T :math:`10^{12}` Trillion    Tera</span>
+<span class="sd">        P :math:`10^{15}` Quadrillion Peta</span>
+<span class="sd">        E :math:`10^{18}` Quintillion Exa</span>
+<span class="sd">        Z :math:`10^{21}` Sextillion  Zetta</span>
+<span class="sd">        Y :math:`10^{24}` Septillion  Yotta</span>
+<span class="sd">        = =============== =========== =====</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        number: input number</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        formatted number string</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: if ``number`` :math:`\ge 1000^9`</span>
+<span class="sd">            or ``number`` :math:`\le 1000^{-4}`</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; human_format(12345)</span>
+<span class="sd">        &#39;12.3k&#39;</span>
+<span class="sd">        &gt;&gt;&gt; human_format(1234567)</span>
+<span class="sd">        &#39;1.2M&#39;</span>
+<span class="sd">        &gt;&gt;&gt; human_format(123456789000)</span>
+<span class="sd">        &#39;123B&#39;</span>
+<span class="sd">        &gt;&gt;&gt; human_format(0.000123)</span>
+<span class="sd">        &#39;123u&#39;</span>
+<span class="sd">        &gt;&gt;&gt; human_format(0)</span>
+<span class="sd">        &#39;0&#39;</span>
+<span class="sd">        &gt;&gt;&gt; human_format(-1000)</span>
+<span class="sd">        &#39;-1k&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sign</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;0&#39;</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sign</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">number</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;n&#39;</span><span class="p">,</span>  <span class="c1"># 10^-9  nano</span>
+        <span class="s1">&#39;u&#39;</span><span class="p">,</span>  <span class="c1"># 10^-6  micro</span>
+        <span class="s1">&#39;m&#39;</span><span class="p">,</span>  <span class="c1"># 10^-3  milli</span>
+        <span class="s1">&#39;&#39;</span><span class="p">,</span>   <span class="c1"># 0</span>
+        <span class="s1">&#39;k&#39;</span><span class="p">,</span>  <span class="c1"># 10^3   thousand</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">,</span>  <span class="c1"># 10^6   Million      Mega</span>
+        <span class="s1">&#39;B&#39;</span><span class="p">,</span>  <span class="c1"># 10^9   Billion      Giga</span>
+        <span class="s1">&#39;T&#39;</span><span class="p">,</span>  <span class="c1"># 10^12  Trillion     Tera</span>
+        <span class="s1">&#39;P&#39;</span><span class="p">,</span>  <span class="c1"># 10^15  Quadrillion  Peta</span>
+        <span class="s1">&#39;E&#39;</span><span class="p">,</span>  <span class="c1"># 10^18  Quintillion  Exa</span>
+        <span class="s1">&#39;Z&#39;</span><span class="p">,</span>  <span class="c1"># 10^21  Sextillion   Zetta</span>
+        <span class="s1">&#39;Y&#39;</span><span class="p">,</span>  <span class="c1"># 10^24  Septillion   Yotta</span>
+    <span class="p">]</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mf">1000.0</span>
+    <span class="n">magnitude</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">k</span><span class="p">)))</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">number</span> <span class="o">/</span> <span class="n">k</span><span class="o">**</span><span class="n">magnitude</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">if</span> <span class="n">magnitude</span> <span class="o">&gt;=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only magnitudes &lt; 1000 ** 9 are supported.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">magnitude</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only magnitudes &gt; 1000 ** -4 are supported.&#39;</span><span class="p">)</span>
+    <span class="c1"># Make sure we show only up to 3 significant digits</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">number</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">number</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.0&#39;</span><span class="p">):</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">number</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sign</span><span class="si">}{</span><span class="n">number</span><span class="si">}{</span><span class="n">units</span><span class="p">[</span><span class="n">magnitude</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span></div>
 
 
 <div class="viewcode-block" id="scatter"><a class="viewcode-back" href="../../../api.html#audplot.scatter">[docs]</a><span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span>
@@ -558,7 +701,7 @@
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/22 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/27 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>
@@ -596,6 +739,9 @@
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script>
+        <script src="../../../_static/katex_autorenderer.js"></script>
     
 
   

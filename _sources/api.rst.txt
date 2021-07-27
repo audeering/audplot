@@ -18,6 +18,11 @@ distribution
 
 .. autofunction:: distribution
 
+human_format
+------------
+
+.. autofunction:: human_format
+
 scatter
 -------
 
