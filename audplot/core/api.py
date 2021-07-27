@@ -229,8 +229,18 @@ def human_format(
         '123B'
         >>> human_format(0.000123)
         '123u'
+        >>> human_format(0)
+        '0'
+        >>> human_format(-1000)
+        '-1k'
 
     """
+    sign = ''
+    if number == 0:
+        return '0'
+    if number < 0:
+        sign = '-'
+        number = -1 * number
     units = [
         'n',  # 10^-9  nano
         'u',  # 10^-6  micro
@@ -248,14 +258,16 @@ def human_format(
     k = 1000.0
     magnitude = int(math.floor(math.log(number, k)))
     number = f'{number / k**magnitude:.1f}'
-    # Make sure we show only up to 3 significant digits
-    if len(number) > 4:
-        number = number[:-2]
     if magnitude >= 9:
         raise ValueError('Only magnitudes < 1000 ** 9 are supported.')
     if magnitude <= -4:
         raise ValueError('Only magnitudes > 1000 ** -4 are supported.')
-    return f'{number}{units[magnitude + 3]}'
+    # Make sure we show only up to 3 significant digits
+    if len(number) > 4:
+        number = number[:-2]
+    if number.endswith('.0'):
+        number = number[:-2]
+    return f'{sign}{number}{units[magnitude + 3]}'
 
 
 def scatter(
