@@ -35,6 +35,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx_autodoc_typehints',
     'sphinx_copybutton',  # for "copy to clipboard" buttons
+    'sphinxcontrib.katex',  # has to be before jupyter_sphinx
     'matplotlib.sphinxext.plot_directive',  # include resulting figures in doc
 ]
 
