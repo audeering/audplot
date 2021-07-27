@@ -1,3 +1,4 @@
+import math
 import typing
 
 import matplotlib
@@ -209,6 +210,96 @@ def distribution(
     ax.legend(['Truth', 'Prediction'])
 
 
+def human_format(
+        number: typing.Union[int, float],
+) -> str:
+    r"""Display large or small numbers in a human readable way.
+
+    It replaces large or small numbers
+    by no more than 3 significant digits
+    and no more than 1 fractional digit.
+    Instead it adds a string indicating the base,
+    e.g. 12345 becomes 12.3k.
+
+    The naming is according to:
+
+    .. table::
+        :widths: 10 10 15 12
+
+        = =============== =========== =====
+        n :math:`10^{-9}` nano
+        u :math:`10^{-6}` micro
+        m :math:`10^{-3}` milli
+        k :math:`10^{3}`  thousand
+        M :math:`10^{6}`  Million     Mega
+        B :math:`10^{9}`  Billion     Giga
+        T :math:`10^{12}` Trillion    Tera
+        P :math:`10^{15}` Quadrillion Peta
+        E :math:`10^{18}` Quintillion Exa
+        Z :math:`10^{21}` Sextillion  Zetta
+        Y :math:`10^{24}` Septillion  Yotta
+        = =============== =========== =====
+
+    Args:
+        number: input number
+
+    Returns:
+        formatted number string
+
+    Raises:
+        ValueError: if ``number`` :math:`\ge 1000^9`
+            or ``number`` :math:`\le 1000^{-4}`
+
+    Example:
+        >>> human_format(12345)
+        '12.3k'
+        >>> human_format(1234567)
+        '1.2M'
+        >>> human_format(123456789000)
+        '123B'
+        >>> human_format(0.000123)
+        '123u'
+        >>> human_format(0)
+        '0'
+        >>> human_format(-1000)
+        '-1k'
+
+    """
+    sign = ''
+    if number == 0:
+        return '0'
+    if number < 0:
+        sign = '-'
+        number = -1 * number
+    units = [
+        'n',  # 10^-9  nano
+        'u',  # 10^-6  micro
+        'm',  # 10^-3  milli
+        '',   # 0
+        'k',  # 10^3   thousand
+        'M',  # 10^6   Million      Mega
+        'B',  # 10^9   Billion      Giga
+        'T',  # 10^12  Trillion     Tera
+        'P',  # 10^15  Quadrillion  Peta
+        'E',  # 10^18  Quintillion  Exa
+        'Z',  # 10^21  Sextillion   Zetta
+        'Y',  # 10^24  Septillion   Yotta
+    ]
+    k = 1000.0
+    magnitude = int(math.floor(math.log(number, k)))
+    number = f'{number / k**magnitude:.1f}'
+    if magnitude >= 9:
+        raise ValueError('Only magnitudes < 1000 ** 9 are supported.')
+    if magnitude <= -4:
+        raise ValueError('Only magnitudes > 1000 ** -4 are supported.')
+    # Make sure we show only up to 3 significant digits
+    if len(number) > 4:
+        number = number[:-2]
+    if number.endswith('.0'):
+        number = number[:-2]
+    return f'{sign}{number}{units[magnitude + 3]}'
+
+
 def scatter(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
@@ -238,8 +329,8 @@ def scatter(
 
     """
     ax = ax or plt.gca()
-    minimum = min(truth + prediction)
-    maximum = max(truth + prediction)
+    minimum = min([min(truth), min(prediction)])
+    maximum = max([max(truth), max(prediction)])
     ax.scatter(truth, prediction)
     ax.plot(
         [minimum, maximum],
@@ -281,8 +372,8 @@ def series(
 
     """
     ax = ax or plt.gca()
-    minimum = min(truth + prediction)
-    maximum = max(truth + prediction)
+    minimum = min([min(truth), min(prediction)])
+    maximum = max([max(truth), max(prediction)])
     ax.plot(truth)
     ax.plot(prediction)
     ax.set_ylim(minimum, maximum)

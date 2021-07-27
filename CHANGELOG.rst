@@ -7,6 +7,13 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.0.3 (2021-07-22)
+--------------------------
+
+* Fixed: install missing ``libsndfile1`` when publishing docs
+* Fixed: calculate minimum and maximum in ``scatter()`` and ``series()``
+
+
 Version 1.0.2 (2021-07-13)
 --------------------------
 
