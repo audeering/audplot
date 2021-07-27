@@ -82,7 +82,8 @@ def confusion_matrix(
         prediction: typing.Union[typing.Sequence, pd.Series],
         *,
         labels: typing.Sequence = None,
-        percentage: bool = True,
+        percentage: bool = False,
+        support: bool = False,
         ax: plt.Axes = None,
 ):
     r"""Confusion matrix between ground truth vs. predicted labels.
@@ -95,6 +96,8 @@ def confusion_matrix(
         labels: labels to be included in confusion matrix
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
+        support: if ``True``, additionaly present the support
+            information. Only relevant if ``percentage==True``
         ax: axes in which to draw the plot
 
     Example:
@@ -124,37 +127,42 @@ def confusion_matrix(
         truth,
         prediction,
         labels=labels,
-        normalize=False,
+        normalize=percentage,
     )
     if percentage:
-        cm_perc = audmetric.confusion_matrix(
-            truth,
-            prediction,
-            labels=labels,
-            normalize=True,
-        )
-        results = pd.concat(
-            (
-                pd.DataFrame(
-                    data=cm,
-                    index=labels,
-                    columns=labels
-                ),
-                pd.DataFrame(
-                    data=cm_perc,
-                    index=labels,
-                    columns=[f'{x}.perc' for x in labels]
-                )
-            ), axis=1
-        )
-        for key in labels:
-            perc = f'{key}.perc'
-            results[f'{key}.print'] = results.apply(
-                lambda x: f"{int(x[key]):d}\n({x[perc]:.0%})", axis=1
+        if support:
+            cm_support = audmetric.confusion_matrix(
+                truth,
+                prediction,
+                labels=labels,
+                normalize=False,
             )
-        data = results[[f'{key}' for key in labels]].values
-        annot = results[[f'{key}.print' for key in labels]].values
-        fmt = ''
+            results = pd.concat(
+                (
+                    pd.DataFrame(
+                        data=cm,
+                        index=labels,
+                        columns=labels
+                    ),
+                    pd.DataFrame(
+                        data=cm_support,
+                        index=labels,
+                        columns=[f'{x}.support' for x in labels]
+                    )
+                ), axis=1
+            )
+            for key in labels:
+                perc = f'{key}.support'
+                results[f'{key}.print'] = results.apply(
+                    lambda x: f"{x[key]:.0%}\n({int(x[perc]):d})", axis=1
+                )
+            data = results[[f'{key}' for key in labels]].values
+            annot = results[[f'{key}.print' for key in labels]].values
+            fmt = ''
+        else:
+            fmt = '.0%'
+            data = cm
+            annot = True
     else:
         fmt = 'd'
         data = cm
