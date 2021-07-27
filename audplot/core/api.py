@@ -199,6 +199,7 @@ def human_format(
 
     Raises:
         ValueError: if ``number`` :math:`\ge 1000^9`
+            or ``number`` :math:`\le 1000^{-4}`
 
     Example:
         >>> human_format(12345)
@@ -207,21 +208,35 @@ def human_format(
         '1.2M'
         >>> human_format(123456789000)
         '123B'
+        >>> human_format(0.000123)
+        '123u'
 
     """
-    units = ['', 'k', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y']
+    units = [
+        'n',  # 10^-9  nano
+        'u',  # 10^-6  micro
+        'm',  # 10^-3  milli
+        '',   # 0
+        'k',  # 10^3   thousand
+        'M',  # 10^6   Million      Mega
+        'B',  # 10^9   Billion      Giga
+        'T',  # 10^12  Trillion     Tera
+        'P',  # 10^15  Quadrillion  Peta
+        'E',  # 10^18  Quintillion  Exa
+        'Z',  # 10^21  Sextillion   Zetta
+        'Y',  # 10^24  Septillion   Yotta
+    ]
     k = 1000.0
     magnitude = int(math.floor(math.log(number, k)))
     number = f'{number / k**magnitude:.1f}'
     # Make sure we show only up to 3 significant digits
     if len(number) > 4:
         number = number[:-2]
-    if magnitude >= len(units):
-        raise ValueError(
-            'Only magnitudes < 1000 ** {len(units) + 1} '
-            'are supported.'
-        )
-    return f'{number}{units[magnitude]}'
+    if magnitude >= 9:
+        raise ValueError('Only magnitudes < 1000 ** 9 are supported.')
+    if magnitude <= -4:
+        raise ValueError('Only magnitudes > 1000 ** -4 are supported.')
+    return f'{number}{units[magnitude + 3]}'
 
 
 def scatter(
