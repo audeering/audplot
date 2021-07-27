@@ -183,13 +183,32 @@ def distribution(
 def human_format(
         number: typing.Union[int, float],
 ) -> str:
-    r"""Display long numbers in a short human readable way.
+    r"""Display large or small numbers in a human readable way.
 
-    It replaces ling numbers
+    It replaces large or small numbers
     by no more than 3 significant digits
-    and no more than 1 fractional digit,
-    and adds a string indicating the base,
+    and no more than 1 fractional digit.
+    Instead it adds a string indicating the base,
     e.g. 12345 becomes 12.3k.
+
+    The naming is according to:
+
+    .. table::
+        :widths: 10 10 15 12
+
+        = =============== =========== =====
+        n :math:`10^{-9}` nano
+        u :math:`10^{-6}` micro
+        m :math:`10^{-3}` milli
+        k :math:`10^{3}`  thousand
+        M :math:`10^{6}`  Million     Mega
+        B :math:`10^{9}`  Billion     Giga
+        T :math:`10^{12}` Trillion    Tera
+        P :math:`10^{15}` Quadrillion Peta
+        E :math:`10^{18}` Quintillion Exa
+        Z :math:`10^{21}` Sextillion  Zetta
+        Y :math:`10^{24}` Septillion  Yotta
+        = =============== =========== =====
 
     Args:
         number: input number
