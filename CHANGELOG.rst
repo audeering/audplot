@@ -11,7 +11,7 @@ Version 1.1.0 (2021-07-27)
 --------------------------
 
 * Added: ``audplot.human_format()``
-* Added: ``show_bot`` argument to ``audplot.confusion_matrix()``
+* Added: ``show_both`` argument to ``audplot.confusion_matrix()``
   which allows showing percentage and absolute numbers
   in the same figure
 * Changed: switch from ``True`` to ``False`` as default
