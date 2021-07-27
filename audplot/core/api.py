@@ -83,9 +83,10 @@ def confusion_matrix(
         *,
         labels: typing.Sequence = None,
         percentage: bool = True,
+        show_both: bool = False,
         ax: plt.Axes = None,
 ):
-    r"""Confusion matrix between ground truth vs. predicted labels.
+    r"""Confusion matrix between ground truth and prediction.
 
     The confusion matrix is calculated by :mod:`audmetric.confusion_matrix`.
 
@@ -95,6 +96,12 @@ def confusion_matrix(
         labels: labels to be included in confusion matrix
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
+        show_both: if ``True`` and percentage is ``True``
+            it shows absolute numbers in brackets 
+            below percentage values.
+            If ``True`` and percentage is ``False``
+            it shows the percentage in brackets
+            below absolute numbers
         ax: axes in which to draw the plot
 
     Example:
@@ -107,9 +114,24 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
-            >>> prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
+            >>> truth = ['A', 'B', 'B', 'B', 'C', 'C', 'C'] * 1000
+            >>> prediction = ['A', 'B', 'C', 'C', 'A', 'A', 'C'] * 1000
+            >>> confusion_matrix(truth, prediction)
+
+        .. plot::
+            :context: close-figs
+
             >>> confusion_matrix(truth, prediction, percentage=False)
+
+        .. plot::
+            :context: close-figs
+
+            >>> confusion_matrix(truth, prediction, show_both=True)
+
+        .. plot::
+            :context: close-figs
+
+            >>> confusion_matrix(truth, prediction, percentage=False, show_both=True)
 
         .. plot::
             :context: close-figs
@@ -126,17 +148,45 @@ def confusion_matrix(
         labels=labels,
         normalize=percentage,
     )
+    cm = pd.DataFrame(cm, index=labels)
+
+    # Set format of first row labels in confusion matrix
     if percentage:
-        fmt = '.0%'
+        annot = cm.applymap(lambda x: f'{100 * x:.0f}%')
     else:
-        fmt = 'd'
+        annot = cm.applymap(lambda x: human_format(x))
+
+    # Add a second row of annotations if requested
+    if show_both:
+        cm2 = audmetric.confusion_matrix(
+            truth,
+            prediction,
+            labels=labels,
+            normalize=not percentage,
+        )
+        cm2 = pd.DataFrame(cm2, index=labels)
+        if percentage:
+            annot2 = cm2.applymap(lambda x: human_format(x))
+        else:
+            annot2 = cm2.applymap(lambda x: f'{100 * x:.0f}%')
+
+        # Combine strings from two dataframes
+        # by vectorizing the underlying function.
+        # See: https://stackoverflow.com/a/42277839
+
+        def combine_string(x, y):
+            return f'{x}\n({y})'
+
+        combine_string = np.vectorize(combine_string)
+        annot = pd.DataFrame(combine_string(annot, annot2), index=labels)
+
     sns.heatmap(
         cm,
-        annot=True,
+        annot=annot,
         xticklabels=labels,
         yticklabels=labels,
         cbar=False,
-        fmt=fmt,
+        fmt='',
         cmap='Blues',
         ax=ax,
     )
