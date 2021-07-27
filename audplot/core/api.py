@@ -82,7 +82,7 @@ def confusion_matrix(
         prediction: typing.Union[typing.Sequence, pd.Series],
         *,
         labels: typing.Sequence = None,
-        percentage: bool = True,
+        percentage: bool = False,
         show_both: bool = False,
         ax: plt.Axes = None,
 ):
@@ -121,7 +121,7 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, percentage=False)
+            >>> confusion_matrix(truth, prediction, percentage=True)
 
         .. plot::
             :context: close-figs
@@ -131,7 +131,7 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, percentage=False, show_both=True)
+            >>> confusion_matrix(truth, prediction, percentage=True, show_both=True)
 
         .. plot::
             :context: close-figs
