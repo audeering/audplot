@@ -2,6 +2,7 @@ from audplot.core.api import (
     cepstrum,
     confusion_matrix,
     distribution,
+    human_format,
     scatter,
     series,
     signal,

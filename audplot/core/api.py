@@ -1,3 +1,4 @@
+import math
 import typing
 
 import matplotlib
@@ -177,6 +178,50 @@ def distribution(
     sns.distplot(truth, axlabel='', ax=ax)
     sns.distplot(prediction, axlabel='', ax=ax)
     ax.legend(['Truth', 'Prediction'])
+
+
+def human_format(
+        number: typing.Union[int, float],
+) -> str:
+    r"""Display long numbers in a short human readable way.
+
+    It replaces ling numbers
+    by no more than 3 significant digits
+    and no more than 1 fractional digit,
+    and adds a string indicating the base,
+    e.g. 12345 becomes 12.3k.
+
+    Args:
+        number: input number
+
+    Returns:
+        formatted number string
+
+    Raises:
+        ValueError: if ``number`` :math:`\ge 1000^9`
+
+    Example:
+        >>> human_format(12345)
+        '12.3k'
+        >>> human_format(1234567)
+        '1.2M'
+        >>> human_format(123456789000)
+        '123B'
+
+    """
+    units = ['', 'k', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y']
+    k = 1000.0
+    magnitude = int(math.floor(math.log(number, k)))
+    number = f'{number / k**magnitude:.1f}'
+    # Make sure we show only up to 3 significant digits
+    if len(number) > 4:
+        number = number[:-2]
+    if magnitude >= len(units):
+        raise ValueError(
+            'Only magnitudes < 1000 ** {len(units) + 1} '
+            'are supported.'
+        )
+    return f'{number}{units[magnitude]}'
 
 
 def scatter(

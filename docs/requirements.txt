@@ -3,3 +3,4 @@ sphinx
 sphinx-audeering-theme >=1.0.8
 sphinx-autodoc-typehints
 sphinx-copybutton
+sphinxcontrib-katex
