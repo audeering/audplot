@@ -83,6 +83,7 @@ def confusion_matrix(
         *,
         labels: typing.Sequence = None,
         percentage: bool = True,
+        second_row: bool = False,
         ax: plt.Axes = None,
 ):
     r"""Confusion matrix between ground truth vs. predicted labels.
@@ -95,6 +96,12 @@ def confusion_matrix(
         labels: labels to be included in confusion matrix
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
+        second_row: if ``True`` and percentage is ``True``
+            it shows number of support samples in brackets
+            in a second row.
+            If ``True`` and percentage is ``False``
+            it shows the percentage in brackets
+            in a second row
         ax: axes in which to draw the plot
 
     Example:
@@ -120,18 +127,18 @@ def confusion_matrix(
     ax = ax or plt.gca()
     labels = audmetric.core.utils.infer_labels(truth, prediction, labels)
 
-    cm = audmetric.confusion_matrix(
+    cm_first = audmetric.confusion_matrix(
         truth,
         prediction,
         labels=labels,
-        normalize=False,
+        normalize=percentage,
     )
-    if percentage:
-        cm_perc = audmetric.confusion_matrix(
+    if second_row:
+        cm_second = audmetric.confusion_matrix(
             truth,
             prediction,
             labels=labels,
-            normalize=True,
+            normalize=not percentage,
         )
         results = pd.concat(
             (
