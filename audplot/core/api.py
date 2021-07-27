@@ -86,7 +86,7 @@ def confusion_matrix(
         show_both: bool = False,
         ax: plt.Axes = None,
 ):
-    r"""Confusion matrix between ground truth vs. predicted labels.
+    r"""Confusion matrix between ground truth and prediction.
 
     The confusion matrix is calculated by :mod:`audmetric.confusion_matrix`.
 
