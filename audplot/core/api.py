@@ -117,6 +117,20 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
+            >>> truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
+            >>> prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
+            >>> confusion_matrix(truth, prediction, percentage=True)
+
+        .. plot::
+            :context: close-figs
+
+            >>> truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
+            >>> prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
+            >>> confusion_matrix(truth, prediction, percentage=True, support=True) 
+
+        .. plot::
+            :context: close-figs
+
             >>> confusion_matrix(truth, prediction, labels=['A', 'B', 'C', 'D'])
 
     """  # noqa: 501
@@ -167,7 +181,7 @@ def confusion_matrix(
         fmt = 'd'
         data = cm
         annot = True
-        
+
     sns.heatmap(
         data,
         annot=annot,
