@@ -7,6 +7,17 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.1.0 (2021-07-27)
+--------------------------
+
+* Added: ``audplot.human_format()``
+* Added: ``show_bot`` argument to ``audplot.confusion_matrix()``
+  which allows showing percentage and absolute numbers
+  in the same figure
+* Changed: switch from ``True`` to ``False`` as default
+  for ``percentage`` argument of ``audplot.confusion_matrix()``
+
+
 Version 1.0.3 (2021-07-22)
 --------------------------
 
