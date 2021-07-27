@@ -83,7 +83,7 @@ def confusion_matrix(
         *,
         labels: typing.Sequence = None,
         percentage: bool = True,
-        second_annotation: bool = False,
+        show_both: bool = False,
         ax: plt.Axes = None,
 ):
     r"""Confusion matrix between ground truth vs. predicted labels.
@@ -96,7 +96,7 @@ def confusion_matrix(
         labels: labels to be included in confusion matrix
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
-        second_annotation: if ``True`` and percentage is ``True``
+        show_both: if ``True`` and percentage is ``True``
             it shows absolute numbers in brackets 
             below percentage values.
             If ``True`` and percentage is ``False``
@@ -126,12 +126,12 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, second_annotation=True)
+            >>> confusion_matrix(truth, prediction, show_both=True)
 
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, percentage=False, second_annotation=True)
+            >>> confusion_matrix(truth, prediction, percentage=False, show_both=True)
 
         .. plot::
             :context: close-figs
@@ -157,7 +157,7 @@ def confusion_matrix(
         annot = cm.applymap(lambda x: human_format(x))
 
     # Add a second row of annotations if requested
-    if second_annotation:
+    if show_both:
         cm2 = audmetric.confusion_matrix(
             truth,
             prediction,
