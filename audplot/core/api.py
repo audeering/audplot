@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+import audmath
 import audmetric
 
 
@@ -220,13 +221,50 @@ def detection_error_tradeoff(
         prediction: predicted values
         ax: axes in which to draw the plot
 
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            import numpy as np
+            from audplot import detection_error_tradeoff
+
+            np.random.seed(0)
+
+        .. plot::
+            :context: close-figs
+
+            >>> truth = np.array([1] * 1000 + [0] * 1000)
+            >>> prediction = np.random.rand(2000)
+            >>> detection_error_tradeoff(truth, prediction)
+
     """  # noqa: E501
     fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, prediction)
 
-    # TODO: implement this code here!
     # Transform values to the normal derivate scale
-    transform = scipy.stats.norm.ppf
+    transform = audmath.inverse_normal_distribution
 
+    g = sns.lineplot(
+        x=transform(fmr),
+        y=transform(fnmr),
+    )
+    plt.title('Detection Error Tradeoff (DET) Curve')
+    plt.xlabel('False Alarm Probability')
+    plt.ylabel('Miss Probability')
+    plt.grid(alpha=0.4)
+
+    ticks = [0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.4]
+    tick_locations = transform(ticks)
+    tick_labels = [
+        f'{t:.0%}' if (100 * t).is_integer() else f'{t:.1%}'
+        for t in ticks
+    ]
+    g.set(xticks=tick_locations, xticklabels=tick_labels)
+    g.set(yticks=tick_locations, yticklabels=tick_labels)
+    plt.xlim(transform(0.0001), transform(0.99))
+    plt.ylim(transform(0.001), transform(0.99))
+
+    sns.despine()
 
 
 def distribution(
