@@ -140,7 +140,8 @@ def confusion_matrix(
 
     """  # noqa: 501
     ax = ax or plt.gca()
-    labels = audmetric.core.utils.infer_labels(truth, prediction, labels)
+    if labels is None:
+        labels = audmetric.utils.infer_labels(truth, prediction)
 
     cm = audmetric.confusion_matrix(
         truth,
