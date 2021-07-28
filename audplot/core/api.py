@@ -195,6 +195,39 @@ def confusion_matrix(
     ax.set_ylabel('Truth')
 
 
+def detection_error_tradeoff(
+        truth: typing.Union[typing.Sequence, pd.Series],
+        prediction: typing.Union[typing.Sequence, pd.Series],
+        *,
+        ax: plt.Axes = None,
+):
+    r"""Detection error tradeoff curve.
+
+    A `detection error tradeoff (DET)`_ curve
+    is a graphical plot of error rates for binary classification systems,
+    plotting the false non-matching rate (FNMR)
+    vs. false match rate (FMR).
+
+    The axis are scaled non-linearly
+    by their `standard normal deviates`_.
+
+    .. _detection error tradeoff (DET): https://en.wikipedia.org/wiki/Detection_error_tradeoff
+    .. _standard normal deviates: https://en.wikipedia.org/wiki/Standard_normal_deviate
+
+    Args:
+        truth: truth values
+        prediction: predicted values
+        ax: axes in which to draw the plot
+
+    """  # noqa: E501
+    fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, prediction)
+
+    # TODO: implement this code here!
+    # Transform values to the normal derivate scale
+    transform = scipy.stats.norm.ppf
+
+
+
 def distribution(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
