@@ -276,7 +276,7 @@ def detection_error_tradeoff(
             >>> import audmetric
             >>> fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, pred2)
             >>> _ = plt.plot(transform(fmr), transform(fnmr), label='pred2')
-            >>> plt.legend()
+            >>> _ = plt.legend()
             >>> plt.tight_layout()
 
     """  # noqa: E501
