@@ -7,7 +7,14 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-import audmath
+# The scipy implementation is faster,
+# but scipy is not an official dependency of audplot
+try:
+    # from scipy.special import ndtri as inverse_normal_distribution
+    from audmath import inverse_normal_distribution
+except ModuleNotFoundError:  # pragma: nocover
+    from audmath import inverse_normal_distribution
+
 import audmetric
 
 
@@ -201,8 +208,11 @@ def detection_error_tradeoff(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
         *,
+        xlim: typing.Sequence = [0.001, 0.5],
+        ylim: typing.Sequence = [0.001, 0.5],
+        label: str = None,
         ax: plt.Axes = None,
-):
+) -> typing.Callable:
     r"""Detection error tradeoff curve.
 
     A `detection error tradeoff (DET)`_ curve
@@ -212,6 +222,11 @@ def detection_error_tradeoff(
 
     The axis are scaled non-linearly
     by their `standard normal deviates`_.
+    This means you have to scale every value
+    by this transformation
+    when you would like to change ticks positions
+    or axis limits afterwards.
+
 
     .. _detection error tradeoff (DET): https://en.wikipedia.org/wiki/Detection_error_tradeoff
     .. _standard normal deviates: https://en.wikipedia.org/wiki/Standard_normal_deviate
@@ -219,13 +234,20 @@ def detection_error_tradeoff(
     Args:
         truth: truth values
         prediction: predicted values
+        xlim: x-axes limits, will be scaled to their `standard normal deviates`_
+        ylim: y-axes limits, will be scaled to their `standard normal deviates`_
+        label: label to be shown in the legend
         ax: axes in which to draw the plot
+
+    Returns:
+        function to transform input values to normal derivate scale
 
     Example:
         .. plot::
             :context: reset
             :include-source: false
 
+            import matplotlib.pyplot as plt
             import numpy as np
             from audplot import detection_error_tradeoff
 
@@ -235,25 +257,46 @@ def detection_error_tradeoff(
             :context: close-figs
 
             >>> truth = np.array([1] * 1000 + [0] * 1000)
-            >>> prediction = np.random.rand(2000)
-            >>> detection_error_tradeoff(truth, prediction)
+            >>> # Random prediction
+            >>> pred1 = np.random.random_sample(2000)
+            >>> # Better than random prediction
+            >>> pred2 = np.zeros(2000,)
+            >>> pred2[:1000] = np.random.normal(loc=0.6, scale=0.1, size=1000)
+            >>> pred2[1000:] = np.random.normal(loc=0.4, scale=0.1, size=1000)
+            >>> pred2 = np.clip(pred2, 0, 1)
+            >>> ax_lim = [0.01, 0.99]
+            >>> transform = detection_error_tradeoff(
+            ...     truth,
+            ...     pred1,
+            ...     xlim=[0.01, 0.99],  # use large limits for random
+            ...     ylim=[0.01, 0.99],
+            ...     label='pred1',
+            ... )
+            >>> # Add pred2 to plot using transformed FMR and FNMR values
+            >>> import audmetric
+            >>> fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, pred2)
+            >>> _ = plt.plot(transform(fmr), transform(fnmr), label='pred2')
+            >>> plt.legend()
+            >>> plt.tight_layout()
 
     """  # noqa: E501
     fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, prediction)
 
     # Transform values to the normal derivate scale
-    transform = audmath.inverse_normal_distribution
+    transform = inverse_normal_distribution
 
     g = sns.lineplot(
         x=transform(fmr),
         y=transform(fnmr),
+        label=label,
     )
+    # plt.axis('equal')
     plt.title('Detection Error Tradeoff (DET) Curve')
     plt.xlabel('False Alarm Probability')
     plt.ylabel('Miss Probability')
     plt.grid(alpha=0.4)
 
-    ticks = [0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.4]
+    ticks = [0.001, 0.01, 0.05, 0.2, 0.4, 0.6, 0.8, 0.95, 0.99]
     tick_locations = transform(ticks)
     tick_labels = [
         f'{t:.0%}' if (100 * t).is_integer() else f'{t:.1%}'
@@ -261,10 +304,12 @@ def detection_error_tradeoff(
     ]
     g.set(xticks=tick_locations, xticklabels=tick_labels)
     g.set(yticks=tick_locations, yticklabels=tick_labels)
-    plt.xlim(transform(0.0001), transform(0.99))
-    plt.ylim(transform(0.001), transform(0.99))
+    plt.xlim(transform(xlim[0]), transform(xlim[1]))
+    plt.ylim(transform(ylim[0]), transform(ylim[1]))
 
     sns.despine()
+
+    return transform
 
 
 def distribution(
