@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.2.0 (2021-07-30)
+--------------------------
+
+* Added: ``audplot.detection_error_tradeoff()``
+
+
 Version 1.1.0 (2021-07-27)
 --------------------------
 
