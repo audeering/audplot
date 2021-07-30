@@ -296,14 +296,14 @@ def detection_error_tradeoff(
 
     """  # noqa: E501
     if not error_rates:
-        fmr, fnmr, _ = audmetric.detection_error_tradeoff(x, y)
+        x, y, _ = audmetric.detection_error_tradeoff(x, y)
 
     # Transform values to the normal derivate scale
     transform = inverse_normal_distribution
 
     g = sns.lineplot(
-        x=transform(fmr),
-        y=transform(fnmr),
+        x=transform(x),
+        y=transform(y),
         label=label,
     )
     # plt.axis('equal')
