@@ -280,7 +280,6 @@ def detection_error_tradeoff(
             >>> pred2[:1000] = np.random.normal(loc=0.6, scale=0.1, size=1000)
             >>> pred2[1000:] = np.random.normal(loc=0.4, scale=0.1, size=1000)
             >>> pred2 = np.clip(pred2, 0, 1)
-            >>> ax_lim = [0.01, 0.99]
             >>> transform = detection_error_tradeoff(
             ...     truth,
             ...     pred1,
