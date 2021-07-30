@@ -306,7 +306,6 @@ def detection_error_tradeoff(
         y=transform(y),
         label=label,
     )
-    # plt.axis('equal')
     plt.title('Detection Error Tradeoff (DET) Curve')
     plt.xlabel('False Match Rate')
     plt.ylabel('False Non-Match Rate')
