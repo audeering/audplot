@@ -7,6 +7,14 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+# The scipy implementation is faster,
+# but scipy is not an official dependency of audplot
+try:
+    # from scipy.special import ndtri as inverse_normal_distribution
+    from audmath import inverse_normal_distribution
+except ModuleNotFoundError:  # pragma: nocover
+    from audmath import inverse_normal_distribution
+
 import audmetric
 
 
@@ -140,7 +148,8 @@ def confusion_matrix(
 
     """  # noqa: 501
     ax = ax or plt.gca()
-    labels = audmetric.core.utils.infer_labels(truth, prediction, labels)
+    if labels is None:
+        labels = audmetric.utils.infer_labels(truth, prediction)
 
     cm = audmetric.confusion_matrix(
         truth,
@@ -193,6 +202,129 @@ def confusion_matrix(
     ax.tick_params(axis='y', rotation=0)
     ax.set_xlabel('Prediction')
     ax.set_ylabel('Truth')
+
+
+def detection_error_tradeoff(
+        x: typing.Union[typing.Sequence, pd.Series],
+        y: typing.Union[typing.Sequence, pd.Series],
+        *,
+        error_rates: bool = False,
+        xlim: typing.Sequence = [0.001, 0.5],
+        ylim: typing.Sequence = [0.001, 0.5],
+        label: str = None,
+        ax: plt.Axes = None,
+) -> typing.Callable:
+    r"""Detection error tradeoff curve.
+
+    A `detection error tradeoff (DET)`_ curve
+    is a graphical plot of error rates for binary classification systems,
+    plotting the false non-match rate (FNMR)
+    against the false match rate (FMR).
+
+    You can provide truth and prediction values
+    as input or you can directly provide FMR and FNMR,
+    which can be calculated using
+    :func:`audmetric.detection_error_tradeoff`.
+
+    The axes of the plot are scaled non-linearly
+    by their `standard normal deviates`_.
+    This means you have to scale every value
+    by this transformation
+    when you would like to change ticks positions
+    or axis limits afterwards.
+    The scaling is performed by :func:`scipy.special.ndtri`
+    if :mod:`scipy` is installed,
+    otherwise :func:`audmath.inverse_standard_distribution` is used,
+    which is slower for large input arrays.
+
+
+    .. _detection error tradeoff (DET): https://en.wikipedia.org/wiki/Detection_error_tradeoff
+    .. _standard normal deviates: https://en.wikipedia.org/wiki/Standard_normal_deviate
+
+    Args:
+        x: truth values or false match rate (FMR)
+        y: predicted values or false non-match rate (FNMR)
+        error_rates: if ``False``
+            it expects truth values as ``x``,
+            and prediction values as ``y``.
+            If ``True`` it expects FMR as ``x``,
+            and FNMR as ``y``
+        xlim: x-axis limits with :math:`x \in ]0, 1[`
+        ylim: y-axis limits with :math:`y \in ]0, 1[`
+        label: label to be shown in the legend.
+            The legend will not be shown automatically
+        ax: axes in which to draw the plot
+
+    Returns:
+        function to transform input values to standard normal derivate scale
+
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            import matplotlib.pyplot as plt
+            import numpy as np
+            from audplot import detection_error_tradeoff
+
+            np.random.seed(0)
+
+        .. plot::
+            :context: close-figs
+
+            >>> truth = np.array([1] * 1000 + [0] * 1000)
+            >>> # Random prediction
+            >>> pred1 = np.random.random_sample(2000)
+            >>> # Better than random prediction
+            >>> pred2 = np.zeros(2000,)
+            >>> pred2[:1000] = np.random.normal(loc=0.6, scale=0.1, size=1000)
+            >>> pred2[1000:] = np.random.normal(loc=0.4, scale=0.1, size=1000)
+            >>> pred2 = np.clip(pred2, 0, 1)
+            >>> transform = detection_error_tradeoff(
+            ...     truth,
+            ...     pred1,
+            ...     xlim=[0.01, 0.99],  # use large limits for random
+            ...     ylim=[0.01, 0.99],
+            ...     label='pred1',
+            ... )
+            >>> # Add pred2 to plot using transformed FMR and FNMR values
+            >>> import audmetric
+            >>> fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, pred2)
+            >>> _ = plt.plot(transform(fmr), transform(fnmr), label='pred2')
+            >>> _ = plt.legend()
+            >>> plt.tight_layout()
+
+    """  # noqa: E501
+    if not error_rates:
+        x, y, _ = audmetric.detection_error_tradeoff(x, y)
+
+    # Transform values to the normal derivate scale
+    transform = inverse_normal_distribution
+
+    g = sns.lineplot(
+        x=transform(x),
+        y=transform(y),
+        label=label,
+    )
+    plt.title('Detection Error Tradeoff (DET) Curve')
+    plt.xlabel('False Match Rate')
+    plt.ylabel('False Non-Match Rate')
+    plt.grid(alpha=0.4)
+
+    ticks = [0.001, 0.01, 0.05, 0.2, 0.4, 0.6, 0.8, 0.95, 0.99]
+    tick_locations = transform(ticks)
+    tick_labels = [
+        f'{t:.0%}' if (100 * t).is_integer() else f'{t:.1%}'
+        for t in ticks
+    ]
+    g.set(xticks=tick_locations, xticklabels=tick_labels)
+    g.set(yticks=tick_locations, yticklabels=tick_labels)
+    plt.xlim(transform(xlim[0]), transform(xlim[1]))
+    plt.ylim(transform(ylim[0]), transform(ylim[1]))
+
+    sns.despine()
+
+    return transform
 
 
 def distribution(

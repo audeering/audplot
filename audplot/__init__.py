@@ -1,6 +1,7 @@
 from audplot.core.api import (
     cepstrum,
     confusion_matrix,
+    detection_error_tradeoff,
     distribution,
     human_format,
     scatter,
