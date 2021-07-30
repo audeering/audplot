@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                v1.1.0
+                v1.2.0
               </div>
             
           
@@ -179,6 +179,14 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># The scipy implementation is faster,</span>
+<span class="c1"># but scipy is not an official dependency of audplot</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># from scipy.special import ndtri as inverse_normal_distribution</span>
+    <span class="kn">from</span> <span class="nn">audmath</span> <span class="kn">import</span> <span class="n">inverse_normal_distribution</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>  <span class="c1"># pragma: nocover</span>
+    <span class="kn">from</span> <span class="nn">audmath</span> <span class="kn">import</span> <span class="n">inverse_normal_distribution</span>
 
 <span class="kn">import</span> <span class="nn">audmetric</span>
 
@@ -313,7 +321,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: 501</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="n">audmetric</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">infer_labels</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">audmetric</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">infer_labels</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 
     <span class="n">cm</span> <span class="o">=</span> <span class="n">audmetric</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span>
         <span class="n">truth</span><span class="p">,</span>
@@ -366,6 +375,129 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Prediction&#39;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Truth&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="detection_error_tradeoff"><a class="viewcode-back" href="../../../api.html#audplot.detection_error_tradeoff">[docs]</a><span class="k">def</span> <span class="nf">detection_error_tradeoff</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">error_rates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">xlim</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+        <span class="n">ylim</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Detection error tradeoff curve.</span>
+
+<span class="sd">    A `detection error tradeoff (DET)`_ curve</span>
+<span class="sd">    is a graphical plot of error rates for binary classification systems,</span>
+<span class="sd">    plotting the false non-match rate (FNMR)</span>
+<span class="sd">    against the false match rate (FMR).</span>
+
+<span class="sd">    You can provide truth and prediction values</span>
+<span class="sd">    as input or you can directly provide FMR and FNMR,</span>
+<span class="sd">    which can be calculated using</span>
+<span class="sd">    :func:`audmetric.detection_error_tradeoff`.</span>
+
+<span class="sd">    The axes of the plot are scaled non-linearly</span>
+<span class="sd">    by their `standard normal deviates`_.</span>
+<span class="sd">    This means you have to scale every value</span>
+<span class="sd">    by this transformation</span>
+<span class="sd">    when you would like to change ticks positions</span>
+<span class="sd">    or axis limits afterwards.</span>
+<span class="sd">    The scaling is performed by :func:`scipy.special.ndtri`</span>
+<span class="sd">    if :mod:`scipy` is installed,</span>
+<span class="sd">    otherwise :func:`audmath.inverse_standard_distribution` is used,</span>
+<span class="sd">    which is slower for large input arrays.</span>
+
+
+<span class="sd">    .. _detection error tradeoff (DET): https://en.wikipedia.org/wiki/Detection_error_tradeoff</span>
+<span class="sd">    .. _standard normal deviates: https://en.wikipedia.org/wiki/Standard_normal_deviate</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: truth values or false match rate (FMR)</span>
+<span class="sd">        y: predicted values or false non-match rate (FNMR)</span>
+<span class="sd">        error_rates: if ``False``</span>
+<span class="sd">            it expects truth values as ``x``,</span>
+<span class="sd">            and prediction values as ``y``.</span>
+<span class="sd">            If ``True`` it expects FMR as ``x``,</span>
+<span class="sd">            and FNMR as ``y``</span>
+<span class="sd">        xlim: x-axis limits with :math:`x \in ]0, 1[`</span>
+<span class="sd">        ylim: y-axis limits with :math:`y \in ]0, 1[`</span>
+<span class="sd">        label: label to be shown in the legend.</span>
+<span class="sd">            The legend will not be shown automatically</span>
+<span class="sd">        ax: axes in which to draw the plot</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        function to transform input values to standard normal derivate scale</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: reset</span>
+<span class="sd">            :include-source: false</span>
+
+<span class="sd">            import matplotlib.pyplot as plt</span>
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from audplot import detection_error_tradeoff</span>
+
+<span class="sd">            np.random.seed(0)</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; truth = np.array([1] * 1000 + [0] * 1000)</span>
+<span class="sd">            &gt;&gt;&gt; # Random prediction</span>
+<span class="sd">            &gt;&gt;&gt; pred1 = np.random.random_sample(2000)</span>
+<span class="sd">            &gt;&gt;&gt; # Better than random prediction</span>
+<span class="sd">            &gt;&gt;&gt; pred2 = np.zeros(2000,)</span>
+<span class="sd">            &gt;&gt;&gt; pred2[:1000] = np.random.normal(loc=0.6, scale=0.1, size=1000)</span>
+<span class="sd">            &gt;&gt;&gt; pred2[1000:] = np.random.normal(loc=0.4, scale=0.1, size=1000)</span>
+<span class="sd">            &gt;&gt;&gt; pred2 = np.clip(pred2, 0, 1)</span>
+<span class="sd">            &gt;&gt;&gt; transform = detection_error_tradeoff(</span>
+<span class="sd">            ...     truth,</span>
+<span class="sd">            ...     pred1,</span>
+<span class="sd">            ...     xlim=[0.01, 0.99],  # use large limits for random</span>
+<span class="sd">            ...     ylim=[0.01, 0.99],</span>
+<span class="sd">            ...     label=&#39;pred1&#39;,</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; # Add pred2 to plot using transformed FMR and FNMR values</span>
+<span class="sd">            &gt;&gt;&gt; import audmetric</span>
+<span class="sd">            &gt;&gt;&gt; fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, pred2)</span>
+<span class="sd">            &gt;&gt;&gt; _ = plt.plot(transform(fmr), transform(fnmr), label=&#39;pred2&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; _ = plt.legend()</span>
+<span class="sd">            &gt;&gt;&gt; plt.tight_layout()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">error_rates</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">audmetric</span><span class="o">.</span><span class="n">detection_error_tradeoff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># Transform values to the normal derivate scale</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">inverse_normal_distribution</span>
+
+    <span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">transform</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Detection Error Tradeoff (DET) Curve&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Match Rate&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;False Non-Match Rate&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+    <span class="n">ticks</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">]</span>
+    <span class="n">tick_locations</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span>
+    <span class="n">tick_labels</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">t</span><span class="si">:</span><span class="s1">.0%</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">is_integer</span><span class="p">()</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">t</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ticks</span>
+    <span class="p">]</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticks</span><span class="o">=</span><span class="n">tick_locations</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="n">tick_labels</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">yticks</span><span class="o">=</span><span class="n">tick_locations</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="n">tick_labels</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">transform</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">transform</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">transform</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">transform</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">transform</span></div>
 
 
 <div class="viewcode-block" id="distribution"><a class="viewcode-back" href="../../../api.html#audplot.distribution">[docs]</a><span class="k">def</span> <span class="nf">distribution</span><span class="p">(</span>
@@ -701,7 +833,7 @@
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/27 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/07/30 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>

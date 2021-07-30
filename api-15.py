@@ -1,1 +1,1 @@
-from audplot import signal
+from audplot import series

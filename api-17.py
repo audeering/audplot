@@ -1,2 +1,1 @@
-from audplot import spectrum
-import numpy as np
+from audplot import signal

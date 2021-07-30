@@ -13,6 +13,11 @@ confusion_matrix
 
 .. autofunction:: confusion_matrix
 
+detection_error_tradeoff
+------------------------
+
+.. autofunction:: detection_error_tradeoff
+
 distribution
 ------------
 

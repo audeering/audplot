@@ -1,3 +1,3 @@
-import librosa
-x, sr = librosa.load(librosa.ex('trumpet'))
-signal(x, sr)
+truth = [-1, 0, 1, 0, -1, 0, 1]
+prediction = [0, 1, 0, -1, 0, 1, 0]
+series(truth, prediction)
