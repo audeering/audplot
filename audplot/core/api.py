@@ -205,9 +205,10 @@ def confusion_matrix(
 
 
 def detection_error_tradeoff(
-        truth: typing.Union[typing.Sequence, pd.Series],
-        prediction: typing.Union[typing.Sequence, pd.Series],
+        x: typing.Union[typing.Sequence, pd.Series],
+        y: typing.Union[typing.Sequence, pd.Series],
         *,
+        error_rates: bool = False,
         xlim: typing.Sequence = [0.001, 0.5],
         ylim: typing.Sequence = [0.001, 0.5],
         label: str = None,
@@ -217,30 +218,45 @@ def detection_error_tradeoff(
 
     A `detection error tradeoff (DET)`_ curve
     is a graphical plot of error rates for binary classification systems,
-    plotting the false non-matching rate (FNMR)
-    vs. false match rate (FMR).
+    plotting the false non-match rate (FNMR)
+    against the false match rate (FMR).
 
-    The axis are scaled non-linearly
+    You can provide truth and prediction values
+    as input or you can directly provide FMR and FNMR,
+    which can be calculated using
+    :func:`audmetric.detection_error_tradeoff`.
+
+    The axes of the plot are scaled non-linearly
     by their `standard normal deviates`_.
     This means you have to scale every value
     by this transformation
     when you would like to change ticks positions
     or axis limits afterwards.
+    The scaling is performed by :func:`scipy.special.ndtri`
+    if :mod:`scipy` is installed,
+    otherwise :func:`audmath.inverse_standard_distribution` is used,
+    which is slower for large input arrays.
 
 
     .. _detection error tradeoff (DET): https://en.wikipedia.org/wiki/Detection_error_tradeoff
     .. _standard normal deviates: https://en.wikipedia.org/wiki/Standard_normal_deviate
 
     Args:
-        truth: truth values
-        prediction: predicted values
-        xlim: x-axes limits, will be scaled to their `standard normal deviates`_
-        ylim: y-axes limits, will be scaled to their `standard normal deviates`_
-        label: label to be shown in the legend
+        x: truth values or false match rate (FMR)
+        y: predicted values or false non-match rate (FNMR)
+        error_rates: if ``False``
+            it expects truth values as ``x``,
+            and prediction values as ``y``.
+            If ``True`` it expects FMR as ``x``,
+            and FNMR as ``y``
+        xlim: x-axis limits with :math:`x \in ]0, 1[`
+        ylim: y-axis limits with :math:`y \in ]0, 1[`
+        label: label to be shown in the legend.
+            The legend will not be shown automatically
         ax: axes in which to draw the plot
 
     Returns:
-        function to transform input values to normal derivate scale
+        function to transform input values to standard normal derivate scale
 
     Example:
         .. plot::
@@ -280,7 +296,8 @@ def detection_error_tradeoff(
             >>> plt.tight_layout()
 
     """  # noqa: E501
-    fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, prediction)
+    if not error_rates:
+        fmr, fnmr, _ = audmetric.detection_error_tradeoff(x, y)
 
     # Transform values to the normal derivate scale
     transform = inverse_normal_distribution
@@ -292,8 +309,8 @@ def detection_error_tradeoff(
     )
     # plt.axis('equal')
     plt.title('Detection Error Tradeoff (DET) Curve')
-    plt.xlabel('False Alarm Probability')
-    plt.ylabel('Miss Probability')
+    plt.xlabel('False Match Rate')
+    plt.ylabel('False Non-Match Rate')
     plt.grid(alpha=0.4)
 
     ticks = [0.001, 0.01, 0.05, 0.2, 0.4, 0.6, 0.8, 0.95, 0.99]
