@@ -645,3 +645,73 @@ def spectrum(
     )
 
     return image
+
+
+def waveform(
+        x: np.ndarray,
+        *,
+        text: str = None,
+        color: typing.Union[str, typing.Sequence] = '#E13B41',
+        background: typing.Union[str, typing.Sequence] = (0, 0, 0, 0),
+        ax: plt.Axes = None,
+):
+    r"""Waveform.
+
+    Shows only the outline of a time signal
+    without showing any axis or values.
+
+    Args:
+        x: array with signal values
+        text: optional text to be displayed
+            on the left side of the waveform
+        color: color of wave form and text
+        background: color of background
+        ax: axes to plot on
+
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            from audplot import waveform
+
+        .. plot::
+            :context: close-figs
+
+            >>> import librosa
+            >>> x, sr = librosa.load(librosa.ex('trumpet'))
+            >>> wavform(x, text='Trumpet')
+
+    """
+    x = np.atleast_2d(x)
+    channels, samples = x.shape
+    # TODO: include ax object
+    ax = ax or plt.gca()
+    # TODO: check how to use sns.set() only for one plot
+    sns.set(
+        rc={
+            'axes.facecolor': background,
+            'figure.facecolor': background,
+            'axes.grid': False,
+            'figure.figsize': (8, 3 * channels),
+        },
+    )
+    for mono in x:
+        g = sns.lineplot(data=mono, color=color, linewidth=2.5)
+        # Remove all axis
+        sns.despine(left=True, bottom=True)
+        g.tick_params(left=False, bottom=False)
+        _ = g.set(xticklabels=[], yticklabels=[])
+        # TODO: adjust position not based on samples, but on figure size
+        _ = plt.xlim([-0.15 * samples, samples])
+        _ = plt.ylim([-1, 1])
+        _ = plt.text(
+            -0.02 * samples,
+            0,
+            text,
+            fontsize='large',
+            fontweight='semibold',
+            color=color,
+            horizontalalignment='right',
+            verticalalignment='center',
+        )
