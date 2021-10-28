@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 import audplot
@@ -37,3 +38,10 @@ import audplot
 def test_human_format(number, expected_string):
     string = audplot.human_format(number)
     assert string == expected_string
+
+
+def test_waveform():
+    # Fail for non mono signals
+    with pytest.raises(RuntimeError):
+        x = np.ones((2, 100))
+        audplot.waveform(x)
