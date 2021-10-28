@@ -653,6 +653,9 @@ def waveform(
         text: str = None,
         color: typing.Union[str, typing.Sequence] = '#E13B41',
         background: typing.Union[str, typing.Sequence] = (0, 0, 0, 0),
+        linewidth: float = 2,
+        figsize: typing.Sequence[float] = (8, 1),
+        ylim: typing.Sequence[float] = (-1, 1),
         ax: plt.Axes = None,
 ):
     r"""Waveform.
@@ -666,7 +669,14 @@ def waveform(
             on the left side of the waveform
         color: color of wave form and text
         background: color of background
+        linewidth: line width of signal
+        figsize: size of figure.
+            If set to ``None`` it will use the default size
+        ylim: limits of y-axis
         ax: axes to plot on
+
+    Raises:
+        RuntimeError: if signal has more than one channel
 
     Example:
         .. plot::
@@ -679,42 +689,75 @@ def waveform(
             :context: close-figs
 
             >>> import librosa
-            >>> x, sr = librosa.load(librosa.ex('trumpet'))
+            >>> x, _ = librosa.load(librosa.ex('trumpet'))
             >>> waveform(x, text='Trumpet')
+
+        .. plot::
+            :context: close-figs
+
+            >>> import librosa
+            >>> import matplotlib.pyplot as plt
+            >>> x, _ = librosa.load(librosa.ex('trumpet', hq=True), mono=False)
+            >>> _, axs = plt.subplots(2, figsize=(8, 2))
+            >>> plt.subplots_adjust(hspace=0)
+            >>> waveform(
+            ...     x[0, :],
+            ...     text='Trumpet L',
+            ...     linewidth=0.5,
+            ...     background='#389DCD',
+            ...     color='#1B5975',
+            ...     ax=axs[0],
+            ...     figsize=None,
+            ... )
+            >>> waveform(
+            ...     x[1, :],
+            ...     text='Trumpet R',
+            ...     linewidth=0.5,
+            ...     background='#CA5144',
+            ...     color='#742A23',
+            ...     ax=axs[1],
+            ...     figsize=None,
+            ... )
 
     """
     x = np.atleast_2d(x)
     channels, samples = x.shape
-    # TODO: include ax object
+    if channels > 1:
+        raise RuntimeError('Only mono signals are supported.')
+    if figsize is not None:
+        plt.rcParams['figure.figsize'] = figsize
+
+    # Set colors
     ax = ax or plt.gca()
     ax.grid(False)
     ax.set_facecolor(background)
-    plt.rcParams['figure.figsize'] = (8, 1 * channels)
-    sns.set(rc={'figure.figsize': (8, 1 * channels)})
-    # sns.set(
-    #     rc={
-    #         'axes.facecolor': background,
-    #         'figure.facecolor': background,
-    #         'axes.grid': False,
-    #         'figure.figsize': (8, 3 * channels),
-    #     },
-    # )
-    for mono in x:
-        sns.lineplot(data=mono, color=color, linewidth=2.5, ax=ax)
-        # Remove all axis
-        sns.despine(left=True, bottom=True)
-        ax.tick_params(left=False, bottom=False)
-        ax.set(xticklabels=[], yticklabels=[])
-        # TODO: adjust position not based on samples, but on figure size
-        plt.xlim([-0.15 * samples, samples])
-        plt.ylim([-1, 1])
-        plt.text(
-            -0.02 * samples,
-            0,
-            text,
-            fontsize='large',
-            fontweight='semibold',
-            color=color,
-            horizontalalignment='right',
-            verticalalignment='center',
-        )
+    # Plot waveform
+    sns.lineplot(
+        data=x[0, :],
+        color=color,
+        linewidth=linewidth,
+        ax=ax,
+    )
+    plt.ylim(ylim)
+    # Remove all axis
+    sns.despine(left=True, bottom=True)
+    ax.tick_params(left=False, bottom=False)
+    ax.set(xticklabels=[], yticklabels=[])
+    space_around_text = 0.02 * samples
+    # Add text before waveform
+    text = plt.text(
+        -space_around_text,
+        0,
+        text,
+        fontsize='large',
+        fontweight='semibold',
+        color=color,
+        horizontalalignment='right',
+        verticalalignment='center',
+    )
+    # Get left position of text and adjust xlim accordingly
+    fig = plt.gcf()
+    bb = text.get_window_extent(renderer=fig.canvas.get_renderer())
+    transform = ax.transData.inverted()
+    bb = bb.transformed(transform)
+    plt.xlim([bb.x0 - space_around_text, samples])
