@@ -10,8 +10,7 @@ import seaborn as sns
 # The scipy implementation is faster,
 # but scipy is not an official dependency of audplot
 try:
-    # from scipy.special import ndtri as inverse_normal_distribution
-    from audmath import inverse_normal_distribution
+    from scipy.special import ndtri as inverse_normal_distribution
 except ModuleNotFoundError:  # pragma: nocover
     from audmath import inverse_normal_distribution
 
