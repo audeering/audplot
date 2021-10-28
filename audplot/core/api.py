@@ -105,7 +105,7 @@ def confusion_matrix(
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
         show_both: if ``True`` and percentage is ``True``
-            it shows absolute numbers in brackets 
+            it shows absolute numbers in brackets
             below percentage values.
             If ``True`` and percentage is ``False``
             it shows the percentage in brackets
@@ -651,14 +651,14 @@ def waveform(
         x: np.ndarray,
         *,
         text: str = None,
-        color: typing.Union[str, typing.Sequence] = '#E13B41',
-        background: typing.Union[str, typing.Sequence] = (0, 0, 0, 0),
-        linewidth: float = 2,
+        color: typing.Union[str, typing.Sequence[float]] = '#E13B41',
+        background: typing.Union[str, typing.Sequence[float]] = (0, 0, 0, 0),
+        linewidth: float = 1.5,
         figsize: typing.Sequence[float] = (8, 1),
         ylim: typing.Sequence[float] = (-1, 1),
         ax: plt.Axes = None,
 ):
-    r"""Waveform.
+    r"""Plot waveform of a mono signal.
 
     Shows only the outline of a time signal
     without showing any axis or values.
@@ -696,27 +696,32 @@ def waveform(
             :context: close-figs
 
             >>> import librosa
+            >>> x, _ = librosa.load(librosa.ex('trumpet'))
+            >>> waveform(x, background='#363636', color='#f6f6f6')
+
+        .. plot::
+            :context: close-figs
+
+            >>> import librosa
             >>> import matplotlib.pyplot as plt
             >>> x, _ = librosa.load(librosa.ex('trumpet', hq=True), mono=False)
-            >>> _, axs = plt.subplots(2, figsize=(8, 2))
+            >>> _, axs = plt.subplots(2, figsize=(8, 3))
             >>> plt.subplots_adjust(hspace=0)
             >>> waveform(
             ...     x[0, :],
-            ...     text='Trumpet L',
+            ...     text='Left ',  # empty space for same size as 'Right'
             ...     linewidth=0.5,
             ...     background='#389DCD',
             ...     color='#1B5975',
             ...     ax=axs[0],
-            ...     figsize=None,
             ... )
             >>> waveform(
             ...     x[1, :],
-            ...     text='Trumpet R',
+            ...     text='Right',
             ...     linewidth=0.5,
             ...     background='#CA5144',
             ...     color='#742A23',
             ...     ax=axs[1],
-            ...     figsize=None,
             ... )
 
     """
@@ -738,26 +743,32 @@ def waveform(
         linewidth=linewidth,
         ax=ax,
     )
-    plt.ylim(ylim)
+    ax.set(ylim=ylim)
+
     # Remove all axis
     sns.despine(left=True, bottom=True)
     ax.tick_params(left=False, bottom=False)
     ax.set(xticklabels=[], yticklabels=[])
-    space_around_text = 0.02 * samples
+
     # Add text before waveform
-    text = plt.text(
-        -space_around_text,
-        0,
-        text,
-        fontsize='large',
-        fontweight='semibold',
-        color=color,
-        horizontalalignment='right',
-        verticalalignment='center',
-    )
-    # Get left position of text and adjust xlim accordingly
-    fig = plt.gcf()
-    bb = text.get_window_extent(renderer=fig.canvas.get_renderer())
-    transform = ax.transData.inverted()
-    bb = bb.transformed(transform)
-    plt.xlim([bb.x0 - space_around_text, samples])
+    if text is not None and len(text) > 0:
+        space_around_text = 0.02 * samples
+        text = ax.text(
+            -space_around_text,
+            0,
+            text,
+            fontsize='large',
+            fontweight='semibold',
+            color=color,
+            horizontalalignment='right',
+            verticalalignment='center',
+        )
+        # Get left position of text and adjust xlim accordingly
+        fig = plt.gcf()
+        bb = text.get_window_extent(renderer=fig.canvas.get_renderer())
+        transform = ax.transData.inverted()
+        bb = bb.transformed(transform)
+        xlim = (bb.x0 - 1.5 * space_around_text, samples)
+    else:
+        xlim = (0, samples)
+    ax.set(xlim=xlim)
