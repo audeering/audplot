@@ -670,8 +670,7 @@ def waveform(
         color: color of wave form and text
         background: color of background
         linewidth: line width of signal
-        figsize: size of figure.
-            If set to ``None`` it will use the default size
+        figsize: size of figure
         ylim: limits of y-axis
         ax: axes to plot on
 
