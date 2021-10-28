@@ -680,32 +680,35 @@ def waveform(
 
             >>> import librosa
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
-            >>> wavform(x, text='Trumpet')
+            >>> waveform(x, text='Trumpet')
 
     """
     x = np.atleast_2d(x)
     channels, samples = x.shape
     # TODO: include ax object
     ax = ax or plt.gca()
-    # TODO: check how to use sns.set() only for one plot
-    sns.set(
-        rc={
-            'axes.facecolor': background,
-            'figure.facecolor': background,
-            'axes.grid': False,
-            'figure.figsize': (8, 3 * channels),
-        },
-    )
+    ax.grid(False)
+    ax.set_facecolor(background)
+    plt.rcParams['figure.figsize'] = (8, 1 * channels)
+    sns.set(rc={'figure.figsize': (8, 1 * channels)})
+    # sns.set(
+    #     rc={
+    #         'axes.facecolor': background,
+    #         'figure.facecolor': background,
+    #         'axes.grid': False,
+    #         'figure.figsize': (8, 3 * channels),
+    #     },
+    # )
     for mono in x:
-        g = sns.lineplot(data=mono, color=color, linewidth=2.5)
+        sns.lineplot(data=mono, color=color, linewidth=2.5, ax=ax)
         # Remove all axis
         sns.despine(left=True, bottom=True)
-        g.tick_params(left=False, bottom=False)
-        _ = g.set(xticklabels=[], yticklabels=[])
+        ax.tick_params(left=False, bottom=False)
+        ax.set(xticklabels=[], yticklabels=[])
         # TODO: adjust position not based on samples, but on figure size
-        _ = plt.xlim([-0.15 * samples, samples])
-        _ = plt.ylim([-1, 1])
-        _ = plt.text(
+        plt.xlim([-0.15 * samples, samples])
+        plt.ylim([-1, 1])
+        plt.text(
             -0.02 * samples,
             0,
             text,
