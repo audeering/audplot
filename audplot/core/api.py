@@ -62,14 +62,8 @@ def cepstrum(
     cc_matrix = cc_matrix[channel] if cc_matrix.ndim == 3 else cc_matrix
 
     n_cc, n_cepstra = cc_matrix.shape
-    ax.set_yticks(np.arange(n_cc) + 0.5)
-    ax.set_yticklabels(np.arange(n_cc))
+    extent = [0, (n_cepstra - 1) * hop_duration, -0.5, n_cc - 0.5]
     ax.set_ylabel('Cepstral Coefficients')
-
-    formatter = matplotlib.ticker.FuncFormatter(
-        lambda val, pos: round(val * hop_duration, 1),
-    )
-    ax.xaxis.set_major_formatter(formatter)
     ax.set_xlabel('Time / s')
 
     ax.margins(x=0)
@@ -79,7 +73,14 @@ def cepstrum(
         origin='lower',
         cmap=cmap,
         interpolation='none',
+        extent=extent,
     )
+
+    # Adjust yticks to be located at real cepstral coefficient steps
+    locs = ax.get_yticks()
+    yticks_spacing = int(np.round(n_cc / len(locs)))
+    locs = list(range(0, n_cc - 1, yticks_spacing))
+    ax.set_yticks(locs)
 
     return image
 
@@ -564,14 +565,11 @@ def signal(
     ax = ax or plt.gca()
     x = x[channel] if x.ndim == 2 else x
 
-    formatter = matplotlib.ticker.FuncFormatter(
-        lambda val, pos: round(val / sampling_rate, 1),
-    )
-    ax.xaxis.set_major_formatter(formatter)
+    time = np.arange(len(x)) / sampling_rate
     ax.set_xlabel('Time / s')
 
     ax.margins(x=0)
-    ax.plot(x)
+    ax.plot(time, x)
 
 
 def spectrum(
@@ -622,16 +620,9 @@ def spectrum(
     ax = ax or plt.gca()
     magnitude = magnitude[channel] if magnitude.ndim == 3 else magnitude
 
-    formatter = matplotlib.ticker.FuncFormatter(
-        lambda val, pos: round(centers[min(int(val), len(centers) - 1)], 1)
-    )
-    ax.yaxis.set_major_formatter(formatter)
+    frequencies, times = magnitude.shape
+    extent = [0, times * hop_duration, -0.5, frequencies - 0.5]
     ax.set_ylabel('Frequency / Hz')
-
-    formatter = matplotlib.ticker.FuncFormatter(
-        lambda val, pos: round(val * hop_duration, 1),
-    )
-    ax.xaxis.set_major_formatter(formatter)
     ax.set_xlabel('Time / s')
 
     ax.margins(x=0)
@@ -641,6 +632,13 @@ def spectrum(
         origin='lower',
         cmap=cmap,
         interpolation='none',
+        extent=extent,
     )
+
+    # Add center frequencies as yticks labels
+    formatter = matplotlib.ticker.FuncFormatter(
+        lambda val, pos: round(centers[min(int(val), len(centers) - 1)], 1)
+    )
+    ax.yaxis.set_major_formatter(formatter)
 
     return image
