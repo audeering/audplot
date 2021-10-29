@@ -636,13 +636,9 @@ def spectrum(
     )
 
     # Add center frequencies as yticks labels
-    locs = ax.get_yticks()
-    yticks_spacing = int(locs[1] - locs[0])
-    # It might return negative yticks,
-    # that are not visible
-    negative_locs = locs[locs < 0]
-    labels = ['' for _ in negative_locs]
-    labels += [f'{cf:.1f}' for cf in centers[::yticks_spacing]]
-    ax.set_yticklabels(labels)
+    formatter = matplotlib.ticker.FuncFormatter(
+        lambda val, pos: round(centers[min(int(val), len(centers) - 1)], 1)
+    )
+    ax.yaxis.set_major_formatter(formatter)
 
     return image
