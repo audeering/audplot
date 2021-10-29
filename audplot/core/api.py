@@ -640,5 +640,10 @@ def spectrum(
         lambda val, pos: round(centers[min(int(val), len(centers) - 1)], 1)
     )
     ax.yaxis.set_major_formatter(formatter)
+    # Adjust yticks to be located at real center frequencies
+    locs = ax.get_yticks()
+    yticks_spacing = int(np.round(frequencies / len(locs)))
+    locs = list(range(0, frequencies - 1, yticks_spacing))
+    ax.set_yticks(locs)
 
     return image
