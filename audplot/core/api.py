@@ -295,6 +295,8 @@ def detection_error_tradeoff(
             >>> plt.tight_layout()
 
     """  # noqa: E501
+    ax = ax or plt.gca()
+
     if not error_rates:
         x, y, _ = audmetric.detection_error_tradeoff(x, y)
 
@@ -306,10 +308,10 @@ def detection_error_tradeoff(
         y=transform(y),
         label=label,
     )
-    plt.title('Detection Error Tradeoff (DET) Curve')
-    plt.xlabel('False Match Rate')
-    plt.ylabel('False Non-Match Rate')
-    plt.grid(alpha=0.4)
+    ax.set_title('Detection Error Tradeoff (DET) Curve')
+    ax.set_xlabel('False Match Rate')
+    ax.set_ylabel('False Non-Match Rate')
+    ax.grid(alpha=0.4)
 
     ticks = [0.001, 0.01, 0.05, 0.2, 0.4, 0.6, 0.8, 0.95, 0.99]
     tick_locations = transform(ticks)
@@ -319,10 +321,10 @@ def detection_error_tradeoff(
     ]
     g.set(xticks=tick_locations, xticklabels=tick_labels)
     g.set(yticks=tick_locations, yticklabels=tick_labels)
-    plt.xlim(transform(xlim[0]), transform(xlim[1]))
-    plt.ylim(transform(ylim[0]), transform(ylim[1]))
+    ax.set_xlim(transform(xlim[0]), transform(xlim[1]))
+    ax.set_ylim(transform(ylim[0]), transform(ylim[1]))
 
-    sns.despine()
+    sns.despine(ax=ax)
 
     return transform
 
