@@ -53,7 +53,8 @@ def cepstrum(
             >>> y = librosa.feature.mfcc(x, sr)
             >>> hop_dur = 512 / sr  # default hop length is 512
             >>> image = cepstrum(y, hop_dur)
-            >>> _ = plt.colorbar(image)
+            >>> cb = plt.colorbar(image)
+            >>> cb.outline.set_visible(False)
             >>> plt.tight_layout()
 
     """
@@ -81,6 +82,9 @@ def cepstrum(
     yticks_spacing = int(np.round(n_cc / len(locs)))
     locs = list(range(0, n_cc - 1, yticks_spacing))
     ax.set_yticks(locs)
+
+    # Remove axis lines
+    sns.despine(ax=ax, left=True, bottom=True)
 
     return image
 
@@ -322,7 +326,7 @@ def detection_error_tradeoff(
     plt.xlim(transform(xlim[0]), transform(xlim[1]))
     plt.ylim(transform(ylim[0]), transform(ylim[1]))
 
-    sns.despine()
+    sns.despine(ax=ax)
 
     return transform
 
@@ -360,6 +364,8 @@ def distribution(
     sns.distplot(truth, axlabel='', ax=ax)
     sns.distplot(prediction, axlabel='', ax=ax)
     ax.legend(['Truth', 'Prediction'])
+    ax.grid(alpha=0.4)
+    sns.despine(ax=ax)
 
 
 def human_format(
@@ -493,6 +499,9 @@ def scatter(
     ax.set_ylim(minimum, maximum)
     ax.set_xlabel('Truth')
     ax.set_ylabel('Prediction')
+    ax.grid(alpha=0.4)
+    ax.set_axisbelow(True)
+    sns.despine(ax=ax)
 
 
 def series(
@@ -530,6 +539,8 @@ def series(
     ax.plot(prediction)
     ax.set_ylim(minimum, maximum)
     ax.legend(['Truth', 'Prediction'])
+    ax.grid(alpha=0.4)
+    sns.despine(ax=ax)
 
 
 def signal(
@@ -570,6 +581,8 @@ def signal(
 
     ax.margins(x=0)
     ax.plot(time, x)
+    ax.grid(alpha=0.4)
+    sns.despine(ax=ax)
 
 
 def spectrum(
@@ -613,7 +626,8 @@ def spectrum(
             >>> hop_dur = 512 / sr  # default hop length is 512
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
             >>> image = spectrum(y_db, hop_dur, centers)
-            >>> _ = plt.colorbar(image, format='%+2.0f dB')
+            >>> cb = plt.colorbar(image, format='%+2.0f dB')
+            >>> cb.outline.set_visible(False)
             >>> plt.tight_layout()
 
     """
@@ -645,5 +659,8 @@ def spectrum(
     yticks_spacing = int(np.round(frequencies / len(locs)))
     locs = list(range(0, frequencies - 1, yticks_spacing))
     ax.set_yticks(locs)
+
+    # Remove axis lines
+    sns.despine(ax=ax, left=True, bottom=True)
 
     return image
