@@ -673,7 +673,7 @@ def waveform(
         linewidth: line width of signal
         figsize: size of figure.
             Takes only effect
-            if ``fig`` and/or ``ax`` are ``None``
+            if no current figure exists already
         ylim: limits of y-axis
         fig: Pre-existing figure for the plot.
             Otherwise, call :func:`matplotlib.pyplot.gcf()` internally
