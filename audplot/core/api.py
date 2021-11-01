@@ -673,7 +673,7 @@ def waveform(
         linewidth: line width of signal
         ylim: limits of y-axis
         fig: Pre-existing figure for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gcf()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gcf()` internally
         ax: axes to plot on
 
     Raises:
