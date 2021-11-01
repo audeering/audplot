@@ -62,7 +62,7 @@ def cepstrum(
     cc_matrix = cc_matrix[channel] if cc_matrix.ndim == 3 else cc_matrix
 
     n_cc, n_cepstra = cc_matrix.shape
-    extent = [0, (n_cepstra - 1) * hop_duration, -0.5, n_cc - 0.5]
+    extent = [0, n_cepstra * hop_duration, -0.5, n_cc - 0.5]
     ax.set_ylabel('Cepstral Coefficients')
     ax.set_xlabel('Time / s')
 
