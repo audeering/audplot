@@ -671,9 +671,6 @@ def waveform(
         color: color of wave form and text
         background: color of background
         linewidth: line width of signal
-        figsize: size of figure.
-            Takes only effect
-            if no current figure exists already
         ylim: limits of y-axis
         fig: Pre-existing figure for the plot.
             Otherwise, call :func:`matplotlib.pyplot.gcf()` internally
@@ -734,8 +731,10 @@ def waveform(
     # Setting the figsize has to be done first
     # before requesting axis or figure.
     # If axis/figure exist already it will have no effect
-    if figsize is not None:
-        plt.rcParams['figure.figsize'] = figsize
+
+    # Set default figsize if no existing figure is used
+    default_figsize = plt.rcParams['figure.figsize']
+    plt.rcParams['figure.figsize'] = (8, 1)
 
     fig = fig or plt.gcf()
     ax = ax or plt.gca()
@@ -782,3 +781,6 @@ def waveform(
     else:
         xlim = (0, samples)
     ax.set(xlim=xlim)
+
+    # Restore default figure size
+    plt.rcParams['figure.figsize'] = default_figsize
