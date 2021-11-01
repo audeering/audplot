@@ -656,6 +656,7 @@ def waveform(
         linewidth: float = 1.5,
         figsize: typing.Sequence[float] = (8, 1),
         ylim: typing.Sequence[float] = (-1, 1),
+        fig: plt.figure = None,
         ax: plt.Axes = None,
 ):
     r"""Plot waveform of a mono signal.
@@ -670,8 +671,12 @@ def waveform(
         color: color of wave form and text
         background: color of background
         linewidth: line width of signal
-        figsize: size of figure
+        figsize: size of figure.
+            Takes only effect
+            if ``fig`` and/or ``ax`` are ``None``
         ylim: limits of y-axis
+        fig: Pre-existing figure for the plot.
+            Otherwise, call :func:`matplotlib.pyplot.gcf()` internally
         ax: axes to plot on
 
     Raises:
@@ -704,7 +709,7 @@ def waveform(
             >>> import librosa
             >>> import matplotlib.pyplot as plt
             >>> x, _ = librosa.load(librosa.ex('trumpet', hq=True), mono=False)
-            >>> _, axs = plt.subplots(2, figsize=(8, 3))
+            >>> fig, axs = plt.subplots(2, figsize=(8, 3))
             >>> plt.subplots_adjust(hspace=0)
             >>> waveform(
             ...     x[0, :],
@@ -712,6 +717,7 @@ def waveform(
             ...     linewidth=0.5,
             ...     background='#389DCD',
             ...     color='#1B5975',
+            ...     fig=fig,
             ...     ax=axs[0],
             ... )
             >>> waveform(
@@ -720,19 +726,25 @@ def waveform(
             ...     linewidth=0.5,
             ...     background='#CA5144',
             ...     color='#742A23',
+            ...     fig=fig,
             ...     ax=axs[1],
             ... )
 
     """
+    # Setting the figsize has to be done first
+    # before requesting axis or figure.
+    # If axis/figure exist already it will have no effect
+    if figsize is not None:
+        plt.rcParams['figure.figsize'] = figsize
+
+    fig = fig or plt.gcf()
+    ax = ax or plt.gca()
+
     x = np.atleast_2d(x)
     channels, samples = x.shape
     if channels > 1:
         raise RuntimeError('Only mono signals are supported.')
-    if figsize is not None:
-        plt.rcParams['figure.figsize'] = figsize
-
     # Set colors
-    ax = ax or plt.gca()
     ax.grid(False)
     ax.set_facecolor(background)
     # Plot waveform
@@ -763,7 +775,6 @@ def waveform(
             verticalalignment='center',
         )
         # Get left position of text and adjust xlim accordingly
-        fig = plt.gcf()
         bb = text.get_window_extent(renderer=fig.canvas.get_renderer())
         transform = ax.transData.inverted()
         bb = bb.transformed(transform)
