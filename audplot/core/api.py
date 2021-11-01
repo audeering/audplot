@@ -125,8 +125,8 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> truth = ['A', 'B', 'B', 'B', 'C', 'C', 'C'] * 1000
-            >>> prediction = ['A', 'B', 'C', 'C', 'A', 'A', 'C'] * 1000
+            >>> truth = [0, 1, 1, 1, 2, 2, 2] * 1000
+            >>> prediction = [0, 1, 2, 2, 0, 0, 2] * 1000
             >>> confusion_matrix(truth, prediction)
 
         .. plot::
@@ -147,12 +147,12 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, labels=['A', 'B', 'C', 'D'])
+            >>> confusion_matrix(truth, prediction, labels=[0, 1, 2, 3])
 
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, label_aliases={'A': 0, 'B': 1, 'C': 2})
+            >>> confusion_matrix(truth, prediction, label_aliases={0: 'A', 1: 'B', 2: 'C'})
 
     """  # noqa: 501
     ax = ax or plt.gca()
