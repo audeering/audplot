@@ -94,6 +94,7 @@ def confusion_matrix(
         prediction: typing.Union[typing.Sequence, pd.Series],
         *,
         labels: typing.Sequence = None,
+        label_aliases: typing.Dict = None,
         percentage: bool = False,
         show_both: bool = False,
         ax: plt.Axes = None,
@@ -106,6 +107,8 @@ def confusion_matrix(
         truth: truth values
         prediction: predicted values
         labels: labels to be included in confusion matrix
+        label_aliases: mapping to alias names for labels
+            to be presented in the plot
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
         show_both: if ``True`` and percentage is ``True``
@@ -126,8 +129,8 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> truth = ['A', 'B', 'B', 'B', 'C', 'C', 'C'] * 1000
-            >>> prediction = ['A', 'B', 'C', 'C', 'A', 'A', 'C'] * 1000
+            >>> truth = [0, 1, 1, 1, 2, 2, 2] * 1000
+            >>> prediction = [0, 1, 2, 2, 0, 0, 2] * 1000
             >>> confusion_matrix(truth, prediction)
 
         .. plot::
@@ -148,7 +151,12 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, labels=['A', 'B', 'C', 'D'])
+            >>> confusion_matrix(truth, prediction, labels=[0, 1, 2, 3])
+
+        .. plot::
+            :context: close-figs
+
+            >>> confusion_matrix(truth, prediction, label_aliases={0: 'A', 1: 'B', 2: 'C'})
 
     """  # noqa: 501
     ax = ax or plt.gca()
@@ -192,6 +200,13 @@ def confusion_matrix(
 
         combine_string = np.vectorize(combine_string)
         annot = pd.DataFrame(combine_string(annot, annot2), index=labels)
+
+    # Get label names to present on x- and y-axis
+    if label_aliases is not None:
+        labels = [
+            label_aliases.get(label, label)
+            for label in labels
+        ]
 
     sns.heatmap(
         cm,
