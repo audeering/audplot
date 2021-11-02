@@ -656,7 +656,6 @@ def waveform(
         linewidth: float = 1.5,
         figsize: typing.Sequence[float] = (8, 1),
         ylim: typing.Sequence[float] = (-1, 1),
-        fig: plt.figure = None,
         ax: plt.Axes = None,
 ):
     r"""Plot waveform of a mono signal.
