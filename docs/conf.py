@@ -46,6 +46,7 @@ copybutton_prompt_is_regexp = True
 # Mapping to external documentation
 intersphinx_mapping = {
     'audmetric': ('https://audeering.github.io/audmetric/', None),
+    'matplotlib': ('https://matplotlib.org/stable/', None),
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
     'python': ('https://docs.python.org/3/', None),
 }

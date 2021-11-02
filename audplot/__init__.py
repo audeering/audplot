@@ -8,6 +8,7 @@ from audplot.core.api import (
     series,
     signal,
     spectrum,
+    waveform,
 )
 
 

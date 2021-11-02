@@ -109,7 +109,7 @@ def confusion_matrix(
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
         show_both: if ``True`` and percentage is ``True``
-            it shows absolute numbers in brackets 
+            it shows absolute numbers in brackets
             below percentage values.
             If ``True`` and percentage is ``False``
             it shows the percentage in brackets
@@ -666,3 +666,136 @@ def spectrum(
     sns.despine(ax=ax, left=True, bottom=True)
 
     return image
+
+
+def waveform(
+        x: np.ndarray,
+        *,
+        text: str = None,
+        color: typing.Union[str, typing.Sequence[float]] = '#E13B41',
+        background: typing.Union[str, typing.Sequence[float]] = '#FFFFFF00',
+        linewidth: float = 1.5,
+        ylim: typing.Sequence[float] = (-1, 1),
+        ax: plt.Axes = None,
+):
+    r"""Plot waveform of a mono signal.
+
+    Shows only the outline of a time signal
+    without showing any axis or values.
+
+    Args:
+        x: array with signal values
+        text: optional text to be displayed
+            on the left side of the waveform
+        color: color of wave form and text
+        background: color of background
+        linewidth: line width of signal
+        ylim: limits of y-axis
+        ax: axes to plot on
+
+    Raises:
+        RuntimeError: if signal has more than one channel
+
+    Example:
+        .. plot::
+            :context: reset
+            :include-source: false
+
+            from audplot import waveform
+
+        .. plot::
+            :context: close-figs
+
+            >>> import librosa
+            >>> x, _ = librosa.load(librosa.ex('trumpet'))
+            >>> waveform(x, text='Trumpet')
+
+        .. plot::
+            :context: close-figs
+
+            >>> import librosa
+            >>> x, _ = librosa.load(librosa.ex('trumpet'))
+            >>> waveform(x, background='#363636', color='#f6f6f6')
+
+        .. plot::
+            :context: close-figs
+
+            >>> import librosa
+            >>> import matplotlib.pyplot as plt
+            >>> x, _ = librosa.load(librosa.ex('trumpet', hq=True), mono=False)
+            >>> _, axs = plt.subplots(2, figsize=(8, 3))
+            >>> plt.subplots_adjust(hspace=0)
+            >>> waveform(
+            ...     x[0, :],
+            ...     text='Left ',  # empty space for same size as 'Right'
+            ...     linewidth=0.5,
+            ...     background='#389DCD',
+            ...     color='#1B5975',
+            ...     ax=axs[0],
+            ... )
+            >>> waveform(
+            ...     x[1, :],
+            ...     text='Right',
+            ...     linewidth=0.5,
+            ...     background='#CA5144',
+            ...     color='#742A23',
+            ...     ax=axs[1],
+            ... )
+
+    """
+    # Setting the figsize has to be done first
+    # before requesting axis or figure.
+    # If axis/figure exist already it will have no effect
+
+    # Set default figsize if no existing figure is used
+    default_figsize = plt.rcParams['figure.figsize']
+    plt.rcParams['figure.figsize'] = (8, 1)
+
+    ax = ax or plt.gca()
+
+    x = np.atleast_2d(x)
+    channels, samples = x.shape
+    if channels > 1:
+        raise RuntimeError('Only mono signals are supported.')
+    # Set colors
+    ax.grid(False)
+    ax.set_facecolor(background)
+    # Plot waveform
+    sns.lineplot(
+        data=x[0, :],
+        color=color,
+        linewidth=linewidth,
+        ax=ax,
+    )
+    ax.set(ylim=ylim)
+
+    # Remove all axis
+    sns.despine(left=True, bottom=True)
+    ax.tick_params(left=False, bottom=False)
+    ax.set(xticklabels=[], yticklabels=[])
+
+    # Add text before waveform
+    if text is not None and len(text) > 0:
+        space_around_text = 0.02 * samples
+        text = ax.text(
+            -space_around_text,
+            0,
+            text,
+            fontsize='large',
+            fontweight='semibold',
+            color=color,
+            horizontalalignment='right',
+            verticalalignment='center',
+        )
+        # Get left position of text and adjust xlim accordingly
+        fig = ax.get_figure()
+        bb = text.get_window_extent(renderer=fig.canvas.get_renderer())
+        transform = ax.transData.inverted()
+        bb = bb.transformed(transform)
+        xlim = (bb.x0 - 1.5 * space_around_text, samples)
+    else:
+        xlim = (0, samples)
+    ax.set(xlim=xlim)
+
+    # Restore default figure size
+    plt.rcParams['figure.figsize'] = default_figsize
