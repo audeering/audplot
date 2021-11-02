@@ -22,7 +22,7 @@ def cepstrum(
         hop_duration: float,
         *,
         channel: int = 0,
-        ax: plt.Axes = None,
+        ax: matplotlib.axes._axes.Axes = None,
         cmap: str = 'magma',
 ) -> matplotlib.image.AxesImage:
     r"""Cepstrum.
@@ -31,7 +31,7 @@ def cepstrum(
         cc_matrix: cepstral coefficients matrix with magnitude values
         hop_duration: hop duration in seconds
         channel: channel index
-        ax: axes in which to draw the plot
+        ax: axes in which to draw the plot, :class:`matplotlib.axes.Axes`
         cmap: color map
 
     Returns:
@@ -97,7 +97,7 @@ def confusion_matrix(
         label_aliases: typing.Dict = None,
         percentage: bool = False,
         show_both: bool = False,
-        ax: plt.Axes = None,
+        ax: matplotlib.axes.Axes = None,
 ):
     r"""Confusion matrix between ground truth and prediction.
 
@@ -231,7 +231,7 @@ def detection_error_tradeoff(
         xlim: typing.Sequence = [0.001, 0.5],
         ylim: typing.Sequence = [0.001, 0.5],
         label: str = None,
-        ax: plt.Axes = None,
+        ax: matplotlib.axes.Axes = None,
 ) -> typing.Callable:
     r"""Detection error tradeoff curve.
 
@@ -253,7 +253,7 @@ def detection_error_tradeoff(
     or axis limits afterwards.
     The scaling is performed by :func:`scipy.special.ndtri`
     if :mod:`scipy` is installed,
-    otherwise :func:`audmath.inverse_standard_distribution` is used,
+    otherwise :func:`audmath.inverse_normal_distribution` is used,
     which is slower for large input arrays.
 
 
@@ -352,7 +352,7 @@ def distribution(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
         *,
-        ax: plt.Axes = None,
+        ax: matplotlib.axes.Axes = None,
 ):
     r"""Distribution of truth and predicted values.
 
@@ -479,7 +479,7 @@ def scatter(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
         *,
-        ax: plt.Axes = None,
+        ax: matplotlib.axes.Axes = None,
 ):
     r"""Scatter plot of truth and predicted values.
 
@@ -525,7 +525,7 @@ def series(
         truth: typing.Union[typing.Sequence, pd.Series],
         prediction: typing.Union[typing.Sequence, pd.Series],
         *,
-        ax: plt.Axes = None,
+        ax: matplotlib.axes.Axes = None,
 ):
     r"""Time series plot of truth and predicted values.
 
@@ -608,8 +608,8 @@ def spectrum(
         centers: np.ndarray,
         *,
         channel: int = 0,
-        ax: plt.Axes = None,
         cmap: str = 'magma',
+        ax: matplotlib.axes.Axes = None,
 ) -> matplotlib.image.AxesImage:
     r"""Plot spectrum.
 
@@ -691,7 +691,7 @@ def waveform(
         background: typing.Union[str, typing.Sequence[float]] = '#FFFFFF00',
         linewidth: float = 1.5,
         ylim: typing.Sequence[float] = (-1, 1),
-        ax: plt.Axes = None,
+        ax: matplotlib.axes.Axes = None,
 ):
     r"""Plot waveform of a mono signal.
 
