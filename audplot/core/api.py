@@ -652,7 +652,7 @@ def waveform(
         *,
         text: str = None,
         color: typing.Union[str, typing.Sequence[float]] = '#E13B41',
-        background: typing.Union[str, typing.Sequence[float]] = (0, 0, 0, 0),
+        background: typing.Union[str, typing.Sequence[float]] = '#FFFFFF00',
         linewidth: float = 1.5,
         ylim: typing.Sequence[float] = (-1, 1),
         ax: plt.Axes = None,
