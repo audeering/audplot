@@ -386,6 +386,8 @@ def distribution(
     sns.histplot(data, kde=True, edgecolor='white', ax=ax)
     ax.grid(alpha=0.4)
     sns.despine(ax=ax)
+    # Force y ticks at integer locations
+    ax.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(integer=True))
 
 
 def human_format(
