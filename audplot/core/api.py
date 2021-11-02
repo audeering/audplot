@@ -199,7 +199,10 @@ def confusion_matrix(
 
     # Get label names to present on x- and y-axis
     if label_aliases is not None:
-        labels = [label_aliases[label] for label in labels]
+        labels = [
+            label_aliases.get(label, label)
+            for label in labels
+        ]
 
     sns.heatmap(
         cm,
