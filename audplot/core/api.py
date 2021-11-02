@@ -672,8 +672,6 @@ def waveform(
         background: color of background
         linewidth: line width of signal
         ylim: limits of y-axis
-        fig: Pre-existing figure for the plot.
-            Otherwise, calls :func:`matplotlib.pyplot.gcf()` internally
         ax: axes to plot on
 
     Raises:
@@ -706,7 +704,7 @@ def waveform(
             >>> import librosa
             >>> import matplotlib.pyplot as plt
             >>> x, _ = librosa.load(librosa.ex('trumpet', hq=True), mono=False)
-            >>> fig, axs = plt.subplots(2, figsize=(8, 3))
+            >>> _, axs = plt.subplots(2, figsize=(8, 3))
             >>> plt.subplots_adjust(hspace=0)
             >>> waveform(
             ...     x[0, :],
@@ -714,7 +712,6 @@ def waveform(
             ...     linewidth=0.5,
             ...     background='#389DCD',
             ...     color='#1B5975',
-            ...     fig=fig,
             ...     ax=axs[0],
             ... )
             >>> waveform(
@@ -723,7 +720,6 @@ def waveform(
             ...     linewidth=0.5,
             ...     background='#CA5144',
             ...     color='#742A23',
-            ...     fig=fig,
             ...     ax=axs[1],
             ... )
 
@@ -736,7 +732,6 @@ def waveform(
     default_figsize = plt.rcParams['figure.figsize']
     plt.rcParams['figure.figsize'] = (8, 1)
 
-    fig = fig or plt.gcf()
     ax = ax or plt.gca()
 
     x = np.atleast_2d(x)
@@ -774,6 +769,7 @@ def waveform(
             verticalalignment='center',
         )
         # Get left position of text and adjust xlim accordingly
+        fig = ax.get_figure()
         bb = text.get_window_extent(renderer=fig.canvas.get_renderer())
         transform = ax.transData.inverted()
         bb = bb.transformed(transform)
