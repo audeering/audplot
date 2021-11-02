@@ -32,7 +32,7 @@ def cepstrum(
         hop_duration: hop duration in seconds
         channel: channel index
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
         cmap: color map
 
     Returns:
@@ -119,7 +119,7 @@ def confusion_matrix(
             it shows the percentage in brackets
             below absolute numbers
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
     Example:
         .. plot::
@@ -275,7 +275,7 @@ def detection_error_tradeoff(
         label: label to be shown in the legend.
             The legend will not be shown automatically
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
     Returns:
         function to transform input values to standard normal derivate scale
@@ -363,7 +363,7 @@ def distribution(
         truth: truth values
         prediction: predicted values
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
     Example:
         .. plot::
@@ -491,7 +491,7 @@ def scatter(
         truth: truth values
         prediction: predicted values
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
     Example:
         .. plot::
@@ -538,7 +538,7 @@ def series(
         truth: truth values
         prediction: predicted values
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
     Example:
         .. plot::
@@ -580,7 +580,7 @@ def signal(
         sampling_rate: sampling rate in Hz
         channel: channel index
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
     Example:
         .. plot::
@@ -627,7 +627,7 @@ def spectrum(
         channel: channel index
         cmap: color map
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
     Returns:
         Image object
@@ -715,7 +715,7 @@ def waveform(
         linewidth: line width of signal
         ylim: limits of y-axis
         ax: pre-existing axes for the plot.
-            Otherwise, call :func:`matplotlib.pyplot.gca()` internally
+            Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
     Raises:
         RuntimeError: if signal has more than one channel
