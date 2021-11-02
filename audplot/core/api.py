@@ -378,8 +378,8 @@ def distribution(
 
     """
     ax = ax or plt.gca()
-    sns.distplot(truth, axlabel='', ax=ax)
-    sns.distplot(prediction, axlabel='', ax=ax)
+    sns.histplot(truth, kde=True, ax=ax)
+    sns.histplot(prediction, kde=True, ax=ax)
     ax.legend(['Truth', 'Prediction'])
     ax.grid(alpha=0.4)
     sns.despine(ax=ax)
