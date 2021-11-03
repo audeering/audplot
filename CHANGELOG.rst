@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.3.1 (2021-11-03)
+--------------------------
+
+* Fixed: building public documentation in CI pipeline
+
+
 Version 1.3.0 (2021-11-03)
 --------------------------
 
