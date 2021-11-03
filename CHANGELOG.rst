@@ -7,6 +7,16 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.3.0 (2021-11-03)
+--------------------------
+
+* Added: ``audplot.waveform()``
+* Added: ``label_aliases`` argument to ``audplot.confusion_matrix()``
+* Changed: show grid lines and remove top ad right axes as default
+* Changed: Use ``seaborn.histplot()`` in ``audplot.distribution()``
+* Fixed: xticks position for time axes
+
+
 Version 1.2.0 (2021-07-30)
 --------------------------
 
