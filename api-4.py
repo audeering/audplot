@@ -1,3 +1,3 @@
-truth = ['A', 'B', 'B', 'B', 'C', 'C', 'C'] * 1000
-prediction = ['A', 'B', 'C', 'C', 'A', 'A', 'C'] * 1000
+truth = [0, 1, 1, 1, 2, 2, 2] * 1000
+prediction = [0, 1, 2, 2, 0, 0, 2] * 1000
 confusion_matrix(truth, prediction)

@@ -1,2 +1,3 @@
-from audplot import spectrum
-import numpy as np
+import librosa
+x, sr = librosa.load(librosa.ex('trumpet'))
+signal(x, sr)

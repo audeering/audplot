@@ -47,3 +47,8 @@ spectrum
 --------
 
 .. autofunction:: spectrum
+
+waveform
+--------
+
+.. autofunction:: waveform

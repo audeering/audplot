@@ -1,1 +1,1 @@
-confusion_matrix(truth, prediction, labels=['A', 'B', 'C', 'D'])
+confusion_matrix(truth, prediction, labels=[0, 1, 2, 3])

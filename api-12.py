@@ -1,3 +1,2 @@
-truth = pd.Series([0, 1, 1, 2])
-prediction = pd.Series([0, 1, 2, 2])
-distribution(truth, prediction)
+import numpy as np
+from audplot import distribution

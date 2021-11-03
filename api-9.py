@@ -1,5 +1,1 @@
-import matplotlib.pyplot as plt
-import numpy as np
-from audplot import detection_error_tradeoff
-
-np.random.seed(0)
+confusion_matrix(truth, prediction, label_aliases={0: 'A', 1: 'B', 2: 'C'})
