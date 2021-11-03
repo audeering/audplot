@@ -45,10 +45,13 @@ copybutton_prompt_is_regexp = True
 
 # Mapping to external documentation
 intersphinx_mapping = {
+    'audmath': ('https://audeering.github.io/audmath/', None),
     'audmetric': ('https://audeering.github.io/audmetric/', None),
     'matplotlib': ('https://matplotlib.org/stable/', None),
+    'numpy': ('https://docs.scipy.org/doc/numpy/', None),
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
     'python': ('https://docs.python.org/3/', None),
+    'scipy': ('https://docs.scipy.org/doc/scipy/', None),
 }
 
 # Disable Gitlab as we need to sign in
