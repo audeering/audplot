@@ -370,23 +370,28 @@ def distribution(
             :context: reset
             :include-source: false
 
-            import pandas as pd
+            import numpy as np
             from audplot import distribution
 
         .. plot::
             :context: close-figs
 
-            >>> truth = pd.Series([0, 1, 1, 2])
-            >>> prediction = pd.Series([0, 1, 2, 2])
+            >>> np.random.seed(0)
+            >>> truth = np.random.normal(loc=0.0, scale=1.0, size=1000)
+            >>> prediction = np.random.normal(loc=0.05, scale=0.5, size=1000)
             >>> distribution(truth, prediction)
 
     """
     ax = ax or plt.gca()
-    sns.distplot(truth, axlabel='', ax=ax)
-    sns.distplot(prediction, axlabel='', ax=ax)
-    ax.legend(['Truth', 'Prediction'])
+    data = pd.DataFrame(
+        data=np.array([truth, prediction]).T,
+        columns=['Truth', 'Prediction'],
+    )
+    sns.histplot(data, kde=True, edgecolor='white', ax=ax)
     ax.grid(alpha=0.4)
     sns.despine(ax=ax)
+    # Force y ticks at integer locations
+    ax.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(integer=True))
 
 
 def human_format(
