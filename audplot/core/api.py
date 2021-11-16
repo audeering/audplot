@@ -387,7 +387,15 @@ def distribution(
         data=np.array([truth, prediction]).T,
         columns=['Truth', 'Prediction'],
     )
-    sns.histplot(data, kde=True, edgecolor='white', ax=ax)
+    sns.histplot(
+        data,
+        common_bins=False,
+        stat='frequency',
+        kde=True,
+        edgecolor=None,
+        kde_kws={'cut': 3},  # hard code like in distplot()
+        ax=ax,
+    )
     ax.grid(alpha=0.4)
     sns.despine(ax=ax)
     # Force y ticks at integer locations
