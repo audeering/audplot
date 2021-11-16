@@ -390,7 +390,7 @@ def distribution(
     sns.histplot(
         data,
         common_bins=False,
-        stat='density',
+        stat='frequency',
         kde=True,
         edgecolor=None,
         kde_kws={'cut': 3},  # hard code like in distplot()
