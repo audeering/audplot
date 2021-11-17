@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                v1.3.1
+                v1.3.2
               </div>
             
           
@@ -534,7 +534,15 @@
         <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Truth&#39;</span><span class="p">,</span> <span class="s1">&#39;Prediction&#39;</span><span class="p">],</span>
     <span class="p">)</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">common_bins</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span>
+        <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">kde_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cut&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>  <span class="c1"># hard code like in distplot()</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
     <span class="c1"># Force y ticks at integer locations</span>
@@ -990,7 +998,7 @@
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/11/03 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2021/11/17 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>
