@@ -522,20 +522,15 @@ def scatter(
 
     """
     ax = ax or plt.gca()
-    minimum = min([min(truth), min(prediction)])
-    maximum = max([max(truth), max(prediction)])
-    ax.scatter(truth, prediction)
-    ax.plot(
-        [minimum, maximum],
-        [minimum, maximum],
-        color='r',
+    sns.regplot(
+        x=truth,
+        y=prediction,
+        ax=ax,
+        line_kws={'color': 'r'}
     )
-    ax.set_xlim(minimum, maximum)
-    ax.set_ylim(minimum, maximum)
     ax.set_xlabel('Truth')
     ax.set_ylabel('Prediction')
     ax.grid(alpha=0.4)
-    ax.set_axisbelow(True)
     sns.despine(ax=ax)
 
 
