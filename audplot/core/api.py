@@ -497,7 +497,7 @@ def scatter(
         prediction: typing.Union[typing.Sequence, pd.Series],
         *,
         fit: bool = False,
-        order:int = 1,
+        order: int = 1,
         ax: matplotlib.axes.Axes = None,
 ):
     r"""Scatter plot of truth and predicted values.
