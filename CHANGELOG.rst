@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.4.0 (2021-12-10)
+--------------------------
+
+* Added: ``fit`` and ``order`` arguments to ``audplot.scatter()``
+* Changed: ``audplot.scatter()`` shows just a scatter plot with default
+  arguments
+
+
 Version 1.3.2 (2021-11-17)
 --------------------------
 
