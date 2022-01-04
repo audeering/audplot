@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.4.1 (2022-01-04)
+--------------------------
+
+* Added: Python 3.9 support
+* Fixed: contributing text
+* Removed: Python 3.6 support
+
+
 Version 1.4.0 (2021-12-10)
 --------------------------
 
