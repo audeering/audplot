@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        python-version: [ 3.6, 3.7, 3.8 ]
+        python-version: [ 3.7, 3.8, 3.9 ]
 
     steps:
     - uses: actions/checkout@v2
@@ -44,5 +44,5 @@ jobs:
     - name: Test building documentation
       run: |
         python -m sphinx docs/ docs/_build/ -b html -W
-        # python -m sphinx docs/ docs/_build/ -b linkcheck -W
+        python -m sphinx docs/ docs/_build/ -b linkcheck -W
       if: matrix.os == 'ubuntu-latest'
