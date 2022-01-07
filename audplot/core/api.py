@@ -535,6 +535,7 @@ def scatter(
         line_kws={'color': 'r'},
         order=order,
         ax=ax,
+        seed=0,
     )
     ax.set_xlabel('Truth')
     ax.set_ylabel('Prediction')
