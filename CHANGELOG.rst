@@ -7,6 +7,13 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.4.2 (2022-01-07)
+--------------------------
+
+* Fixed: make ``audplot.scatter(..., fit=True)`` plots reproducible
+  by using a fixed seed for bootstrapping
+
+
 Version 1.4.1 (2022-01-04)
 --------------------------
 
