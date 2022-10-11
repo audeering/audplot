@@ -9,7 +9,6 @@ signal processing (e.g. spectral images)
 and machine learning problems (e.g. confusion matrix).
 
 
-
 .. badges images and links:
 .. |tests| image:: https://github.com/audeering/audplot/workflows/Test/badge.svg
     :target: https://github.com/audeering/audplot/actions?query=workflow%3ATest
