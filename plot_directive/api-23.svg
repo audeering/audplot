@@ -6,11 +6,11 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2022-01-07T08:21:34.566244</dc:date>
+    <dc:date>2022-10-14T12:41:37.237638</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
-      <dc:title>Matplotlib v3.5.1, https://matplotlib.org/</dc:title>
+      <dc:title>Matplotlib v3.6.0, https://matplotlib.org/</dc:title>
      </cc:Agent>
     </dc:creator>
    </cc:Work>
@@ -38,6 +38,7 @@ L 72 64.08
 z
 " style="fill: none"/>
    </g>
+   <g id="PolyCollection_1"/>
    <g id="matplotlib.axis_1">
     <g id="xtick_1"/>
     <g id="xtick_2"/>
@@ -7318,11 +7319,11 @@ L 514.273925 36.359947
 L 517.406804 36.360248 
 L 518.396806 36.359646 
 L 518.396806 36.359646 
-" clip-path="url(#pe2c0e32f84)" style="fill: none; stroke: #e13b41; stroke-width: 1.5; stroke-linecap: square"/>
+" clip-path="url(#pff279a883b)" style="fill: none; stroke: #e13b41; stroke-width: 1.5; stroke-linecap: square"/>
    </g>
    <g id="text_1">
     <!-- Trumpet -->
-    <g style="fill: #e13b41" transform="translate(79.028226 39.67125)scale(0.12 -0.12)">
+    <g style="fill: #e13b41" transform="translate(79.028226 39.67125) scale(0.12 -0.12)">
      <defs>
       <path id="DejaVuSans-Bold-54" d="M 31 4666 
 L 4331 4666 
@@ -7492,7 +7493,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pe2c0e32f84">
+  <clipPath id="pff279a883b">
    <rect x="72" y="8.64" width="446.4" height="55.44"/>
   </clipPath>
  </defs>
