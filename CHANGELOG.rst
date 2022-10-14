@@ -7,6 +7,13 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.4.3 (2022-10-14)
+--------------------------
+
+* Fixed: require ``matplotlib!=3.6.1``
+  to avoid failing of ``audplot.distribution()``
+
+
 Version 1.4.2 (2022-01-07)
 --------------------------
 
