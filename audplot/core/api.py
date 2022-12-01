@@ -798,6 +798,20 @@ def waveform(
     channels, samples = x.shape
     if channels > 1:
         raise RuntimeError('Only mono signals are supported.')
+
+    # Split array in smaller parts
+    # for downsampling
+    x_split = np.array_split(x[0], 1000)
+    x_max = [x.max() for x in x_split]
+    x_min = [x.min() for x in x_split]
+
+    # ...
+    # Plot both x_max and x_min lines
+    # and fill area between them
+
+    # ...
+    # Add rms_max and rms_min in addition
+
     # Set colors
     ax.grid(False)
     ax.set_facecolor(background)
