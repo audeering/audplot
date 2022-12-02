@@ -51,7 +51,7 @@ def cepstrum(
             >>> import librosa
             >>> import matplotlib.pyplot as plt
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
-            >>> y = librosa.feature.mfcc(x, sr)
+            >>> y = librosa.feature.mfcc(y=x, sr=sr)
             >>> hop_dur = 512 / sr  # default hop length is 512
             >>> image = cepstrum(y, hop_dur)
             >>> cb = plt.colorbar(image)
@@ -663,7 +663,7 @@ def spectrum(
             >>> import librosa
             >>> import matplotlib.pyplot as plt
             >>> x, sr = librosa.load(librosa.ex('trumpet'))
-            >>> y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)
+            >>> y = librosa.feature.melspectrogram(y=x, sr=sr, n_mels=40, fmax=4000)
             >>> y_db = librosa.power_to_db(y, ref=np.max)
             >>> hop_dur = 512 / sr  # default hop length is 512
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
@@ -672,7 +672,7 @@ def spectrum(
             >>> cb.outline.set_visible(False)
             >>> plt.tight_layout()
 
-    """
+    """  # noqa: E501
     ax = ax or plt.gca()
     magnitude = magnitude[channel] if magnitude.ndim == 3 else magnitude
 
