@@ -792,18 +792,27 @@ def waveform(
     default_figsize = plt.rcParams['figure.figsize']
     plt.rcParams['figure.figsize'] = (8, 1)
 
+    fig = plt.gcf()
     ax = ax or plt.gca()
 
     x = np.atleast_2d(x)
-    channels, samples = x.shape
+    channels = x.shape[0]
     if channels > 1:
         raise RuntimeError('Only mono signals are supported.')
 
+    # Downsample signal to match pixels of figure
+    pixels = int(fig.get_figwidth() * fig.get_dpi())
     # Split array in smaller parts
     # for downsampling
-    x_split = np.array_split(x[0], 1000)
+    x_split = np.array_split(x[0], int(pixels))
     x_max = [x.max() for x in x_split]
     x_min = [x.min() for x in x_split]
+
+    def rms(x):
+        return np.sqrt(np.mean(np.square(x)))
+
+    x_rms_max = [rms(x) for x in x_split]
+    x_rms_min = [-x for x in x_rms_max]
 
     # ...
     # Plot both x_max and x_min lines
@@ -816,11 +825,36 @@ def waveform(
     ax.grid(False)
     ax.set_facecolor(background)
     # Plot waveform
-    sns.lineplot(
-        data=x[0, :],
+    # sns.lineplot(
+    #     data=x,
+    #     color=color,
+    #     linewidth=linewidth,
+    #     ax=ax,
+    # )
+    ax.fill_between(
+        x=range(pixels),
+        y1=x_min,
+        y2=x_max,
         color=color,
         linewidth=linewidth,
-        ax=ax,
+    )
+
+    def adjust_lightness(color, amount=0.5):
+        import matplotlib.colors as mc
+        import colorsys
+        try:
+            c = mc.cnames[color]
+        except:
+            c = color
+        c = colorsys.rgb_to_hls(*mc.to_rgb(c))
+        return colorsys.hls_to_rgb(c[0], max(0, min(1, amount * c[1])), c[2])
+
+    ax.fill_between(
+        x=range(pixels),
+        y1=x_rms_min,
+        y2=x_rms_max,
+        color=adjust_lightness(color, amount=1.2),
+        linewidth=linewidth,
     )
     ax.set(ylim=ylim)
 
@@ -831,7 +865,7 @@ def waveform(
 
     # Add text before waveform
     if text is not None and len(text) > 0:
-        space_around_text = 0.02 * samples
+        space_around_text = 0.02 * pixels
         text = ax.text(
             -space_around_text,
             0,
@@ -847,9 +881,9 @@ def waveform(
         bb = text.get_window_extent(renderer=fig.canvas.get_renderer())
         transform = ax.transData.inverted()
         bb = bb.transformed(transform)
-        xlim = (bb.x0 - 1.5 * space_around_text, samples)
+        xlim = (bb.x0 - 1.5 * space_around_text, pixels)
     else:
-        xlim = (0, samples)
+        xlim = (0, pixels)
     ax.set(xlim=xlim)
 
     # Restore default figure size
