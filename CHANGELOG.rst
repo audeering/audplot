@@ -11,7 +11,7 @@ Version 1.4.4 (2022-12-02)
 --------------------------
 
 * Added: support for Python 3.10
-* Changed: increase speed of ``audmath.waveform()``
+* Changed: increase speed of ``audplot.waveform()``
   by factor >100 for long signals
 
 
