@@ -1,7 +1,11 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
 import audplot
+
+
+np.random.seed(1)
 
 
 @pytest.mark.parametrize(
@@ -45,3 +49,7 @@ def test_waveform():
     with pytest.raises(RuntimeError):
         x = np.ones((2, 100))
         audplot.waveform(x)
+    signal = np.random.randn(2000)
+    for n in [400, 800, 1200]:
+        audplot.waveform(signal[:n])
+        plt.close()

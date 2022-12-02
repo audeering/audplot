@@ -792,22 +792,49 @@ def waveform(
     default_figsize = plt.rcParams['figure.figsize']
     plt.rcParams['figure.figsize'] = (8, 1)
 
+    fig = plt.gcf()
     ax = ax or plt.gca()
 
     x = np.atleast_2d(x)
     channels, samples = x.shape
     if channels > 1:
         raise RuntimeError('Only mono signals are supported.')
+    x = x[0]
+
     # Set colors
     ax.grid(False)
     ax.set_facecolor(background)
-    # Plot waveform
-    sns.lineplot(
-        data=x[0, :],
-        color=color,
-        linewidth=linewidth,
-        ax=ax,
-    )
+
+    # Downsample long signals
+    # to match pixels of figure
+    # by using min and max of sub-arrays
+    pixels = int(fig.get_figwidth() * fig.get_dpi())
+    if pixels < samples:
+        factor = int(samples / pixels)
+        splits = int(samples / factor)
+        rest = samples % splits
+        if rest > 0:
+            x_split = np.split(x[:-rest], splits)
+            x_split.append(x[-rest:])
+        else:
+            x_split = np.split(x, splits)
+        samples = len(x_split)
+        x_max = [x.max() for x in x_split]
+        x_min = [x.min() for x in x_split]
+        ax.fill_between(
+            x=range(samples),
+            y1=x_min,
+            y2=x_max,
+            color=color,
+            linewidth=linewidth,
+        )
+    else:
+        sns.lineplot(
+            data=x,
+            color=color,
+            linewidth=linewidth,
+            ax=ax,
+        )
     ax.set(ylim=ylim)
 
     # Remove all axis
