@@ -25,16 +25,12 @@
     
 
   
-
-  
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/audeering.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/audeering.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -70,7 +66,7 @@
             
             
               <div class="version">
-                v1.4.3
+                v1.4.4
               </div>
             
           
@@ -198,7 +194,7 @@
 <span class="sd">            &gt;&gt;&gt; import librosa</span>
 <span class="sd">            &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">            &gt;&gt;&gt; x, sr = librosa.load(librosa.ex(&#39;trumpet&#39;))</span>
-<span class="sd">            &gt;&gt;&gt; y = librosa.feature.mfcc(x, sr)</span>
+<span class="sd">            &gt;&gt;&gt; y = librosa.feature.mfcc(y=x, sr=sr)</span>
 <span class="sd">            &gt;&gt;&gt; hop_dur = 512 / sr  # default hop length is 512</span>
 <span class="sd">            &gt;&gt;&gt; image = cepstrum(y, hop_dur)</span>
 <span class="sd">            &gt;&gt;&gt; cb = plt.colorbar(image)</span>
@@ -810,7 +806,7 @@
 <span class="sd">            &gt;&gt;&gt; import librosa</span>
 <span class="sd">            &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">            &gt;&gt;&gt; x, sr = librosa.load(librosa.ex(&#39;trumpet&#39;))</span>
-<span class="sd">            &gt;&gt;&gt; y = librosa.feature.melspectrogram(x, sr, n_mels=40, fmax=4000)</span>
+<span class="sd">            &gt;&gt;&gt; y = librosa.feature.melspectrogram(y=x, sr=sr, n_mels=40, fmax=4000)</span>
 <span class="sd">            &gt;&gt;&gt; y_db = librosa.power_to_db(y, ref=np.max)</span>
 <span class="sd">            &gt;&gt;&gt; hop_dur = 512 / sr  # default hop length is 512</span>
 <span class="sd">            &gt;&gt;&gt; centers = librosa.mel_frequencies(n_mels=40, fmax=4000)</span>
@@ -819,7 +815,7 @@
 <span class="sd">            &gt;&gt;&gt; cb.outline.set_visible(False)</span>
 <span class="sd">            &gt;&gt;&gt; plt.tight_layout()</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
     <span class="n">magnitude</span> <span class="o">=</span> <span class="n">magnitude</span><span class="p">[</span><span class="n">channel</span><span class="p">]</span> <span class="k">if</span> <span class="n">magnitude</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="n">magnitude</span>
 
@@ -939,22 +935,49 @@
     <span class="n">default_figsize</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">channels</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
     <span class="k">if</span> <span class="n">channels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Only mono signals are supported.&#39;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="c1"># Set colors</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">background</span><span class="p">)</span>
-    <span class="c1"># Plot waveform</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span>
-        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-        <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
-        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-    <span class="p">)</span>
+
+    <span class="c1"># Downsample long signals</span>
+    <span class="c1"># to match pixels of figure</span>
+    <span class="c1"># by using min and max of sub-arrays</span>
+    <span class="n">pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">get_figwidth</span><span class="p">()</span> <span class="o">*</span> <span class="n">fig</span><span class="o">.</span><span class="n">get_dpi</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">pixels</span> <span class="o">&lt;</span> <span class="n">samples</span><span class="p">:</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">samples</span> <span class="o">/</span> <span class="n">pixels</span><span class="p">)</span>
+        <span class="n">splits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">samples</span> <span class="o">/</span> <span class="n">factor</span><span class="p">)</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">%</span> <span class="n">splits</span>
+        <span class="k">if</span> <span class="n">rest</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x_split</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="n">rest</span><span class="p">],</span> <span class="n">splits</span><span class="p">)</span>
+            <span class="n">x_split</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="n">rest</span><span class="p">:])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_split</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">splits</span><span class="p">)</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_split</span><span class="p">)</span>
+        <span class="n">x_max</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_split</span><span class="p">]</span>
+        <span class="n">x_min</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_split</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">),</span>
+            <span class="n">y1</span><span class="o">=</span><span class="n">x_min</span><span class="p">,</span>
+            <span class="n">y2</span><span class="o">=</span><span class="n">x_max</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
 
     <span class="c1"># Remove all axis</span>
@@ -1002,7 +1025,7 @@
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2022/10/14 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2022/12/02 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>
