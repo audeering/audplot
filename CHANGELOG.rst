@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.4.4 (2022-12-02)
+--------------------------
+
+* Added: support for Python 3.10
+* Changed: increase speed of ``audplot.waveform()``
+  by factor >100 for long signals
+
+
 Version 1.4.3 (2022-10-14)
 --------------------------
 
