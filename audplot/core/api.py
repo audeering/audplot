@@ -803,7 +803,7 @@ def waveform(
     # Downsample signal to match pixels of figure
     # by using min and max of sub-arrays
     pixels = int(fig.get_figwidth() * fig.get_dpi())
-    x_split = np.array_split(x[0], int(pixels))
+    x_split = np.array_split(x[0], pixels)
     x_max = [x.max() for x in x_split]
     x_min = [x.min() for x in x_split]
 
