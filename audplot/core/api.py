@@ -801,9 +801,8 @@ def waveform(
         raise RuntimeError('Only mono signals are supported.')
 
     # Downsample signal to match pixels of figure
+    # by using min and max of sub-arrays
     pixels = int(fig.get_figwidth() * fig.get_dpi())
-    # Split array in smaller parts
-    # for downsampling
     x_split = np.array_split(x[0], int(pixels))
     x_max = [x.max() for x in x_split]
     x_min = [x.min() for x in x_split]
