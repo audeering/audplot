@@ -796,28 +796,45 @@ def waveform(
     ax = ax or plt.gca()
 
     x = np.atleast_2d(x)
-    channels = x.shape[0]
+    channels, samples = x.shape
     if channels > 1:
         raise RuntimeError('Only mono signals are supported.')
-
-    # Downsample signal to match pixels of figure
-    # by using min and max of sub-arrays
-    pixels = int(fig.get_figwidth() * fig.get_dpi())
-    x_split = np.array_split(x[0], pixels)
-    x_max = [x.max() for x in x_split]
-    x_min = [x.min() for x in x_split]
+    x = x[0]
 
     # Set colors
     ax.grid(False)
     ax.set_facecolor(background)
-    # Plot waveform
-    ax.fill_between(
-        x=range(pixels),
-        y1=x_min,
-        y2=x_max,
-        color=color,
-        linewidth=linewidth,
-    )
+
+    # Downsample long signals
+    # to match pixels of figure
+    # by using min and max of sub-arrays
+    pixels = int(fig.get_figwidth() * fig.get_dpi())
+    if pixels < samples:
+        factor = int(samples / pixels)
+        splits = int(samples / factor)
+        rest = samples % splits
+        if rest > 0:
+            x_split = np.split(x[:-rest], splits)
+            x_split.append(x[-rest:])
+        else:
+            x_split = np.split(x, splits)
+        samples = len(x_split)
+        x_max = [x.max() for x in x_split]
+        x_min = [x.min() for x in x_split]
+        ax.fill_between(
+            x=range(samples),
+            y1=x_min,
+            y2=x_max,
+            color=color,
+            linewidth=linewidth,
+        )
+    else:
+        sns.lineplot(
+            data=x,
+            color=color,
+            linewidth=linewidth,
+            ax=ax,
+        )
     ax.set(ylim=ylim)
 
     # Remove all axis
@@ -827,7 +844,7 @@ def waveform(
 
     # Add text before waveform
     if text is not None and len(text) > 0:
-        space_around_text = 0.02 * pixels
+        space_around_text = 0.02 * samples
         text = ax.text(
             -space_around_text,
             0,
@@ -843,9 +860,9 @@ def waveform(
         bb = text.get_window_extent(renderer=fig.canvas.get_renderer())
         transform = ax.transData.inverted()
         bb = bb.transformed(transform)
-        xlim = (bb.x0 - 1.5 * space_around_text, pixels)
+        xlim = (bb.x0 - 1.5 * space_around_text, samples)
     else:
-        xlim = (0, pixels)
+        xlim = (0, samples)
     ax.set(xlim=xlim)
 
     # Restore default figure size
