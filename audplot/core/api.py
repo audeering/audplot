@@ -722,6 +722,13 @@ def waveform(
 
     Shows only the outline of a time signal
     without showing any axis or values.
+    Long signals will be downsampled
+    for faster plotting.
+    As a consequence,
+    the x-axis no longer reflects
+    the length of the signal in samples.
+    The actual length can be inspected
+    with ``ax.get_xlim()``.
 
     Args:
         x: array with signal values
