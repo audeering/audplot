@@ -52,4 +52,8 @@ def test_waveform():
     signal = np.random.randn(2000)
     for n in [400, 800, 1200]:
         audplot.waveform(signal[:n])
+        ax = plt.gca()
+        xlim = ax.get_xlim()
+        assert xlim[0] == 0
+        assert xlim[1] == n
         plt.close()

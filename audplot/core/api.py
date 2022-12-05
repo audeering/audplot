@@ -722,13 +722,6 @@ def waveform(
 
     Shows only the outline of a time signal
     without showing any axis or values.
-    Long signals will be downsampled
-    for faster plotting.
-    As a consequence,
-    the x-axis might no longer reflect
-    the length of the signal in samples.
-    The actual length can be inspected
-    with ``ax.get_xlim()``.
 
     Args:
         x: array with signal values
@@ -825,11 +818,12 @@ def waveform(
             x_split.append(x[-rest:])
         else:
             x_split = np.split(x, splits)
-        samples = len(x_split)
         x_max = [x.max() for x in x_split]
         x_min = [x.min() for x in x_split]
+        x_axis = (np.arange(len(x_split))) * (samples / len(x_split))
+        samples = x_axis[-1] + 1
         ax.fill_between(
-            x=range(samples),
+            x=x_axis,
             y1=x_min,
             y2=x_max,
             color=color,
