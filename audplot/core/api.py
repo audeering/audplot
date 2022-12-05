@@ -725,7 +725,7 @@ def waveform(
     Long signals will be downsampled
     for faster plotting.
     As a consequence,
-    the x-axis no longer reflects
+    the x-axis might no longer reflect
     the length of the signal in samples.
     The actual length can be inspected
     with ``ax.get_xlim()``.
