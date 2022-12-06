@@ -821,7 +821,6 @@ def waveform(
         x_max = [x.max() for x in x_split]
         x_min = [x.min() for x in x_split]
         x_axis = (np.arange(len(x_split))) * (samples / len(x_split))
-        samples = x_axis[-1] + 1
         ax.fill_between(
             x=x_axis,
             y1=x_min,

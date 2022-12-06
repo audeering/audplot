@@ -50,7 +50,7 @@ def test_waveform():
         x = np.ones((2, 100))
         audplot.waveform(x)
     signal = np.random.randn(2000)
-    for n in [400, 800, 1200]:
+    for n in [400, 401, 800, 801, 1200, 1201]:
         audplot.waveform(signal[:n])
         ax = plt.gca()
         xlim = ax.get_xlim()
