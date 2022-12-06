@@ -7,6 +7,15 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.4.5 (2022-12-06)
+--------------------------
+
+* Fixed: x-axis scaling for ``audplot.waveform()``.
+  x-axis values now always correspond
+  to the actual number of samples
+  of the signal
+
+
 Version 1.4.4 (2022-12-02)
 --------------------------
 
