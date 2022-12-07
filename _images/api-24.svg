@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2022-12-02T15:13:18.644686</dc:date>
+    <dc:date>2022-12-07T07:17:04.066638</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -39,7 +39,7 @@ z
    </g>
    <g id="PolyCollection_1">
     <defs>
-     <path id="m8a50137b5c" d="M 72 -37.156131 
+     <path id="mfbf6da5f32" d="M 72 -37.156131 
 L 72 -33.775476 
 L 72.557303 -33.83155 
 L 73.114607 -27.133586 
@@ -1646,8 +1646,8 @@ L 72 -37.156131
 z
 " style="stroke: #f6f6f6; stroke-width: 1.5"/>
     </defs>
-    <g clip-path="url(#pda6ecaefc1)">
-     <use xlink:href="#m8a50137b5c" x="0" y="72" style="fill: #f6f6f6; stroke: #f6f6f6; stroke-width: 1.5"/>
+    <g clip-path="url(#pbd61711500)">
+     <use xlink:href="#mfbf6da5f32" x="0" y="72" style="fill: #f6f6f6; stroke: #f6f6f6; stroke-width: 1.5"/>
     </g>
    </g>
    <g id="matplotlib.axis_1">
@@ -1657,9 +1657,6 @@ z
     <g id="xtick_4"/>
     <g id="xtick_5"/>
     <g id="xtick_6"/>
-    <g id="xtick_7"/>
-    <g id="xtick_8"/>
-    <g id="xtick_9"/>
    </g>
    <g id="matplotlib.axis_2">
     <g id="ytick_1"/>
@@ -1669,7 +1666,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pda6ecaefc1">
+  <clipPath id="pbd61711500">
    <rect x="72" y="8.64" width="446.4" height="55.44"/>
   </clipPath>
  </defs>
