@@ -15,7 +15,7 @@
     :caption: API Documentation
     :hidden:
 
-    api
+    api/audplot
     genindex
 
 .. toctree::
