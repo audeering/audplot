@@ -38,7 +38,7 @@ def cepstrum(
     Returns:
         Image object
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
@@ -121,7 +121,7 @@ def confusion_matrix(
         ax: pre-existing axes for the plot.
             Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
@@ -280,7 +280,7 @@ def detection_error_tradeoff(
     Returns:
         function to transform input values to standard normal derivate scale
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
@@ -365,7 +365,7 @@ def distribution(
         ax: pre-existing axes for the plot.
             Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
@@ -442,7 +442,7 @@ def human_format(
         ValueError: if ``number`` :math:`\ge 1000^9`
             or ``number`` :math:`\le 1000^{-4}`
 
-    Example:
+    Examples:
         >>> human_format(12345)
         '12.3k'
         >>> human_format(1234567)
@@ -512,7 +512,7 @@ def scatter(
         ax: pre-existing axes for the plot.
             Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
@@ -557,7 +557,7 @@ def series(
         ax: pre-existing axes for the plot.
             Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
@@ -599,7 +599,7 @@ def signal(
         ax: pre-existing axes for the plot.
             Otherwise, calls :func:`matplotlib.pyplot.gca()` internally
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
@@ -649,7 +649,7 @@ def spectrum(
     Returns:
         Image object
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
@@ -737,7 +737,7 @@ def waveform(
     Raises:
         RuntimeError: if signal has more than one channel
 
-    Example:
+    Examples:
         .. plot::
             :context: reset
             :include-source: false
