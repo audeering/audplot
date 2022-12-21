@@ -1,0 +1,6 @@
+﻿human\_format\(\)
+=================
+
+.. currentmodule:: audplot
+
+.. autofunction:: audplot.human_format

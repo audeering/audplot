@@ -1,0 +1,6 @@
+﻿distribution\(\)
+================
+
+.. currentmodule:: audplot
+
+.. autofunction:: audplot.distribution

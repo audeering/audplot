@@ -1,0 +1,6 @@
+﻿waveform\(\)
+============
+
+.. currentmodule:: audplot
+
+.. autofunction:: audplot.waveform

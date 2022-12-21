@@ -1,0 +1,6 @@
+﻿confusion\_matrix\(\)
+=====================
+
+.. currentmodule:: audplot
+
+.. autofunction:: audplot.confusion_matrix

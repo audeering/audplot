@@ -1,0 +1,6 @@
+﻿scatter\(\)
+===========
+
+.. currentmodule:: audplot
+
+.. autofunction:: audplot.scatter

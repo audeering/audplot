@@ -1,0 +1,6 @@
+﻿signal\(\)
+==========
+
+.. currentmodule:: audplot
+
+.. autofunction:: audplot.signal

@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>human_format() &mdash; audplot Documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/audeering.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="scatter()" href="audplot.scatter.html" />
+    <link rel="prev" title="distribution()" href="audplot.distribution.html" />
+    
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          <a href="../index.html">
+          
+            <img src="../_static/images/audeering.png" class="logo" alt="audEERING"/>
+          
+          
+            <span> audplot</span>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v1.4.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="audplot.html">audplot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="audplot.cepstrum.html">cepstrum()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audplot.confusion_matrix.html">confusion_matrix()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audplot.detection_error_tradeoff.html">detection_error_tradeoff()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audplot.distribution.html">distribution()</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">human_format()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audplot.scatter.html">scatter()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audplot.series.html">series()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audplot.signal.html">signal()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audplot.spectrum.html">spectrum()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audplot.waveform.html">waveform()</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">audplot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="audplot.html">audplot</a> &raquo;</li>
+      <li>human_format()</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/audeering/audplot/" class="fa fa-github"> GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="human-format">
+<h1>human_format()<a class="headerlink" href="#human-format" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="audplot.human_format">
+<span class="sig-prename descclassname"><span class="pre">audplot.</span></span><span class="sig-name descname"><span class="pre">human_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/audplot/core/api.html#human_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#audplot.human_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display large or small numbers in a human readable way.</p>
+<p>It replaces large or small numbers
+by no more than 3 significant digits
+and no more than 1 fractional digit.
+Instead it adds a string indicating the base,
+e.g. 12345 becomes 12.3k.</p>
+<p>The naming is according to:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 26%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n</p></td>
+<td><p><span class="math">\(10^{-9}\)</span></p></td>
+<td><p>nano</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>u</p></td>
+<td><p><span class="math">\(10^{-6}\)</span></p></td>
+<td><p>micro</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>m</p></td>
+<td><p><span class="math">\(10^{-3}\)</span></p></td>
+<td><p>milli</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>k</p></td>
+<td><p><span class="math">\(10^{3}\)</span></p></td>
+<td><p>thousand</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>M</p></td>
+<td><p><span class="math">\(10^{6}\)</span></p></td>
+<td><p>Million</p></td>
+<td><p>Mega</p></td>
+</tr>
+<tr class="row-even"><td><p>B</p></td>
+<td><p><span class="math">\(10^{9}\)</span></p></td>
+<td><p>Billion</p></td>
+<td><p>Giga</p></td>
+</tr>
+<tr class="row-odd"><td><p>T</p></td>
+<td><p><span class="math">\(10^{12}\)</span></p></td>
+<td><p>Trillion</p></td>
+<td><p>Tera</p></td>
+</tr>
+<tr class="row-even"><td><p>P</p></td>
+<td><p><span class="math">\(10^{15}\)</span></p></td>
+<td><p>Quadrillion</p></td>
+<td><p>Peta</p></td>
+</tr>
+<tr class="row-odd"><td><p>E</p></td>
+<td><p><span class="math">\(10^{18}\)</span></p></td>
+<td><p>Quintillion</p></td>
+<td><p>Exa</p></td>
+</tr>
+<tr class="row-even"><td><p>Z</p></td>
+<td><p><span class="math">\(10^{21}\)</span></p></td>
+<td><p>Sextillion</p></td>
+<td><p>Zetta</p></td>
+</tr>
+<tr class="row-odd"><td><p>Y</p></td>
+<td><p><span class="math">\(10^{24}\)</span></p></td>
+<td><p>Septillion</p></td>
+<td><p>Yotta</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>number</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – input number</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>formatted number string</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">number</span></code> <span class="math">\(\ge 1000^9\)</span>
+    or <code class="docutils literal notranslate"><span class="pre">number</span></code> <span class="math">\(\le 1000^{-4}\)</span></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+<span class="go">&#39;12.3k&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
+<span class="go">&#39;1.2M&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mi">123456789000</span><span class="p">)</span>
+<span class="go">&#39;123B&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mf">0.000123</span><span class="p">)</span>
+<span class="go">&#39;123u&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">&#39;0&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">human_format</span><span class="p">(</span><span class="o">-</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">&#39;-1k&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="audplot.scatter.html" class="btn btn-neutral float-right" title="scatter()" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="audplot.distribution.html" class="btn btn-neutral float-left" title="distribution()" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div>
+    <p>
+        
+        
+        
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2022/12/21 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+        
+    </p>
+  </div>
+
+  <div role="contentinfo">
+    <p>
+        
+      &copy; 2020-2022 audEERING GmbH
+    </p>
+  </div> 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/katex.min.js"></script>
+        <script src="../_static/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

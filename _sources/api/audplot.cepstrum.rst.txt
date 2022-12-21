@@ -1,0 +1,6 @@
+﻿cepstrum\(\)
+============
+
+.. currentmodule:: audplot
+
+.. autofunction:: audplot.cepstrum

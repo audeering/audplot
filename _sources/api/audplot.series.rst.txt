@@ -1,0 +1,6 @@
+﻿series\(\)
+==========
+
+.. currentmodule:: audplot
+
+.. autofunction:: audplot.series
