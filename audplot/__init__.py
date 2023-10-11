@@ -1,15 +1,13 @@
-from audplot.core.api import (
-    cepstrum,
-    confusion_matrix,
-    detection_error_tradeoff,
-    distribution,
-    human_format,
-    scatter,
-    series,
-    signal,
-    spectrum,
-    waveform,
-)
+from audplot.core.api import cepstrum
+from audplot.core.api import confusion_matrix
+from audplot.core.api import detection_error_tradeoff
+from audplot.core.api import distribution
+from audplot.core.api import human_format
+from audplot.core.api import scatter
+from audplot.core.api import series
+from audplot.core.api import signal
+from audplot.core.api import spectrum
+from audplot.core.api import waveform
 
 
 # Disencourage from audfoo import *

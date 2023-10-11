@@ -5,3 +5,4 @@ sphinx-audeering-theme >=1.1.3
 sphinx-autodoc-typehints
 sphinx-copybutton
 sphinxcontrib-katex
+toml
