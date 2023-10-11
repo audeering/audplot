@@ -1,20 +1,21 @@
-import configparser
 from datetime import date
 import os
 import shutil
 
+import toml
+
 import audeer
 
 
-config = configparser.ConfigParser()
-config.read(os.path.join('..', 'setup.cfg'))
+config = toml.load(audeer.path('..', 'pyproject.toml'))
+
 
 # Project -----------------------------------------------------------------
-author = config['metadata']['author']
+author = ', '.join(author['name'] for author in config['project']['authors'])
 copyright = f'2020-{date.today().year} audEERING GmbH'
-project = config['metadata']['name']
+project = config['project']['name']
 version = audeer.git_repo_version()
-title = f'{project} Documentation'
+title = 'Documentation'
 
 
 # General -----------------------------------------------------------------
