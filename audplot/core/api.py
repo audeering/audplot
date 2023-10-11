@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+
 # The scipy implementation is faster,
 # but scipy is not an official dependency of audplot
 try:
@@ -59,7 +60,6 @@ def cepstrum(
             >>> plt.tight_layout()
 
     """
-
     ax = ax or plt.gca()
     cc_matrix = cc_matrix[channel] if cc_matrix.ndim == 3 else cc_matrix
 
