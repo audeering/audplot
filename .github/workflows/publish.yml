@@ -8,6 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+
     steps:
     - uses: actions/checkout@v3
       with:
@@ -29,13 +36,11 @@ jobs:
         pip install build twine virtualenv
 
     # PyPI package
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python -m build
-        python -m twine upload dist/*
+    - name: Build Python package
+      run: python -m build
+
+    - name: Publish Python package to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
 
     # Documentation
     - name: Install doc dependencies
