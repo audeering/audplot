@@ -20,12 +20,12 @@ you can change the labels after plotting.
 
     sns.set()  # get prettier plots
 
-    truth = ['A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'C']
-    prediction = ['A', 'A', 'B', 'B', 'C', 'C', 'A', 'A', 'C']
-    label_aliases = {'A': 'c1', 'B': 'c2', 'C': 'c3'}
+    truth = ["A", "A", "A", "B", "B", "B", "C", "C", "C"]
+    prediction = ["A", "A", "B", "B", "C", "C", "A", "A", "C"]
+    label_aliases = {"A": "c1", "B": "c2", "C": "c3"}
 
     plt.figure(figsize=[2.8, 2.5])
-    plt.title('Confusion Matrix')
+    plt.title("Confusion Matrix")
     audplot.confusion_matrix(truth, prediction, label_aliases=label_aliases)
 
     plt.tight_layout()
@@ -50,7 +50,7 @@ you can specify the axes to draw on.
         audplot.series,
     ]
     fig, axs = plt.subplots(1, len(plot_funcs), figsize=[12, 3])
-    plt.suptitle('Multiple plots in one figure')
+    plt.suptitle("Multiple plots in one figure")
     for plot_func, ax in zip(plot_funcs, axs):
         plot_func(truth, prediction, ax=ax)
 
