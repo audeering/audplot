@@ -19,12 +19,12 @@ import audmetric
 
 
 def cepstrum(
-        cc_matrix: np.ndarray,
-        hop_duration: float,
-        *,
-        channel: int = 0,
-        ax: matplotlib.axes._axes.Axes = None,
-        cmap: str = 'magma',
+    cc_matrix: np.ndarray,
+    hop_duration: float,
+    *,
+    channel: int = 0,
+    ax: matplotlib.axes._axes.Axes = None,
+    cmap: str = "magma",
 ) -> matplotlib.image.AxesImage:
     r"""Cepstrum.
 
@@ -51,7 +51,7 @@ def cepstrum(
 
             >>> import librosa
             >>> import matplotlib.pyplot as plt
-            >>> x, sr = librosa.load(librosa.ex('trumpet'))
+            >>> x, sr = librosa.load(librosa.ex("trumpet"))
             >>> y = librosa.feature.mfcc(y=x, sr=sr)
             >>> hop_dur = 512 / sr  # default hop length is 512
             >>> image = cepstrum(y, hop_dur)
@@ -65,16 +65,16 @@ def cepstrum(
 
     n_cc, n_cepstra = cc_matrix.shape
     extent = [0, n_cepstra * hop_duration, -0.5, n_cc - 0.5]
-    ax.set_ylabel('Cepstral Coefficients')
-    ax.set_xlabel('Time / s')
+    ax.set_ylabel("Cepstral Coefficients")
+    ax.set_xlabel("Time / s")
 
     ax.margins(x=0)
     image = ax.imshow(
         cc_matrix,
-        aspect='auto',
-        origin='lower',
+        aspect="auto",
+        origin="lower",
         cmap=cmap,
-        interpolation='none',
+        interpolation="none",
         extent=extent,
     )
 
@@ -91,14 +91,14 @@ def cepstrum(
 
 
 def confusion_matrix(
-        truth: typing.Union[typing.Sequence, pd.Series],
-        prediction: typing.Union[typing.Sequence, pd.Series],
-        *,
-        labels: typing.Sequence = None,
-        label_aliases: typing.Dict = None,
-        percentage: bool = False,
-        show_both: bool = False,
-        ax: matplotlib.axes.Axes = None,
+    truth: typing.Union[typing.Sequence, pd.Series],
+    prediction: typing.Union[typing.Sequence, pd.Series],
+    *,
+    labels: typing.Sequence = None,
+    label_aliases: typing.Dict = None,
+    percentage: bool = False,
+    show_both: bool = False,
+    ax: matplotlib.axes.Axes = None,
 ):
     r"""Confusion matrix between ground truth and prediction.
 
@@ -158,9 +158,9 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, label_aliases={0: 'A', 1: 'B', 2: 'C'})
+            >>> confusion_matrix(truth, prediction, label_aliases={0: "A", 1: "B", 2: "C"})
 
-    """  # noqa: 501
+    """  # noqa: E501
     ax = ax or plt.gca()
     if labels is None:
         labels = audmetric.utils.infer_labels(truth, prediction)
@@ -175,7 +175,7 @@ def confusion_matrix(
 
     # Set format of first row labels in confusion matrix
     if percentage:
-        annot = cm.applymap(lambda x: f'{100 * x:.0f}%')
+        annot = cm.applymap(lambda x: f"{100 * x:.0f}%")
     else:
         annot = cm.applymap(lambda x: human_format(x))
 
@@ -191,24 +191,21 @@ def confusion_matrix(
         if percentage:
             annot2 = cm2.applymap(lambda x: human_format(x))
         else:
-            annot2 = cm2.applymap(lambda x: f'{100 * x:.0f}%')
+            annot2 = cm2.applymap(lambda x: f"{100 * x:.0f}%")
 
         # Combine strings from two dataframes
         # by vectorizing the underlying function.
         # See: https://stackoverflow.com/a/42277839
 
         def combine_string(x, y):
-            return f'{x}\n({y})'
+            return f"{x}\n({y})"
 
         combine_string = np.vectorize(combine_string)
         annot = pd.DataFrame(combine_string(annot, annot2), index=labels)
 
     # Get label names to present on x- and y-axis
     if label_aliases is not None:
-        labels = [
-            label_aliases.get(label, label)
-            for label in labels
-        ]
+        labels = [label_aliases.get(label, label) for label in labels]
 
     sns.heatmap(
         cm,
@@ -216,24 +213,24 @@ def confusion_matrix(
         xticklabels=labels,
         yticklabels=labels,
         cbar=False,
-        fmt='',
-        cmap='Blues',
+        fmt="",
+        cmap="Blues",
         ax=ax,
     )
-    ax.tick_params(axis='y', rotation=0)
-    ax.set_xlabel('Prediction')
-    ax.set_ylabel('Truth')
+    ax.tick_params(axis="y", rotation=0)
+    ax.set_xlabel("Prediction")
+    ax.set_ylabel("Truth")
 
 
 def detection_error_tradeoff(
-        x: typing.Union[typing.Sequence, pd.Series],
-        y: typing.Union[typing.Sequence, pd.Series],
-        *,
-        error_rates: bool = False,
-        xlim: typing.Sequence = [0.001, 0.5],
-        ylim: typing.Sequence = [0.001, 0.5],
-        label: str = None,
-        ax: matplotlib.axes.Axes = None,
+    x: typing.Union[typing.Sequence, pd.Series],
+    y: typing.Union[typing.Sequence, pd.Series],
+    *,
+    error_rates: bool = False,
+    xlim: typing.Sequence = [0.001, 0.5],
+    ylim: typing.Sequence = [0.001, 0.5],
+    label: str = None,
+    ax: matplotlib.axes.Axes = None,
 ) -> typing.Callable:
     r"""Detection error tradeoff curve.
 
@@ -298,7 +295,9 @@ def detection_error_tradeoff(
             >>> # Random prediction
             >>> pred1 = np.random.random_sample(2000)
             >>> # Better than random prediction
-            >>> pred2 = np.zeros(2000,)
+            >>> pred2 = np.zeros(
+            ...     2000,
+            ... )
             >>> pred2[:1000] = np.random.normal(loc=0.6, scale=0.1, size=1000)
             >>> pred2[1000:] = np.random.normal(loc=0.4, scale=0.1, size=1000)
             >>> pred2 = np.clip(pred2, 0, 1)
@@ -307,12 +306,12 @@ def detection_error_tradeoff(
             ...     pred1,
             ...     xlim=[0.01, 0.99],  # use large limits for random
             ...     ylim=[0.01, 0.99],
-            ...     label='pred1',
+            ...     label="pred1",
             ... )
             >>> # Add pred2 to plot using transformed FMR and FNMR values
             >>> import audmetric
             >>> fmr, fnmr, _ = audmetric.detection_error_tradeoff(truth, pred2)
-            >>> _ = plt.plot(transform(fmr), transform(fnmr), label='pred2')
+            >>> _ = plt.plot(transform(fmr), transform(fnmr), label="pred2")
             >>> _ = plt.legend()
             >>> plt.tight_layout()
 
@@ -330,17 +329,14 @@ def detection_error_tradeoff(
         y=transform(y),
         label=label,
     )
-    ax.set_title('Detection Error Tradeoff (DET) Curve')
-    ax.set_xlabel('False Match Rate')
-    ax.set_ylabel('False Non-Match Rate')
+    ax.set_title("Detection Error Tradeoff (DET) Curve")
+    ax.set_xlabel("False Match Rate")
+    ax.set_ylabel("False Non-Match Rate")
     ax.grid(alpha=0.4)
 
     ticks = [0.001, 0.01, 0.05, 0.2, 0.4, 0.6, 0.8, 0.95, 0.99]
     tick_locations = transform(ticks)
-    tick_labels = [
-        f'{t:.0%}' if (100 * t).is_integer() else f'{t:.1%}'
-        for t in ticks
-    ]
+    tick_labels = [f"{t:.0%}" if (100 * t).is_integer() else f"{t:.1%}" for t in ticks]
     g.set(xticks=tick_locations, xticklabels=tick_labels)
     g.set(yticks=tick_locations, yticklabels=tick_labels)
     ax.set_xlim(transform(xlim[0]), transform(xlim[1]))
@@ -352,10 +348,10 @@ def detection_error_tradeoff(
 
 
 def distribution(
-        truth: typing.Union[typing.Sequence, pd.Series],
-        prediction: typing.Union[typing.Sequence, pd.Series],
-        *,
-        ax: matplotlib.axes.Axes = None,
+    truth: typing.Union[typing.Sequence, pd.Series],
+    prediction: typing.Union[typing.Sequence, pd.Series],
+    *,
+    ax: matplotlib.axes.Axes = None,
 ):
     r"""Distribution of truth and predicted values.
 
@@ -385,15 +381,15 @@ def distribution(
     ax = ax or plt.gca()
     data = pd.DataFrame(
         data=np.array([truth, prediction]).T,
-        columns=['Truth', 'Prediction'],
+        columns=["Truth", "Prediction"],
     )
     sns.histplot(
         data,
         common_bins=False,
-        stat='frequency',
+        stat="frequency",
         kde=True,
         edgecolor=None,
-        kde_kws={'cut': 3},  # hard code like in distplot()
+        kde_kws={"cut": 3},  # hard code like in distplot()
         ax=ax,
     )
     ax.grid(alpha=0.4)
@@ -403,7 +399,7 @@ def distribution(
 
 
 def human_format(
-        number: typing.Union[int, float],
+    number: typing.Union[int, float],
 ) -> str:
     r"""Display large or small numbers in a human readable way.
 
@@ -457,48 +453,48 @@ def human_format(
         '-1k'
 
     """
-    sign = ''
+    sign = ""
     if number == 0:
-        return '0'
+        return "0"
     if number < 0:
-        sign = '-'
+        sign = "-"
         number = -1 * number
     units = [
-        'n',  # 10^-9  nano
-        'u',  # 10^-6  micro
-        'm',  # 10^-3  milli
-        '',   # 0
-        'k',  # 10^3   thousand
-        'M',  # 10^6   Million      Mega
-        'B',  # 10^9   Billion      Giga
-        'T',  # 10^12  Trillion     Tera
-        'P',  # 10^15  Quadrillion  Peta
-        'E',  # 10^18  Quintillion  Exa
-        'Z',  # 10^21  Sextillion   Zetta
-        'Y',  # 10^24  Septillion   Yotta
+        "n",  # 10^-9  nano
+        "u",  # 10^-6  micro
+        "m",  # 10^-3  milli
+        "",  # 0
+        "k",  # 10^3   thousand
+        "M",  # 10^6   Million      Mega
+        "B",  # 10^9   Billion      Giga
+        "T",  # 10^12  Trillion     Tera
+        "P",  # 10^15  Quadrillion  Peta
+        "E",  # 10^18  Quintillion  Exa
+        "Z",  # 10^21  Sextillion   Zetta
+        "Y",  # 10^24  Septillion   Yotta
     ]
     k = 1000.0
     magnitude = int(math.floor(math.log(number, k)))
-    number = f'{number / k**magnitude:.1f}'
+    number = f"{number / k**magnitude:.1f}"
     if magnitude >= 9:
-        raise ValueError('Only magnitudes < 1000 ** 9 are supported.')
+        raise ValueError("Only magnitudes < 1000 ** 9 are supported.")
     if magnitude <= -4:
-        raise ValueError('Only magnitudes > 1000 ** -4 are supported.')
+        raise ValueError("Only magnitudes > 1000 ** -4 are supported.")
     # Make sure we show only up to 3 significant digits
     if len(number) > 4:
         number = number[:-2]
-    if number.endswith('.0'):
+    if number.endswith(".0"):
         number = number[:-2]
-    return f'{sign}{number}{units[magnitude + 3]}'
+    return f"{sign}{number}{units[magnitude + 3]}"
 
 
 def scatter(
-        truth: typing.Union[typing.Sequence, pd.Series],
-        prediction: typing.Union[typing.Sequence, pd.Series],
-        *,
-        fit: bool = False,
-        order: int = 1,
-        ax: matplotlib.axes.Axes = None,
+    truth: typing.Union[typing.Sequence, pd.Series],
+    prediction: typing.Union[typing.Sequence, pd.Series],
+    *,
+    fit: bool = False,
+    order: int = 1,
+    ax: matplotlib.axes.Axes = None,
 ):
     r"""Scatter plot of truth and predicted values.
 
@@ -532,22 +528,22 @@ def scatter(
         x=truth,
         y=prediction,
         fit_reg=fit,
-        line_kws={'color': 'r'},
+        line_kws={"color": "r"},
         order=order,
         ax=ax,
         seed=0,
     )
-    ax.set_xlabel('Truth')
-    ax.set_ylabel('Prediction')
+    ax.set_xlabel("Truth")
+    ax.set_ylabel("Prediction")
     ax.grid(alpha=0.4)
     sns.despine(ax=ax)
 
 
 def series(
-        truth: typing.Union[typing.Sequence, pd.Series],
-        prediction: typing.Union[typing.Sequence, pd.Series],
-        *,
-        ax: matplotlib.axes.Axes = None,
+    truth: typing.Union[typing.Sequence, pd.Series],
+    prediction: typing.Union[typing.Sequence, pd.Series],
+    *,
+    ax: matplotlib.axes.Axes = None,
 ):
     r"""Time series plot of truth and predicted values.
 
@@ -578,17 +574,17 @@ def series(
     ax.plot(truth)
     ax.plot(prediction)
     ax.set_ylim(minimum, maximum)
-    ax.legend(['Truth', 'Prediction'])
+    ax.legend(["Truth", "Prediction"])
     ax.grid(alpha=0.4)
     sns.despine(ax=ax)
 
 
 def signal(
-        x: np.ndarray,
-        sampling_rate: float,
-        *,
-        channel: int = 0,
-        ax: plt.Axes = None,
+    x: np.ndarray,
+    sampling_rate: float,
+    *,
+    channel: int = 0,
+    ax: plt.Axes = None,
 ):
     r"""Time signal.
 
@@ -610,7 +606,7 @@ def signal(
             :context: close-figs
 
             >>> import librosa
-            >>> x, sr = librosa.load(librosa.ex('trumpet'))
+            >>> x, sr = librosa.load(librosa.ex("trumpet"))
             >>> signal(x, sr)
 
     """
@@ -618,7 +614,7 @@ def signal(
     x = x[channel] if x.ndim == 2 else x
 
     time = np.arange(len(x)) / sampling_rate
-    ax.set_xlabel('Time / s')
+    ax.set_xlabel("Time / s")
 
     ax.margins(x=0)
     ax.plot(time, x)
@@ -627,13 +623,13 @@ def signal(
 
 
 def spectrum(
-        magnitude: np.ndarray,
-        hop_duration: float,
-        centers: np.ndarray,
-        *,
-        channel: int = 0,
-        cmap: str = 'magma',
-        ax: matplotlib.axes.Axes = None,
+    magnitude: np.ndarray,
+    hop_duration: float,
+    centers: np.ndarray,
+    *,
+    channel: int = 0,
+    cmap: str = "magma",
+    ax: matplotlib.axes.Axes = None,
 ) -> matplotlib.image.AxesImage:
     r"""Plot spectrum.
 
@@ -662,13 +658,13 @@ def spectrum(
 
             >>> import librosa
             >>> import matplotlib.pyplot as plt
-            >>> x, sr = librosa.load(librosa.ex('trumpet'))
+            >>> x, sr = librosa.load(librosa.ex("trumpet"))
             >>> y = librosa.feature.melspectrogram(y=x, sr=sr, n_mels=40, fmax=4000)
             >>> y_db = librosa.power_to_db(y, ref=np.max)
             >>> hop_dur = 512 / sr  # default hop length is 512
             >>> centers = librosa.mel_frequencies(n_mels=40, fmax=4000)
             >>> image = spectrum(y_db, hop_dur, centers)
-            >>> cb = plt.colorbar(image, format='%+2.0f dB')
+            >>> cb = plt.colorbar(image, format="%+2.0f dB")
             >>> cb.outline.set_visible(False)
             >>> plt.tight_layout()
 
@@ -678,16 +674,16 @@ def spectrum(
 
     frequencies, times = magnitude.shape
     extent = [0, times * hop_duration, -0.5, frequencies - 0.5]
-    ax.set_ylabel('Frequency / Hz')
-    ax.set_xlabel('Time / s')
+    ax.set_ylabel("Frequency / Hz")
+    ax.set_xlabel("Time / s")
 
     ax.margins(x=0)
     image = ax.imshow(
         magnitude,
-        aspect='auto',
-        origin='lower',
+        aspect="auto",
+        origin="lower",
         cmap=cmap,
-        interpolation='none',
+        interpolation="none",
         extent=extent,
     )
 
@@ -709,14 +705,14 @@ def spectrum(
 
 
 def waveform(
-        x: np.ndarray,
-        *,
-        text: str = None,
-        color: typing.Union[str, typing.Sequence[float]] = '#E13B41',
-        background: typing.Union[str, typing.Sequence[float]] = '#FFFFFF00',
-        linewidth: float = 1.5,
-        ylim: typing.Sequence[float] = (-1, 1),
-        ax: matplotlib.axes.Axes = None,
+    x: np.ndarray,
+    *,
+    text: str = None,
+    color: typing.Union[str, typing.Sequence[float]] = "#E13B41",
+    background: typing.Union[str, typing.Sequence[float]] = "#FFFFFF00",
+    linewidth: float = 1.5,
+    ylim: typing.Sequence[float] = (-1, 1),
+    ax: matplotlib.axes.Axes = None,
 ):
     r"""Plot waveform of a mono signal.
 
@@ -748,38 +744,38 @@ def waveform(
             :context: close-figs
 
             >>> import librosa
-            >>> x, _ = librosa.load(librosa.ex('trumpet'))
-            >>> waveform(x, text='Trumpet')
+            >>> x, _ = librosa.load(librosa.ex("trumpet"))
+            >>> waveform(x, text="Trumpet")
 
         .. plot::
             :context: close-figs
 
             >>> import librosa
-            >>> x, _ = librosa.load(librosa.ex('trumpet'))
-            >>> waveform(x, background='#363636', color='#f6f6f6')
+            >>> x, _ = librosa.load(librosa.ex("trumpet"))
+            >>> waveform(x, background="#363636", color="#f6f6f6")
 
         .. plot::
             :context: close-figs
 
             >>> import librosa
             >>> import matplotlib.pyplot as plt
-            >>> x, _ = librosa.load(librosa.ex('trumpet', hq=True), mono=False)
+            >>> x, _ = librosa.load(librosa.ex("trumpet", hq=True), mono=False)
             >>> _, axs = plt.subplots(2, figsize=(8, 3))
             >>> plt.subplots_adjust(hspace=0)
             >>> waveform(
             ...     x[0, :],
-            ...     text='Left ',  # empty space for same size as 'Right'
+            ...     text="Left ",  # empty space for same size as 'Right'
             ...     linewidth=0.5,
-            ...     background='#389DCD',
-            ...     color='#1B5975',
+            ...     background="#389DCD",
+            ...     color="#1B5975",
             ...     ax=axs[0],
             ... )
             >>> waveform(
             ...     x[1, :],
-            ...     text='Right',
+            ...     text="Right",
             ...     linewidth=0.5,
-            ...     background='#CA5144',
-            ...     color='#742A23',
+            ...     background="#CA5144",
+            ...     color="#742A23",
             ...     ax=axs[1],
             ... )
 
@@ -789,8 +785,8 @@ def waveform(
     # If axis/figure exist already it will have no effect
 
     # Set default figsize if no existing figure is used
-    default_figsize = plt.rcParams['figure.figsize']
-    plt.rcParams['figure.figsize'] = (8, 1)
+    default_figsize = plt.rcParams["figure.figsize"]
+    plt.rcParams["figure.figsize"] = (8, 1)
 
     fig = plt.gcf()
     ax = ax or plt.gca()
@@ -798,7 +794,7 @@ def waveform(
     x = np.atleast_2d(x)
     channels, samples = x.shape
     if channels > 1:
-        raise RuntimeError('Only mono signals are supported.')
+        raise RuntimeError("Only mono signals are supported.")
     x = x[0]
 
     # Set colors
@@ -849,11 +845,11 @@ def waveform(
             -space_around_text,
             0,
             text,
-            fontsize='large',
-            fontweight='semibold',
+            fontsize="large",
+            fontweight="semibold",
             color=color,
-            horizontalalignment='right',
-            verticalalignment='center',
+            horizontalalignment="right",
+            verticalalignment="center",
         )
         # Get left position of text and adjust xlim accordingly
         fig = ax.get_figure()
@@ -866,4 +862,4 @@ def waveform(
     ax.set(xlim=xlim)
 
     # Restore default figure size
-    plt.rcParams['figure.figsize'] = default_figsize
+    plt.rcParams["figure.figsize"] = default_figsize
