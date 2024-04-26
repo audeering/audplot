@@ -7,6 +7,21 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.4.7 (2024-04-26)
+--------------------------
+
+* Added: support for Python 3.11
+* Added: support for Python 3.12
+* Fixed: avoid ``pandas`` future warning
+  for ``pandas.DataFrame.applymap()``
+* Fixed: avoid deprecation warning
+  by replacing
+  ``pkg_resources``
+  internally with
+  ``importlib.metadata``
+* Removed: support for Python 3.7
+
+
 Version 1.4.6 (2022-12-21)
 --------------------------
 
