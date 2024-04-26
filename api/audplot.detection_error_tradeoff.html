@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>detection_error_tradeoff() &mdash; audplot Documentation</title>
+  <title>detection_error_tradeoff() &mdash; Documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="../_static/css/audeering.css" type="text/css" />
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                v1.4.6
+                v1.4.7
               </div>
             
           
@@ -168,7 +168,7 @@ against the false match rate (FMR).</p>
 <p>You can provide truth and prediction values
 as input or you can directly provide FMR and FNMR,
 which can be calculated using
-<a class="reference external" href="https://audeering.github.io/audmetric/api.html#audmetric.detection_error_tradeoff" title="(in audmetric vv1.1.4)"><code class="xref py py-func docutils literal notranslate"><span class="pre">audmetric.detection_error_tradeoff()</span></code></a>.</p>
+<a class="reference external" href="https://audeering.github.io/audmetric/api/audmetric.detection_error_tradeoff.html#audmetric.detection_error_tradeoff" title="(in audmetric vv1.2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">audmetric.detection_error_tradeoff()</span></code></a>.</p>
 <p>The axes of the plot are scaled non-linearly
 by their <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_normal_deviate">standard normal deviates</a>.
 This means you have to scale every value
@@ -176,29 +176,29 @@ by this transformation
 when you would like to change ticks positions
 or axis limits afterwards.
 The scaling is performed by <code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.special.ndtri()</span></code>
-if <a class="reference external" href="https://docs.scipy.org/doc/scipy/index.html#module-scipy" title="(in SciPy v1.9.3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scipy</span></code></a> is installed,
-otherwise <a class="reference external" href="https://audeering.github.io/audmath/api/audmath.inverse_normal_distribution.html#audmath.inverse_normal_distribution" title="(in audmath vv1.1.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">audmath.inverse_normal_distribution()</span></code></a> is used,
+if <a class="reference external" href="https://docs.scipy.org/doc/scipy/index.html#module-scipy" title="(in SciPy v1.13.0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scipy</span></code></a> is installed,
+otherwise <a class="reference external" href="https://audeering.github.io/audmath/api/audmath.inverse_normal_distribution.html#audmath.inverse_normal_distribution" title="(in audmath vv1.4.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">audmath.inverse_normal_distribution()</span></code></a> is used,
 which is slower for large input arrays.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>, <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Series</span></code></a>]) – truth values or false match rate (FMR)</p></li>
-<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>, <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Series</span></code></a>]) – predicted values or false non-match rate (FNMR)</p></li>
-<li><p><strong>error_rates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – if <code class="docutils literal notranslate"><span class="pre">False</span></code>
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>, <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Series</span></code></a>]) – truth values or false match rate (FMR)</p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>, <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Series</span></code></a>]) – predicted values or false non-match rate (FNMR)</p></li>
+<li><p><strong>error_rates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – if <code class="docutils literal notranslate"><span class="pre">False</span></code>
 it expects truth values as <code class="docutils literal notranslate"><span class="pre">x</span></code>,
 and prediction values as <code class="docutils literal notranslate"><span class="pre">y</span></code>.
 If <code class="docutils literal notranslate"><span class="pre">True</span></code> it expects FMR as <code class="docutils literal notranslate"><span class="pre">x</span></code>,
 and FNMR as <code class="docutils literal notranslate"><span class="pre">y</span></code></p></li>
-<li><p><strong>xlim</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>) – x-axis limits with <span class="math">\(x \in ]0, 1[\)</span></p></li>
-<li><p><strong>ylim</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>) – y-axis limits with <span class="math">\(y \in ]0, 1[\)</span></p></li>
-<li><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – label to be shown in the legend.
+<li><p><strong>xlim</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>) – x-axis limits with <span class="math">\(x \in ]0, 1[\)</span></p></li>
+<li><p><strong>ylim</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>) – y-axis limits with <span class="math">\(y \in ]0, 1[\)</span></p></li>
+<li><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – label to be shown in the legend.
 The legend will not be shown automatically</p></li>
-<li><p><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://matplotlib.org/stable/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v3.6.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code></a>]) – pre-existing axes for the plot.
-Otherwise, calls <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html#matplotlib.pyplot.gca" title="(in Matplotlib v3.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.gca()</span></code></a> internally</p></li>
+<li><p><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.8.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Axes</span></code></a>]) – pre-existing axes for the plot.
+Otherwise, calls <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html#matplotlib.pyplot.gca" title="(in Matplotlib v3.8.4)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.gca()</span></code></a> internally</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>function to transform input values to standard normal derivate scale</p>
@@ -209,7 +209,9 @@ Otherwise, calls <a class="reference external" href="https://matplotlib.org/stab
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Random prediction</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pred1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Better than random prediction</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pred2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2000</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pred2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="mi">2000</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pred2</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pred2</span><span class="p">[</span><span class="mi">1000</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pred2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">pred2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -218,12 +220,12 @@ Otherwise, calls <a class="reference external" href="https://matplotlib.org/stab
 <span class="gp">... </span>    <span class="n">pred1</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">],</span>  <span class="c1"># use large limits for random</span>
 <span class="gp">... </span>    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">label</span><span class="o">=</span><span class="s1">&#39;pred1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;pred1&quot;</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Add pred2 to plot using transformed FMR and FNMR values</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">audmetric</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fmr</span><span class="p">,</span> <span class="n">fnmr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">audmetric</span><span class="o">.</span><span class="n">detection_error_tradeoff</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">pred2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">transform</span><span class="p">(</span><span class="n">fmr</span><span class="p">),</span> <span class="n">transform</span><span class="p">(</span><span class="n">fnmr</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;pred2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">transform</span><span class="p">(</span><span class="n">fmr</span><span class="p">),</span> <span class="n">transform</span><span class="p">(</span><span class="n">fnmr</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;pred2&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
@@ -257,7 +259,7 @@ Otherwise, calls <a class="reference external" href="https://matplotlib.org/stab
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2022/12/21 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2024/04/26 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>
@@ -265,7 +267,7 @@ Otherwise, calls <a class="reference external" href="https://matplotlib.org/stab
   <div role="contentinfo">
     <p>
         
-      &copy; 2020-2022 audEERING GmbH
+      &copy; 2020-2024 audEERING GmbH
     </p>
   </div> 
 
