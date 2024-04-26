@@ -179,7 +179,7 @@ def confusion_matrix(
         # Catch warning,
         # to still support older pandas versions.
         # See https://github.com/audeering/audplot/pull/69
-        warnings.simplefilter(action='ignore', category=FutureWarning)
+        warnings.simplefilter(action="ignore", category=FutureWarning)
         if percentage:
             annot = cm.applymap(lambda x: f"{100 * x:.0f}%")
         else:
@@ -199,7 +199,7 @@ def confusion_matrix(
             # Catch warning,
             # to still support older pandas versions.
             # See https://github.com/audeering/audplot/pull/69
-            warnings.simplefilter(action='ignore', category=FutureWarning)
+            warnings.simplefilter(action="ignore", category=FutureWarning)
             if percentage:
                 annot2 = cm2.applymap(lambda x: human_format(x))
             else:
