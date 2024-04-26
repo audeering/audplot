@@ -175,9 +175,9 @@ def confusion_matrix(
 
     # Set format of first row labels in confusion matrix
     if percentage:
-        annot = cm.applymap(lambda x: f"{100 * x:.0f}%")
+        annot = cm.map(lambda x: f"{100 * x:.0f}%")
     else:
-        annot = cm.applymap(lambda x: human_format(x))
+        annot = cm.map(lambda x: human_format(x))
 
     # Add a second row of annotations if requested
     if show_both:
@@ -189,9 +189,9 @@ def confusion_matrix(
         )
         cm2 = pd.DataFrame(cm2, index=labels)
         if percentage:
-            annot2 = cm2.applymap(lambda x: human_format(x))
+            annot2 = cm2.map(lambda x: human_format(x))
         else:
-            annot2 = cm2.applymap(lambda x: f"{100 * x:.0f}%")
+            annot2 = cm2.map(lambda x: f"{100 * x:.0f}%")
 
         # Combine strings from two dataframes
         # by vectorizing the underlying function.
