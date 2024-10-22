@@ -722,7 +722,7 @@ def waveform(
     *,
     text: str = None,
     color: str | Sequence[float] = "#E13B41",
-    background: str, | Sequence[float] = "#FFFFFF00",
+    background: str | Sequence[float] = "#FFFFFF00",
     linewidth: float = 1.5,
     ylim: Sequence[float] = (-1, 1),
     ax: matplotlib.axes.Axes = None,
