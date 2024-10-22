@@ -242,8 +242,8 @@ def detection_error_tradeoff(
     y: Sequence | pd.Series,
     *,
     error_rates: bool = False,
-    xlim: Sequence = [0.001, 0.5],
-    ylim: Sequence = [0.001, 0.5],
+    xlim: Sequence = (0.001, 0.5),
+    ylim: Sequence = (0.001, 0.5),
     label: str = None,
     ax: matplotlib.axes.Axes = None,
 ) -> Callable:
