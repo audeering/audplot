@@ -1,5 +1,6 @@
+from collections.abc import Callable
+from collections.abc import Sequence
 import math
-import typing
 import warnings
 
 import matplotlib
@@ -92,11 +93,11 @@ def cepstrum(
 
 
 def confusion_matrix(
-    truth: typing.Union[typing.Sequence, pd.Series],
-    prediction: typing.Union[typing.Sequence, pd.Series],
+    truth: Sequence | pd.Series,
+    prediction: Sequence | pd.Series,
     *,
-    labels: typing.Sequence = None,
-    label_aliases: typing.Dict = None,
+    labels: Sequence = None,
+    label_aliases: dict = None,
     percentage: bool = False,
     show_both: bool = False,
     ax: matplotlib.axes.Axes = None,
@@ -235,15 +236,15 @@ def confusion_matrix(
 
 
 def detection_error_tradeoff(
-    x: typing.Union[typing.Sequence, pd.Series],
-    y: typing.Union[typing.Sequence, pd.Series],
+    x: Sequence | pd.Series,
+    y: Sequence | pd.Series,
     *,
     error_rates: bool = False,
-    xlim: typing.Sequence = [0.001, 0.5],
-    ylim: typing.Sequence = [0.001, 0.5],
+    xlim: Sequence = [0.001, 0.5],
+    ylim: Sequence = [0.001, 0.5],
     label: str = None,
     ax: matplotlib.axes.Axes = None,
-) -> typing.Callable:
+) -> Callable:
     r"""Detection error tradeoff curve.
 
     A `detection error tradeoff (DET)`_ curve
@@ -360,8 +361,8 @@ def detection_error_tradeoff(
 
 
 def distribution(
-    truth: typing.Union[typing.Sequence, pd.Series],
-    prediction: typing.Union[typing.Sequence, pd.Series],
+    truth: Sequence | pd.Series,
+    prediction: Sequence | pd.Series,
     *,
     ax: matplotlib.axes.Axes = None,
 ):
@@ -411,7 +412,7 @@ def distribution(
 
 
 def human_format(
-    number: typing.Union[int, float],
+    number: int | float,
 ) -> str:
     r"""Display large or small numbers in a human readable way.
 
@@ -501,8 +502,8 @@ def human_format(
 
 
 def scatter(
-    truth: typing.Union[typing.Sequence, pd.Series],
-    prediction: typing.Union[typing.Sequence, pd.Series],
+    truth: Sequence | pd.Series,
+    prediction: Sequence | pd.Series,
     *,
     fit: bool = False,
     order: int = 1,
@@ -552,8 +553,8 @@ def scatter(
 
 
 def series(
-    truth: typing.Union[typing.Sequence, pd.Series],
-    prediction: typing.Union[typing.Sequence, pd.Series],
+    truth: Sequence | pd.Series,
+    prediction: Sequence | pd.Series,
     *,
     ax: matplotlib.axes.Axes = None,
 ):
@@ -720,10 +721,10 @@ def waveform(
     x: np.ndarray,
     *,
     text: str = None,
-    color: typing.Union[str, typing.Sequence[float]] = "#E13B41",
-    background: typing.Union[str, typing.Sequence[float]] = "#FFFFFF00",
+    color: str | Sequence[float] = "#E13B41",
+    background: str, | Sequence[float] = "#FFFFFF00",
     linewidth: float = 1.5,
-    ylim: typing.Sequence[float] = (-1, 1),
+    ylim: Sequence[float] = (-1, 1),
     ax: matplotlib.axes.Axes = None,
 ):
     r"""Plot waveform of a mono signal.
