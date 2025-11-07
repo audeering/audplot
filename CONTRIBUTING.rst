@@ -28,12 +28,6 @@ you should get the newest development version from Github_::
 This will create a virtual environment
 and install the package and all its development dependencies.
 
-To run commands in the virtual environment created by uv,
-you can use ``uv run`` or activate the environment directly::
-
-   source .venv/bin/activate  # Linux/macOS
-   .venv\Scripts\activate     # Windows
-
 This way,
 your installation always stays up-to-date,
 even if you pull new changes from the Github repository.
