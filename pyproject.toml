@@ -199,3 +199,21 @@ convention = 'google'
 #
 # Use setuptools_scm to get version from git
 [tool.setuptools_scm]
+
+
+# ===== DEPENDENCY GROUPS =================================================
+#
+[dependency-groups]
+dev = [
+    'librosa',
+    'numba >=0.57.0',  # Python 3.11
+    'pytest',
+    'pytest-doctestplus',
+    'pytest-cov',
+    'sphinx',
+    'sphinx-audeering-theme >=1.1.3',
+    'sphinx-autodoc-typehints',
+    'sphinx-copybutton',
+    'sphinxcontrib-katex',
+    'toml',
+]

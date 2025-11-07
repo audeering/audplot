@@ -22,12 +22,11 @@ you should get the newest development version from Github_::
 
    git clone https://github.com/audeering/audplot/
    cd audplot
-   # Create virtual environment for this project
-   # e.g.
-   # virtualenv --python="python3"  $HOME/.envs/audplot
-   # source $HOME/.envs/audplot/bin/activate
-   pip install -r requirements.txt
+   uv sync
 
+
+This will create a virtual environment
+and install the package and all its development dependencies.
 
 This way,
 your installation always stays up-to-date,
@@ -50,25 +49,22 @@ are defined in :file:`pyproject.toml`.
 The checks are executed in the CI using `pre-commit`_.
 You can enable those checks locally by executing::
 
-    pip install pre-commit  # consider system wide installation
-    pre-commit install
-    pre-commit run --all-files
+    uvx pre-commit install
+    uvx pre-commit run --all-files
 
 Afterwards ruff_ and codespell_ are executed
 every time you create a commit.
 
-You can also install ruff_ and codespell_
-and call it directly::
+You can also call ruff_ and codespell_ directly with uv::
 
-    pip install ruff codespell  # consider system wide installation
-    ruff check --fix .  # lint all Python files, and fix any fixable errors
-    ruff format .  # format code of all Python files
-    codespell
+    uvx ruff check --fix .  # lint all Python files, and fix any fixable errors
+    uvx ruff format .  # format code of all Python files
+    uvx codespell
 
 It can be restricted to specific folders::
 
-    ruff check audplot/ tests/
-    codespell audplot/ tests/
+    uvx ruff check audplot/ tests/
+    uvx codespell audplot/ tests/
 
 
 .. _codespell: https://github.com/codespell-project/codespell/
@@ -82,20 +78,19 @@ Building the Documentation
 
 If you make changes to the documentation,
 you can re-create the HTML pages using Sphinx_.
-You can install it and a few other necessary packages with::
-
-   pip install -r docs/requirements.txt
+The necessary packages are already included
+in the dev dependency group.
 
 To create the HTML pages, use::
 
-   python -m sphinx docs/ build/sphinx/html -b html
+   uv run python -m sphinx docs/ build/sphinx/html -b html
 
 The generated files will be available
 in the directory :file:`build/sphinx/html/`.
 
 It is also possible to automatically check if all links are still valid::
 
-   python -m sphinx docs/ build/sphinx/html -b linkcheck
+   uv run python -m sphinx docs/ build/sphinx/html -b linkcheck
 
 .. _Sphinx: http://sphinx-doc.org
 
@@ -103,14 +98,12 @@ It is also possible to automatically check if all links are still valid::
 Running the Tests
 -----------------
 
-You'll need pytest_ for that.
-It can be installed with::
-
-   pip install -r tests/requirements.txt
+You'll need pytest_ for that,
+which is already included in the dev dependency group.
 
 To execute the tests, simply run::
 
-   python -m pytest
+   uv run pytest
 
 .. _pytest: https://pytest.org
 
