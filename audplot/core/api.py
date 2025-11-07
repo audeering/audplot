@@ -160,7 +160,9 @@ def confusion_matrix(
         .. plot::
             :context: close-figs
 
-            >>> confusion_matrix(truth, prediction, label_aliases={0: "A", 1: "B", 2: "C"})
+            >>> confusion_matrix(
+            ...     truth, prediction, label_aliases={0: "A", 1: "B", 2: "C"}
+            ... )
 
     """  # noqa: E501
     ax = ax or plt.gca()
