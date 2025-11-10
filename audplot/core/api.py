@@ -116,7 +116,8 @@ def confusion_matrix(
         metric: calculator of confusion matrix.
             The callable is expected
             to have the two arguments ``truth`` and ``prediction``,
-            and the keyword arguments ``labels`` and ``normalize``
+            and the keyword arguments ``labels`` and ``normalize``.
+            Defaults to :func:`audmetric.confusion_matrix`
         percentage: if ``True`` present the confusion matrix
             with percentage values instead of absolute numbers
         show_both: if ``True`` and percentage is ``True``
