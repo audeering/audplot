@@ -6,11 +6,11 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2024-04-26T07:08:54.145621</dc:date>
+    <dc:date>2026-01-07T11:04:17.551328</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
-      <dc:title>Matplotlib v3.8.4, https://matplotlib.org/</dc:title>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
      </cc:Agent>
     </dc:creator>
    </cc:Work>
@@ -38,9 +38,9 @@ L 72 64.08
 z
 " style="fill: none"/>
    </g>
-   <g id="PolyCollection_1">
+   <g id="FillBetweenPolyCollection_1">
     <defs>
-     <path id="mf49c2251f3" d="M 142.780223 -37.156131 
+     <path id="m483047e9f6" d="M 142.780223 -37.156131 
 L 142.780223 -33.775476 
 L 143.249162 -33.83155 
 L 143.7181 -27.133586 
@@ -1647,8 +1647,8 @@ L 142.780223 -37.156131
 z
 " style="stroke: #e13b41; stroke-width: 1.5"/>
     </defs>
-    <g clip-path="url(#pf832821cf3)">
-     <use xlink:href="#mf49c2251f3" x="0" y="72" style="fill: #e13b41; stroke: #e13b41; stroke-width: 1.5"/>
+    <g clip-path="url(#p089568a657)">
+     <use xlink:href="#m483047e9f6" x="0" y="72" style="fill: #e13b41; stroke: #e13b41; stroke-width: 1.5"/>
     </g>
    </g>
    <g id="matplotlib.axis_1">
@@ -1826,18 +1826,18 @@ z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#DejaVuSans-Bold-54"/>
-     <use xlink:href="#DejaVuSans-Bold-72" x="57.212891"/>
-     <use xlink:href="#DejaVuSans-Bold-75" x="106.529297"/>
-     <use xlink:href="#DejaVuSans-Bold-6d" x="177.720703"/>
-     <use xlink:href="#DejaVuSans-Bold-70" x="281.919922"/>
-     <use xlink:href="#DejaVuSans-Bold-65" x="353.501953"/>
-     <use xlink:href="#DejaVuSans-Bold-74" x="421.324219"/>
+     <use xlink:href="#DejaVuSans-Bold-72" transform="translate(57.212891 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-75" transform="translate(106.529297 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-6d" transform="translate(177.720703 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-70" transform="translate(281.919922 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-65" transform="translate(353.501953 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-74" transform="translate(421.324219 0)"/>
     </g>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="pf832821cf3">
+  <clipPath id="p089568a657">
    <rect x="72" y="8.64" width="446.4" height="55.44"/>
   </clipPath>
  </defs>

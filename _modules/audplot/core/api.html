@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="../../../_static/css/audeering.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                v1.4.7
+                v1.4.8
               </div>
             
           
@@ -141,28 +141,31 @@
            <div itemprop="articleBody">
             
   <h1>Source code for audplot.core.api</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">typing</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 
 
 <span class="c1"># The scipy implementation is faster,</span>
 <span class="c1"># but scipy is not an official dependency of audplot</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">ndtri</span> <span class="k">as</span> <span class="n">inverse_normal_distribution</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">ndtri</span> <span class="k">as</span> <span class="n">inverse_normal_distribution</span>
 <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>  <span class="c1"># pragma: nocover</span>
-    <span class="kn">from</span> <span class="nn">audmath</span> <span class="kn">import</span> <span class="n">inverse_normal_distribution</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">audmath</span><span class="w"> </span><span class="kn">import</span> <span class="n">inverse_normal_distribution</span>
 
-<span class="kn">import</span> <span class="nn">audmetric</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">audmetric</span>
 
 
-<div class="viewcode-block" id="cepstrum"><a class="viewcode-back" href="../../../api/audplot.cepstrum.html#audplot.cepstrum">[docs]</a><span class="k">def</span> <span class="nf">cepstrum</span><span class="p">(</span>
+<div class="viewcode-block" id="cepstrum">
+<a class="viewcode-back" href="../../../api/audplot.cepstrum.html#audplot.cepstrum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cepstrum</span><span class="p">(</span>
     <span class="n">cc_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">hop_duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -234,12 +237,15 @@
     <span class="k">return</span> <span class="n">image</span></div>
 
 
-<div class="viewcode-block" id="confusion_matrix"><a class="viewcode-back" href="../../../api/audplot.confusion_matrix.html#audplot.confusion_matrix">[docs]</a><span class="k">def</span> <span class="nf">confusion_matrix</span><span class="p">(</span>
-    <span class="n">truth</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
-    <span class="n">prediction</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+
+<div class="viewcode-block" id="confusion_matrix">
+<a class="viewcode-back" href="../../../api/audplot.confusion_matrix.html#audplot.confusion_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">confusion_matrix</span><span class="p">(</span>
+    <span class="n">truth</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">prediction</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">label_aliases</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">label_aliases</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">percentage</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">show_both</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -302,7 +308,9 @@
 <span class="sd">        .. plot::</span>
 <span class="sd">            :context: close-figs</span>
 
-<span class="sd">            &gt;&gt;&gt; confusion_matrix(truth, prediction, label_aliases={0: &quot;A&quot;, 1: &quot;B&quot;, 2: &quot;C&quot;})</span>
+<span class="sd">            &gt;&gt;&gt; confusion_matrix(</span>
+<span class="sd">            ...     truth, prediction, label_aliases={0: &quot;A&quot;, 1: &quot;B&quot;, 2: &quot;C&quot;}</span>
+<span class="sd">            ... )</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
@@ -352,7 +360,7 @@
         <span class="c1"># by vectorizing the underlying function.</span>
         <span class="c1"># See: https://stackoverflow.com/a/42277839</span>
 
-        <span class="k">def</span> <span class="nf">combine_string</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">combine_string</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">)&quot;</span>
 
         <span class="n">combine_string</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">combine_string</span><span class="p">)</span>
@@ -377,16 +385,19 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Truth&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="detection_error_tradeoff"><a class="viewcode-back" href="../../../api/audplot.detection_error_tradeoff.html#audplot.detection_error_tradeoff">[docs]</a><span class="k">def</span> <span class="nf">detection_error_tradeoff</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
-    <span class="n">y</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+
+<div class="viewcode-block" id="detection_error_tradeoff">
+<a class="viewcode-back" href="../../../api/audplot.detection_error_tradeoff.html#audplot.detection_error_tradeoff">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">detection_error_tradeoff</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">error_rates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">xlim</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
-    <span class="n">ylim</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+    <span class="n">xlim</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+    <span class="n">ylim</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Detection error tradeoff curve.</span>
 
 <span class="sd">    A `detection error tradeoff (DET)`_ curve</span>
@@ -502,9 +513,12 @@
     <span class="k">return</span> <span class="n">transform</span></div>
 
 
-<div class="viewcode-block" id="distribution"><a class="viewcode-back" href="../../../api/audplot.distribution.html#audplot.distribution">[docs]</a><span class="k">def</span> <span class="nf">distribution</span><span class="p">(</span>
-    <span class="n">truth</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
-    <span class="n">prediction</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+
+<div class="viewcode-block" id="distribution">
+<a class="viewcode-back" href="../../../api/audplot.distribution.html#audplot.distribution">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">distribution</span><span class="p">(</span>
+    <span class="n">truth</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">prediction</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
@@ -553,8 +567,11 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="human_format"><a class="viewcode-back" href="../../../api/audplot.human_format.html#audplot.human_format">[docs]</a><span class="k">def</span> <span class="nf">human_format</span><span class="p">(</span>
-    <span class="n">number</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+
+<div class="viewcode-block" id="human_format">
+<a class="viewcode-back" href="../../../api/audplot.human_format.html#audplot.human_format">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">human_format</span><span class="p">(</span>
+    <span class="n">number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Display large or small numbers in a human readable way.</span>
 
@@ -643,9 +660,12 @@
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sign</span><span class="si">}{</span><span class="n">number</span><span class="si">}{</span><span class="n">units</span><span class="p">[</span><span class="n">magnitude</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
 
-<div class="viewcode-block" id="scatter"><a class="viewcode-back" href="../../../api/audplot.scatter.html#audplot.scatter">[docs]</a><span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span>
-    <span class="n">truth</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
-    <span class="n">prediction</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+
+<div class="viewcode-block" id="scatter">
+<a class="viewcode-back" href="../../../api/audplot.scatter.html#audplot.scatter">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">scatter</span><span class="p">(</span>
+    <span class="n">truth</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">prediction</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -694,9 +714,12 @@
     <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="series"><a class="viewcode-back" href="../../../api/audplot.series.html#audplot.series">[docs]</a><span class="k">def</span> <span class="nf">series</span><span class="p">(</span>
-    <span class="n">truth</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
-    <span class="n">prediction</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+
+<div class="viewcode-block" id="series">
+<a class="viewcode-back" href="../../../api/audplot.series.html#audplot.series">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">series</span><span class="p">(</span>
+    <span class="n">truth</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">prediction</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
@@ -734,7 +757,10 @@
     <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="signal"><a class="viewcode-back" href="../../../api/audplot.signal.html#audplot.signal">[docs]</a><span class="k">def</span> <span class="nf">signal</span><span class="p">(</span>
+
+<div class="viewcode-block" id="signal">
+<a class="viewcode-back" href="../../../api/audplot.signal.html#audplot.signal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">signal</span><span class="p">(</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -777,7 +803,10 @@
     <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="spectrum"><a class="viewcode-back" href="../../../api/audplot.spectrum.html#audplot.spectrum">[docs]</a><span class="k">def</span> <span class="nf">spectrum</span><span class="p">(</span>
+
+<div class="viewcode-block" id="spectrum">
+<a class="viewcode-back" href="../../../api/audplot.spectrum.html#audplot.spectrum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectrum</span><span class="p">(</span>
     <span class="n">magnitude</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">hop_duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">centers</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -859,14 +888,17 @@
     <span class="k">return</span> <span class="n">image</span></div>
 
 
-<div class="viewcode-block" id="waveform"><a class="viewcode-back" href="../../../api/audplot.waveform.html#audplot.waveform">[docs]</a><span class="k">def</span> <span class="nf">waveform</span><span class="p">(</span>
+
+<div class="viewcode-block" id="waveform">
+<a class="viewcode-back" href="../../../api/audplot.waveform.html#audplot.waveform">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">waveform</span><span class="p">(</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">color</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;#E13B41&quot;</span><span class="p">,</span>
-    <span class="n">background</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;#FFFFFF00&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#E13B41&quot;</span><span class="p">,</span>
+    <span class="n">background</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#FFFFFF00&quot;</span><span class="p">,</span>
     <span class="n">linewidth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
-    <span class="n">ylim</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">ylim</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
     <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Plot waveform of a mono signal.</span>
@@ -1018,6 +1050,7 @@
 
     <span class="c1"># Restore default figure size</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_figsize</span></div>
+
 </pre></div>
 
            </div>
@@ -1033,7 +1066,7 @@
         
         
         
-          Built with <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a> on 2024/04/26 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
+          Built with <a href="https://www.sphinx-doc.org">Sphinx</a> on 2026/01/07 using the <a href="https://github.com/audeering/sphinx-audeering-theme/">audEERING theme</a>
         
     </p>
   </div>
@@ -1041,7 +1074,7 @@
   <div role="contentinfo">
     <p>
         
-      &copy; 2020-2024 audEERING GmbH
+      &copy; 2020-2026 audEERING GmbH
     </p>
   </div> 
 
@@ -1065,17 +1098,14 @@
     
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
-        <script src="../../../_static/katex.min.js"></script>
-        <script src="../../../_static/auto-render.min.js"></script>
-        <script src="../../../_static/katex_autorenderer.js"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=ccdb6887"></script>
+        <script src="../../../_static/katex.min.js?v=5cc8ed51"></script>
+        <script src="../../../_static/auto-render.min.js?v=af98beb9"></script>
+        <script src="../../../_static/katex_autorenderer.js?v=bebc588a"></script>
     
 
   
