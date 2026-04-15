@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 1.4.9 (2026-04-15)
+--------------------------
+
+* Changed: depend on ``pandas>=2.1``
+* Changed: exclude ``tests/`` and ``docs/`` folders from the Python package
+* Fixed: ``audplot.confusion_matrix()`` for ``pandas>=3.0``
+
+
 Version 1.4.8 (2026-01-07)
 --------------------------
 
