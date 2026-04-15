@@ -37,6 +37,11 @@ jobs:
     - name: Test with pytest
       run: |
         uv run pytest
+      env:
+        # Use a non-interactive backend to avoid flaky Tcl/Tk
+        # errors on Windows runners, see
+        # https://github.com/actions/runner-images/issues/7776
+        MPLBACKEND: Agg
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       with:
