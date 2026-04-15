@@ -34,6 +34,7 @@ dependencies = [
     'audmetric >=1.1.0',
     # https://github.com/matplotlib/matplotlib/issues/24127
     'matplotlib != 3.6.1',
+    'pandas >=2.1.0',
     'seaborn',
 ]
 # Get version dynamically from git
