@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-01-07T11:04:17.551328</dc:date>
+    <dc:date>2026-04-15T13:43:46.958718</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ z
    </g>
    <g id="FillBetweenPolyCollection_1">
     <defs>
-     <path id="m483047e9f6" d="M 142.780223 -37.156131 
+     <path id="m0c0b11e446" d="M 142.780223 -37.156131 
 L 142.780223 -33.775476 
 L 143.249162 -33.83155 
 L 143.7181 -27.133586 
@@ -1647,8 +1647,8 @@ L 142.780223 -37.156131
 z
 " style="stroke: #e13b41; stroke-width: 1.5"/>
     </defs>
-    <g clip-path="url(#p089568a657)">
-     <use xlink:href="#m483047e9f6" x="0" y="72" style="fill: #e13b41; stroke: #e13b41; stroke-width: 1.5"/>
+    <g clip-path="url(#pad925afd29)">
+     <use xlink:href="#m0c0b11e446" x="0" y="72" style="fill: #e13b41; stroke: #e13b41; stroke-width: 1.5"/>
     </g>
    </g>
    <g id="matplotlib.axis_1">
@@ -1837,7 +1837,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="p089568a657">
+  <clipPath id="pad925afd29">
    <rect x="72" y="8.64" width="446.4" height="55.44"/>
   </clipPath>
  </defs>
