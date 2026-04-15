@@ -215,6 +215,7 @@ convention = 'google'
 #
 # Find all (sub-)modules of the Python package
 [tool.setuptools.packages.find]
+include = ['audplot*']
 
 # ----- setuptools_scm ----------------------------------------------------
 #
